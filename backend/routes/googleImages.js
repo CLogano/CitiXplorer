@@ -5,7 +5,7 @@ const GoogleImages = require("google-images");
 const { imageHash } = require("image-hash");
 
 //Initializing GoogleImages generator
-const apiKey = process.env.GOOGLE_IMAGES_KEY;
+const apiKey = process.env.GOOGLE_API_KEY;
 const cxId = process.env.CSE_ID;
 const imageGenerator = new GoogleImages(cxId, apiKey);
 

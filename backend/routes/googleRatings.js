@@ -3,7 +3,7 @@ const { Client } = require("@googlemaps/google-maps-services-js");
 const router = express.Router();
 
 const mapsClient = new Client({});
-const apiKey = process.env.GOOGLE_RATINGS_KEY;
+const apiKey = process.env.GOOGLE_API_KEY;
 
 router.get("/", async (req, res) => {
 
