@@ -1,12 +1,25 @@
 .container {
     height: 100%;
     display: flex;
-    align-items: flex-start;
     justify-content: center;
+    align-items: flex-start;
+    max-width: 100%;
+    min-width: 250px; /* Minimum width for DestinationList */
 }
+
+@media (max-width: 1199px) {
+    .container {
+      width: 100%; /* Full width for screens below 1200px */
+    }
+  }
 
 .list {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+.card {
+    height: 100%;
+    background-color: darkgray;
 }

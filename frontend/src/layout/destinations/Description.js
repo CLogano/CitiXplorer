@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Description.module.css";
 import ImageList from "./ImageList";
+import Card from "../../UI/Card";
 
 const Description = (props) => {
 
@@ -9,11 +10,11 @@ const Description = (props) => {
     };
     
     return (
-        <div className={classes.container}>
+        <Card className={classes.container}>
             <button className={classes["save-button"]} onClick={saveDestinationHandler}>Save</button>
             <div className={classes.name}>{props.destination.name}</div>
             <span className={classes.rating}>
-                <div>{`Ratings: ${props.destination.rating} / 5.0`}</div>
+                <div>{`Rating: ${props.destination.rating} / 5.0`}</div>
                 <span class="material-icons" style={{color: "yellow", fontSize: 64}}>star</span>
             </span>
             <ImageList destination={props.destination.name} />
@@ -26,7 +27,7 @@ const Description = (props) => {
                 </a>
                 <span class="material-icons">location_on</span>
             </span>
-        </div>
+        </Card>
     )
 };
 

@@ -51,18 +51,20 @@ const Dashboard = () => {
     // }, [destination]);
 
     return (
-        <div>
+        <div className={classes.background}>
             <div className={classes.container}>
-                <div className={classes.destinations}>
+                    <div className={classes.destinations}>
                     <DestinationList
                         destinations={data}
                         onSelected={onSelectedDestination}
                         selected={destination}
+
                     />
-                </div>
+                    </div>
                 <div className={classes.description}>
                     <Description destination={destination} />
                 </div>
+
             </div>
             <DestinationFooter />
         </div>

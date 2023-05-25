@@ -62,7 +62,7 @@ const Home = () => {
 
     return (
         <div className={classes.dashboard}>
-            <h1 className={classes.text}>Welcome!</h1>
+            <h1 className={classes.text}>Welcome! <br/> Please enter information about your destination:</h1>
             <Search search={searchHandler}/>
             {isLoading && <LoadingRing />}
         </div>

@@ -29,7 +29,8 @@ const DestinationList = (props) => {
         <div className={classes.container}>
             <ul className={classes.list}>{destinationList}</ul>
         </div>
-    );
+
+  );
 };
 
 export default DestinationList;
