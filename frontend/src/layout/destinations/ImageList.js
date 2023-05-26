@@ -15,14 +15,14 @@ const ImageList = (props) => {
         try {
             const response = await fetch(CONSTANTS.apiURL + `/googleImages?destination=${destination}`);
             const result = await response.json();
-            console.log(result);
-            setImages(result);
+            console.log("Images: ", result);
+            setImages(result.imageUrls);
             setIsLoading(false);
         } catch (error) {
             console.log("Error occurred while calling API:", error);
         }
     };
-    
+
     useEffect(() => {
         setIndex(0);
         setIsLoading(true);

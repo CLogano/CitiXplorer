@@ -17,7 +17,7 @@ const Dashboard = () => {
 
         
             try {
-                const str = data[i].name + " " + data[i].location + " interior exterior";
+                const str = data[i].name + data[i].location;
                 console.log(str)
                 const response = await fetch(CONSTANTS.apiURL + `/googleRatings?destination=${str}`);
                 const result = await response.json();
