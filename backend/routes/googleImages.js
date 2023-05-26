@@ -1,65 +1,55 @@
 const express = require("express");
 require("dotenv").config();
 const router = express.Router();
-const GoogleImages = require("google-images");
-const { imageHash } = require("image-hash");
-
-//Initializing GoogleImages generator
 const apiKey = process.env.GOOGLE_API_KEY;
-const cxId = process.env.CSE_ID;
-const imageGenerator = new GoogleImages(cxId, apiKey);
+const { Client } = require("@googlemaps/google-maps-services-js");
 
-//GET http request at "/googleImages" sent from frontend
+const mapsClient = new Client({});
+
 router.get("/", async (req, res) => {
 
   const { destination } = req.query;
 
   try {
+    const placeResponse = await mapsClient.findPlaceFromText({
+      params: {
+        input: destination,
+        inputtype: "textquery",
+        fields: ["place_id"],
+        key: apiKey,
+      },
+      timeout: 1000,
+    });
 
-    //Fetch images of destination from Google Images API and extract their urls
-    const images = await imageGenerator.search(destination + "exterior");
-    const imageUrls = images.map(image => image.url);
+    const destinationId = placeResponse.data.candidates[0].place_id;
 
-    //Initalize hashset and valid urls array
-    const seenHashes = new Set();
-    const validUrls = [];
+    const imageResponse = await mapsClient.placeDetails({
+      params: {
+        place_id: destinationId,
+        fields: ["photos"],
+        key: apiKey,
+      },
+      timeout: 1000,
+    });
 
-    //Checks to see if each image is unique and adds to validUrls array
-    for (const url of imageUrls) {
-      try {
-        const hashPromise = new Promise((resolve, reject) => {
-          imageHash(url, 16, true, (error, hash) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(hash);
-            }
-          });
-        });
+    const images = imageResponse.data.result.photos;
 
-        
-        const hash = await hashPromise;
-        if (!seenHashes.has(hash)) {
-          seenHashes.add(hash);
-          validUrls.push(url);
-        }
-        if (validUrls.length >= 5) {
-          break;
-        } 
-      } catch (error) {
-        console.error(error);
-        // If the fetch request fails, move on to the next image URL
-        continue;
+    const imageUrls = [];
+    for (const image of images) {
+
+      const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${image.photo_reference}&key=${apiKey}`;
+      imageUrls.push(url);
+
+      if (imageUrls.length >= 5) {
+        break;
       }
     }
-    //Send the image urls to frontend
-    res.json(validUrls);
+
+    res.json({ imageUrls });
 
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error getting image");
   }
-
 });
 
 module.exports = router;
