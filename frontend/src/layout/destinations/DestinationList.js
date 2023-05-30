@@ -19,10 +19,10 @@ const DestinationList = (props) => {
     });
 
     function onSelectedHandler(id) {
-        const destination = destinationList.find(destination => {
-            return destination.props.id === id;
+        const destination = props.destinations.find(destination => {
+            return destination.name === id;
         });
-        props.onSelected(destination.props);    
+        props.onSelected(destination);    
     };
 
     return (

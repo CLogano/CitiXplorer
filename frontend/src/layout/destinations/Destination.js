@@ -29,7 +29,12 @@ const Destination = (props) => {
                 classes["selected-reverse"]}`}>
                 <div className={classes.name}>{props.name}</div>
                 <div className={classes["rating-container"]}>
-                    <div className={classes.rating}>{props.rating}</div>
+                    <div className={classes.rating}>
+                        {(props.rating && Number.isInteger(props.rating)) ?
+                        props.rating + ".0" :
+                        props.rating
+                        }
+                    </div>
                     <span class="material-icons" style={{color: "yellow", fontSize: 36}}>star</span>
                 </div>
             </Card>

@@ -5,8 +5,9 @@ const jsonParser = require("body-parser").json();
 require("dotenv").config();
 
 const config = new Configuration({
-    apiKey: process.env.OPEN_AI_KEY,
+    apiKey: process.env.OPEN_AI_API_KEY,
 });
+
 const openai = new OpenAIApi(config);
 
 router.post("/", jsonParser, async (req, res) => {

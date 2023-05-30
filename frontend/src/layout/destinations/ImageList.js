@@ -15,7 +15,6 @@ const ImageList = (props) => {
         try {
             const response = await fetch(CONSTANTS.apiURL + `/googleImages?destination=${destination}`);
             const result = await response.json();
-            console.log("Images: ", result);
             setImages(result.imageUrls);
             setIsLoading(false);
         } catch (error) {
@@ -29,13 +28,6 @@ const ImageList = (props) => {
         imageSearch(props.destination);
     }, [props.destination]);
 
-    // const data = [<DestinationImage 
-    //     className={`${classes["image-switch"]} ${index === 0 ? "first" : ""}`}
-    //     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8xsI0rt6u4GIQTTAhsliZvawPl0NahPAVKzPGY8DPjtvxFz4&s" alt="Tavern"></DestinationImage>,
-    //     <DestinationImage
-    //     className={`${classes["image-switch"]} ${index === 0 ? "first" : ""}`}
-    //     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8xsI0rt6u4GIQTTAhsliZvawPl0NahPAVKzPGY8DPjtvxFz4&s" alt="Tavern"></DestinationImage>
-    // ];
 
     const data = images.map((image) => {
         

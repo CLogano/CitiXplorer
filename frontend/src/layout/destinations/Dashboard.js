@@ -1,70 +1,90 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import DestinationList from "./DestinationList";
 import classes from "./Dashboard.module.css"
 import Description from "./Description";
 import CONSTANTS from "../../constants";
 import DestinationFooter from "./DestinationFooter";
+import LoadingRing from "../../UI/LoadingRing";
+
+
+const ratingsSearch = async (data) => {
+
+    const updatedData = await Promise.all(data.map(async (destination) => {
+
+        try {
+            const str = destination.name;
+            const response = await fetch(CONSTANTS.apiURL + `/googleRatings?destination=${str}`);
+            const result = await response.json();
+            
+            return {
+                ...destination,
+                rating: result.rating
+            };
+
+        } catch (error) {
+            console.log("Error occurred while calling API:", error);
+        }
+    }));
+    return updatedData;  
+};
 
 const Dashboard = () => {
 
     const location = useLocation();
-    const data = location.state;
+    const [data, setData] = useState(location.state || []);
+    const [destination, setDestination] = useState(null);
+    const [ratingsFetched, setRatingsFetched] = useState(false);
 
-    const ratingsSearch = async (data) => {
+    const fetchRatings = useCallback(async () => {
 
-        for (let i = 0; i < data.length; i++) {
+        try {
 
-        
-            try {
-                const str = data[i].name + data[i].location;
-                console.log(str)
-                const response = await fetch(CONSTANTS.apiURL + `/googleRatings?destination=${str}`);
-                const result = await response.json();
-                data[i].rating = result.rating;
+            const updatedData = await ratingsSearch(data);
 
-            } catch (error) {
-                console.log("Error occurred while calling API:", error);
+            if (updatedData.length > 0) {
+                setData(updatedData);
+                setDestination(updatedData[0]);
             }
+            setRatingsFetched(true);
+
+        } catch (error) {
+            console.log("Error occurred while fetching ratings:", error);
         }
-    };
-    
-    useEffect(() => {
-        ratingsSearch(data);
-        console.log(data);
     }, [data]);
+    
+      
+    useEffect(() => {
+        if (!ratingsFetched) {
+            fetchRatings();
+        }
+    }, [ratingsFetched, fetchRatings]);
 
-    const [destination, setDestination] = useState(data[0]);
-
-    const onSelectedDestination = (data) => {
-        const destination = {
-            name: data.name,
-            location: data.location,
-            description: data.description,
-            rating: data.rating
-        };
+    const onSelectedDestination = (destination) => {
         setDestination(destination);
     };
-
-    // useEffect(() => {
-    //     console.log(destination);
-    // }, [destination]);
 
     return (
         <div className={classes.background}>
             <div className={classes.container}>
-                    <div className={classes.destinations}>
-                    <DestinationList
-                        destinations={data}
-                        onSelected={onSelectedDestination}
-                        selected={destination}
-
-                    />
+                {ratingsFetched ? (
+                    <React.Fragment>
+                        <div className={classes.destinations}>
+                            <DestinationList
+                                destinations={data}
+                                onSelected={onSelectedDestination}
+                                selected={destination}
+                            />
+                        </div>
+                        <div className={classes.description}>
+                            <Description destination={destination} />
+                        </div>
+                    </React.Fragment>
+                ) : (
+                    <div className={classes.loadingContainer}>
+                        <LoadingRing />
                     </div>
-                <div className={classes.description}>
-                    <Description destination={destination} />
-                </div>
-
+                )}
             </div>
             <DestinationFooter />
         </div>

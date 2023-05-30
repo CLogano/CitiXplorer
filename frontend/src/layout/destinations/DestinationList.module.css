@@ -4,12 +4,12 @@
     justify-content: center;
     align-items: flex-start;
     max-width: 100%;
-    min-width: 250px; /* Minimum width for DestinationList */
+    min-width: 250px;
 }
 
 @media (max-width: 1199px) {
     .container {
-      width: 100%; /* Full width for screens below 1200px */
+      width: 100%;
     }
   }
 
@@ -17,6 +17,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-right: .5rem;
 }
 
 .card {

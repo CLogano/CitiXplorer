@@ -91,3 +91,9 @@
     border-top: 2px solid white;
     font-family: "Red Hat Display", "sans-serif";
 }
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

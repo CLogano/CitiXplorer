@@ -36,7 +36,6 @@ const SearchInput = React.forwardRef((props, ref) => {
     const { input } = props;
     useEffect(() => {
         input(text);
-        console.log(text);
     }, [text, input]);
 
     const isInvalid = !props.isValid && isTouched;

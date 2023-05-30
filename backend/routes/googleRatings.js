@@ -20,20 +20,25 @@ router.get("/", async (req, res) => {
             timeout: 1000,
           });
         
-        const destinationId = response.data.candidates[0].place_id;
-        
-        const { data } = await mapsClient.placeDetails({
-            params: {
-                place_id: destinationId,
-                fields: ["rating"],
-                key: apiKey,
-            },
-            timeout: 1000,
-        });
-        
-        const rating = data.result.rating;
-        console.log("Rating: " + rating)
-        res.json({ rating });
+        if (response.data.candidates && response.data.candidates.length > 0) {
+
+            const destinationId = response.data.candidates[0].place_id;
+
+            const { data } = await mapsClient.placeDetails({
+                params: {
+                    place_id: destinationId,
+                    fields: ["rating"],
+                    key: apiKey,
+                },
+                timeout: 1000,
+            });
+
+            const rating = data.result.rating;
+            res.json({ rating });
+        } else {
+            console.error("No candidates found for destination: " + destination);
+            res.status(404).json({ error: "No candidates found for destination: " + destination });
+        }
 
     } catch (error) {
         console.error(error);
