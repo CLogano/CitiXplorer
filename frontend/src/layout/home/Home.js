@@ -5,6 +5,7 @@ import CONSTANTS from "../../constants";
 import Search from "./Search";
 import LoadingRing from "../../UI/LoadingRing";
 import { generateChatPrompt } from "../../prompts";
+import { generateChatPrompt2 } from "../../prompts";
 
 const Home = () => {
 
@@ -13,28 +14,67 @@ const Home = () => {
     const navigate = useNavigate();
 
     const parsePlaces = (str, location) => {
+
         const places = [];
         const lines = str.split("\n");
-        for (let i = 0; i < lines.length; i += 3) {
-            const name = lines[i].split(": ")[1];
-            const description = lines[i + 1].split(": ")[1];
+        const filteredLines = lines.filter(line => line.includes("Name: ") || line.includes("Description: "));
+
+        for (let i = 0; i < filteredLines.length; i += 2) {
+            
+            const name = filteredLines[i].split(": ")[1];
+            const description = filteredLines[i + 1].split(": ")[1];
             const place = { name: name, description: description, location: location};
             places.push(place);
         }
         return places;
     }
 
+    const getCurrentLocation = () => {
+
+        return new Promise((resolve, reject) => {
+
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(async position => {
+    
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+    
+                    try {
+                        const response = await fetch(CONSTANTS.apiURL + `/geolocation/location?lat=${latitude}&long=${longitude}`);
+                        const data = await response.json();
+                        resolve(data.formatted_address);
+    
+                    } catch (error) {
+                        reject(error);
+                    }
+                })
+            } else {
+                reject("This browser does not support Geolocation.");
+            }
+        })
+        
+    }
+
     const searchHandler = async (location, topic) => {
 
         setIsLoading(true);
+
+        //Gather user's current location if selected
+        if (location === "Your Location") {
+            location = await getCurrentLocation();
+        }
+
+        console.log("Location: " + location);
         
-        const textInput = generateChatPrompt(topic, location);
+        //Generate prompt for ChatGPT API
+        const textInput = generateChatPrompt2(topic, location);
 
         const textInputJSON = {
             content: textInput
         };
         
         try {
+
             const response = await fetch(CONSTANTS.apiURL, {
                 method: "POST",
                 headers: {
@@ -42,9 +82,14 @@ const Home = () => {
                 },
                 body: JSON.stringify(textInputJSON),
             });
+
             const result = await response.json();
+            console.log(result.data);
             const resultArray = parsePlaces(result.data, location);
+            console.log(resultArray);
+
             setChatList(resultArray);
+
         } catch (error) {
             console.log("Error occurred while calling API:", error);
         }
@@ -60,7 +105,6 @@ const Home = () => {
 
     return (
         <div className={classes.dashboard}>
-            <h1 className={classes.text}>Welcome! <br/> Please enter information about your destination:</h1>
             <Search search={searchHandler}/>
             {isLoading && <LoadingRing />}
         </div>

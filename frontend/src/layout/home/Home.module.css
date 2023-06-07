@@ -10,9 +10,6 @@
     font-family: "Red Hat Display", "sans-serif";
 }
 
-.text {
-    margin: 0;
-    text-align: center;
+.search {
     padding-top: 10rem;
-    color: black;
 }

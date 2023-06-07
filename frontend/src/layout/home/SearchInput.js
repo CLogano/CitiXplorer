@@ -40,20 +40,21 @@ const SearchInput = React.forwardRef((props, ref) => {
 
     const isInvalid = !props.isValid && isTouched;
 
+
     return (
         <div className={classes["search-container"]}>
             <div className={`${classes["search-inner"]}
                 ${isInvalid === true ? classes.invalid : ""
             }`}>
-                <input
+                <input 
                     ref={inputRef}
                     type={props.type}
                     id={props.id}
                     value={text}
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler}
-                    placeholder={props.placeholder + "..."}>
-                </input>
+                    placeholder={props.placeholder}
+                />
             </div>
             <div className={classes.dropdown}>
                 {props.searchTerms

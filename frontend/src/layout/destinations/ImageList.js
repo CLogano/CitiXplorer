@@ -13,9 +13,9 @@ const ImageList = (props) => {
     const imageSearch = async (destination) => {
 
         try {
-            const response = await fetch(CONSTANTS.apiURL + `/googleImages?destination=${destination}`);
+            const response = await fetch(CONSTANTS.apiURL + `/googleMaps?destination=${destination}`);
             const result = await response.json();
-            setImages(result.imageUrls);
+            setImages(result.content.imageUrls);
             setIsLoading(false);
         } catch (error) {
             console.log("Error occurred while calling API:", error);

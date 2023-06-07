@@ -12,6 +12,7 @@ const openai = new OpenAIApi(config);
 
 router.post("/", jsonParser, async (req, res) => {
     try {
+        
         const { content } = req.body;
         console.log(content);
         const response = await openai.createChatCompletion({
@@ -22,6 +23,7 @@ router.post("/", jsonParser, async (req, res) => {
             success: true,
             data: response.data.choices[0].message.content
         });
+
     } catch (error) {
         return res.status(400).json({
             success: false,

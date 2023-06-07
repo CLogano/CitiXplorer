@@ -13,13 +13,16 @@ const ratingsSearch = async (data) => {
     const updatedData = await Promise.all(data.map(async (destination) => {
 
         try {
-            const str = destination.name;
-            const response = await fetch(CONSTANTS.apiURL + `/googleRatings?destination=${str}`);
+            const name = destination.name;
+            const response = await fetch(CONSTANTS.apiURL + `/googleMaps?destination=${name}`);
             const result = await response.json();
+            const rating = result.content.rating;
             
             return {
                 ...destination,
-                rating: result.rating
+                rating: (rating && Number.isInteger(rating)) ?
+                rating + ".0" :
+                rating
             };
 
         } catch (error) {

@@ -1,0 +1,19 @@
+.container {
+    width: calc(100% - 1rem);
+    height: 150px;
+    border-radius: 15px;
+    padding: 8px;
+    font-size: 16px;
+    font-family: "Red Hat Display", "sans-serif";
+    resize: none;
+    outline: none;
+    border: 1px solid gray;
+}
+
+.container::placeholder {
+    font-style: italic;
+}
+
+.container.invalid {
+    border-color: red;
+}
