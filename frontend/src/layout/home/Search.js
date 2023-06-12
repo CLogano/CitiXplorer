@@ -131,7 +131,8 @@ const Search = (props) => {
      const onSubmitHandler = (event) => {
         event.preventDefault();
         if (formIsValid) {
-            props.search(location, prompt);
+            //console.log("Location: " + location + "\nPrompt: " + prompt)
+            props.search(prompt, location);
         }
     };
 

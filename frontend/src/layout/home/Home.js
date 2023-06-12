@@ -6,6 +6,7 @@ import Search from "./Search";
 import LoadingRing from "../../UI/LoadingRing";
 import { generateChatPrompt } from "../../prompts";
 import { generateChatPrompt2 } from "../../prompts";
+import { detectPromptIntents } from "../../prompts";
 
 const Home = () => {
 
@@ -55,7 +56,7 @@ const Home = () => {
         
     }
 
-    const searchHandler = async (location, topic) => {
+    const searchHandler = async (prompt, location) => {
 
         setIsLoading(true);
 
@@ -65,34 +66,83 @@ const Home = () => {
         }
 
         console.log("Location: " + location);
+        console.log("Prompt: " + prompt);
+
+
+        
+        
+
+        // const textInput1 = detectPromptIntents(prompt);
+        // const textInputJSON1 = {
+        //         content: textInput
+        // };
+
+        const promptJSON = {
+            prompt: prompt
+        };
+
+        // try {
+
+        //     const response = await fetch(CONSTANTS.apiURL + "/googleNL", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(promptJSON),
+        //     });
+
+        //     const result = await response.json();
+        //     console.log(result);
+
+        // } catch (error) {
+        //     console.log("Error occurred while calling API:", error);
+        // }
+
+        // try {
+
+        //     const response = await fetch(CONSTANTS.apiURL + "/gpt/process", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(promptJSON),
+        //     });
+
+        //     const result = await response.json();
+        //     console.log(result);
+
+        // } catch (error) {
+        //     console.log("Error occurred while calling API:", error);
+        // }
+
         
         //Generate prompt for ChatGPT API
-        const textInput = generateChatPrompt2(topic, location);
+        // const textInput = generateChatPrompt2(prompt, location);
 
-        const textInputJSON = {
-            content: textInput
-        };
+        // const textInputJSON = {
+        //     content: textInput
+        // };
         
-        try {
+        // try {
 
-            const response = await fetch(CONSTANTS.apiURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(textInputJSON),
-            });
+        //     const response = await fetch(CONSTANTS.apiURL + "/gpt", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(textInputJSON),
+        //     });
 
-            const result = await response.json();
-            console.log(result.data);
-            const resultArray = parsePlaces(result.data, location);
-            console.log(resultArray);
+        //     const result = await response.json();
+        //     console.log(result.data);
+        //     const resultArray = parsePlaces(result.data, location);
+        //     console.log(resultArray);
 
-            setChatList(resultArray);
+        //     setChatList(resultArray);
 
-        } catch (error) {
-            console.log("Error occurred while calling API:", error);
-        }
+        // } catch (error) {
+        //     console.log("Error occurred while calling API:", error);
+        // }
     };
 
     useEffect(() => {
@@ -105,7 +155,7 @@ const Home = () => {
 
     return (
         <div className={classes.dashboard}>
-            <Search search={searchHandler}/>
+            <Search search={searchHandler} />
             {isLoading && <LoadingRing />}
         </div>
     )

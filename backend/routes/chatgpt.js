@@ -1,14 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const { Configuration, OpenAIApi } = require("openai");
 const jsonParser = require("body-parser").json();
+
 require("dotenv").config();
+const { Configuration, OpenAIApi } = require("openai");
 
 const config = new Configuration({
     apiKey: process.env.OPEN_AI_API_KEY,
 });
-
 const openai = new OpenAIApi(config);
+
+router.post("/process", jsonParser, async (req, res) => {
+
+    try {
+        
+        const { prompt } = req.body;
+
+        const response = await openai.createCompletion({
+            model: "ada:ft-personal-2023-06-11-20-27-52",
+            prompt: prompt,
+            max_tokens: 200
+        });
+        if (response.data) {
+            res.json(response.data.choices[0]);
+        }
+
+    } catch (error) {
+        console.error(error)
+    }
+});
 
 router.post("/", jsonParser, async (req, res) => {
     try {
@@ -32,6 +52,6 @@ router.post("/", jsonParser, async (req, res) => {
             : "There was an issue on the server"
         });
     }
-})
+});
 
 module.exports = router;

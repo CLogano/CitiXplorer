@@ -2,9 +2,8 @@
     display: flex; 
     justify-content: center; 
     align-items: center;
-    margin-top: 10rem;
     background-color: lightgray;
-    width: 600px;
+    width: 700px;
 }
 
 .form {

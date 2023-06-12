@@ -77,7 +77,6 @@ const fetchCities = async (textInput) => {
         const response = await fetch(CONSTANTS.apiURL + `/geonames/location?text=${textInput}`);
         const data = await response.json();
         setCitySuggestions(data);
-        console.log(data);
 
     } catch (error) {
         console.error(error);
