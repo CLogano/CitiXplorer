@@ -3,21 +3,14 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    max-width: 100%;
-    min-width: 250px;
+    width: 100%;
 }
 
-@media (max-width: 1199px) {
-    .container {
-      width: 100%;
-    }
-  }
-
 .list {
+    width: 100%;
     list-style: none;
     padding: 0;
     margin: 0;
-    margin-right: .5rem;
 }
 
 .card {

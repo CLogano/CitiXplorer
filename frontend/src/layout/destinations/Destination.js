@@ -5,7 +5,11 @@ import classes from "./Destination.module.css";
 const Destination = (props) => {
     
     const [isSelected, setIsSelected] = useState(props.selected);
-    
+
+    useEffect(() => {
+        setIsSelected(props.selected);
+    }, [props.selected]);
+
     const handleClick = () => {
         if (!isSelected) {
             onSelectedHandler();

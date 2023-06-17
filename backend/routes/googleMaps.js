@@ -6,7 +6,33 @@ const { Client } = require("@googlemaps/google-maps-services-js");
 
 const mapsClient = new Client({});
 
-router.get("/", async (req, res) => {
+router.get("/data", async (req, res) => {
+
+  const { destination } = req.query;
+
+  try {
+    
+    const response = await getDestination(mapsClient, destination);
+
+    if (response.data.candidates && response.data.candidates.length > 0) {
+
+      const destinationId = response.data.candidates[0].place_id;
+
+      const data = await getData(mapsClient, destinationId);
+      res.json({ data });
+
+    } else {
+      console.error("No candidates found for destination: " + destination);
+      res.status(404).json({ error: "No candidates found for destination: " + destination });
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
+router.get("/images", async (req, res) => {
 
   const { destination } = req.query;
 
@@ -19,14 +45,8 @@ router.get("/", async (req, res) => {
       const destinationId = response.data.candidates[0].place_id;
 
       const imageUrls = await getImages(mapsClient, destinationId);
-      const rating = await getRating(mapsClient, destinationId);
 
-      const content = {
-        imageUrls,
-        rating
-      };
-
-      res.json({ content });
+      res.json({ imageUrls });
 
     } else {
       console.error("No candidates found for destination: " + destination);
@@ -36,6 +56,10 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+});
+
+router.get("/apiKey", async (req, res) => {
+  res.json({ apiKey: process.env.GOOGLE_API_KEY});
 });
 
 module.exports = router;
@@ -67,7 +91,7 @@ async function getImages(mapsClient, destinationId) {
 
   try {
 
-    const imageResponse = await mapsClient.placeDetails({
+    const response = await mapsClient.placeDetails({
       params: {
         place_id: destinationId,
         fields: ["photos"],
@@ -76,7 +100,7 @@ async function getImages(mapsClient, destinationId) {
       timeout: 1000,
     });
   
-    const images = imageResponse.data.result.photos;
+    const images = response.data.result.photos;
   
     const imageUrls = [];
     for (const image of images) {
@@ -95,20 +119,28 @@ async function getImages(mapsClient, destinationId) {
   } 
 }
 
-async function getRating(mapsClient, destinationId) {
+async function getData(mapsClient, destinationId) {
 
   try {
 
-    const { data } = await mapsClient.placeDetails({
+    const response  = await mapsClient.placeDetails({
       params: {
         place_id: destinationId,
-        fields: ["rating"],
+        fields: ["rating", "geometry"],
         key: apiKey,
       },
       timeout: 1000,
     });
-  
-    return data.result.rating;
+
+    const { rating } = response.data.result;
+    const geometry = response.data.result.geometry.location;
+
+    const data = {
+        rating,
+        geometry
+    };
+
+    return data;
 
   } catch (error) {
     console.error(error);
