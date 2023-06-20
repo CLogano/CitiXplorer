@@ -1,7 +1,7 @@
 import CONSTANTS from "../../../constants";
 import { generateChatPrompt2 } from "../../../prompts";
 
-export const getGPTResponse = async (prompt, location, setChatList, setCity, setIsLoading) => {
+export const getGPTResponse = async (prompt, location, setChatList, setCity, setIsLoading, setDataFetched) => {
 
     setIsLoading(true);
     setCity(location);
@@ -85,6 +85,7 @@ export const getGPTResponse = async (prompt, location, setChatList, setCity, set
         //console.log(resultArray);
 
         setChatList(resultArray);
+        setDataFetched(false);
 
     } catch (error) {
         console.log("Error occurred while calling API:", error);

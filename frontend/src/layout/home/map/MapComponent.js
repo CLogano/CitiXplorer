@@ -27,12 +27,24 @@ const MapComponent = (props) => {
     if (mapRef.current) {
       mapRef.current.panTo(destination.geometry);
 
-      if (mapRef.current.getZoom() < 15) {
-        mapRef.current.setZoom(15);
+      if (mapRef.current.getZoom() < 14) {
+        mapRef.current.setZoom(14);
       }
     }
 
   }, [data, onSelectedDestination]);
+
+  useEffect(() => {
+
+    if (destination && mapRef.current) {
+        mapRef.current.panTo(destination.geometry);
+
+        if (mapRef.current.getZoom() < 14) {
+            mapRef.current.setZoom(14);
+        }
+    }
+
+}, [destination]);
 
   useEffect(() => {
     const fetchLocation = async () => {

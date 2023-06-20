@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import Card from "../../../UI/Card";
 import classes from "./Destination.module.css";
 
-const Destination = (props) => {
+const Destination = forwardRef((props, ref) => {
     
     const [isSelected, setIsSelected] = useState(props.selected);
 
@@ -28,7 +28,7 @@ const Destination = (props) => {
     }, [props.selected]);
     
     return (
-        <li className={classes.container} onClick={handleClick}>
+        <li ref={ref} className={classes.container} onClick={handleClick}>
             <Card className={`${classes.card} ${isSelected ? classes.selected : 
                 classes["selected-reverse"]}`}>
                 <div className={classes.name}>{props.name}</div>
@@ -39,6 +39,6 @@ const Destination = (props) => {
             </Card>
         </li>
     );
-};
+});
 
 export default Destination;

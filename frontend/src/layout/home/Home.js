@@ -6,6 +6,7 @@ import { getGPTResponse } from "./helpers/getGPTResponse";
 import SkeletonLoader from "../../UI/SkeletonLoader";
 import { fetchData } from "./helpers/getData";
 import Results from "./destinations/Results";
+import RefineSearch from "./destinations/RefineSearch";
 
 const Home = () => {
 
@@ -21,7 +22,7 @@ const Home = () => {
     //Search for results from gpt given prompt and location
     const searchHandler = async (prompt, location) => {
 
-        await getGPTResponse(prompt, location, setChatList, setCity, setIsLoading);
+        await getGPTResponse(prompt, location, setChatList, setCity, setIsLoading, setDataFetched);
     };
 
 
@@ -32,6 +33,7 @@ const Home = () => {
 
             if (chatList && chatList.length > 0 && !dataFetched) {
 
+                setDestination(null);
                 await fetchData(chatList, setData, setDataFetched);
 
             } else if (dataFetched) {
@@ -51,6 +53,7 @@ const Home = () => {
     return (
         <Fragment>
             <Header search={searchHandler} />
+            <RefineSearch />
             <div className={classes.dashboard}>
                 <MapComponent
                     address={city}
@@ -61,11 +64,13 @@ const Home = () => {
                 {isLoading ?
                     <SkeletonLoader /> :
                     ((isLoading !== null) &&
-                        <Results 
-                            data={data}
-                            onSelectedDestination={onSelectedDestination}
-                            destination={destination} 
-                        />
+                        <div>
+                            <Results
+                                data={data}
+                                onSelectedDestination={onSelectedDestination}
+                                destination={destination}
+                            />
+                        </div>
                     )
                 }
             </div>

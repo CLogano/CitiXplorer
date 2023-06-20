@@ -3,6 +3,7 @@ import CONSTANTS from "../../../constants";
 export const fetchData = async (chatList, setData, setDataFetched) => {
 
     try {
+
         const updatedData = await dataSearch(chatList);
 
         if (updatedData.length > 0) {
