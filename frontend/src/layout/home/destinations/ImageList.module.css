@@ -4,12 +4,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0.5rem;
 }
 
 .ul {
     padding: 0;
-    margin: 1rem;
     height: 100%;
+    
 }
 
 .arrow {
@@ -20,8 +21,8 @@
     margin: 1rem;
     display: inline-block;
     padding: 3px;
-    background-color: darkgray;
-    scale: 300%;
+    background-color: rgb(50, 19, 122);
+    scale: 200%;
     transform: rotate(45deg);
     transition: transform 0.2s ease-out;
 }
@@ -39,42 +40,45 @@
 .empty {
     border: solid rgb(147, 136, 175);
     border-width: 0 3px 3px 0;
+    animation: pop-in 0.1s ease-out forwards;
 }
 
 .nonempty {
-    border: solid rgb(50, 19, 122);
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    animation: pop-out 0.1s ease-out forwards;
+}
+
+.nonempty:hover {
+    border: solid lightblue;
     border-width: 0 3px 3px 0;
 }
 
-.left:hover {
+/* .left:hover {
     animation: pop-out-left 0.15s ease-out forwards;
-}
+} */
 
-@keyframes pop-out-left {
+@keyframes pop-out {
     0% {
-      transform: rotate(135deg) scale(1);
+        scale: 200%;
     }
     50% {
-      transform: rotate(135deg) scale(1.25);
+        scale: 300%;
     }
     100% {
-      transform: rotate(135deg) scale(1.5);
+        scale: 400%;
     }
 }
 
-.right:hover {
-    animation: pop-out-right 0.15s ease-out forwards;
-}
-
-@keyframes pop-out-right {
+@keyframes pop-in {
     0% {
-      transform: rotate(-45deg) scale(1);
+        scale: 400%;
     }
     50% {
-      transform: rotate(-45deg) scale(1.25);
+        scale: 300%;
     }
     100% {
-      transform: rotate(-45deg) scale(1.5);
+        scale: 200%;
     }
 }
 

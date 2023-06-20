@@ -13,25 +13,29 @@
 }
 
 .tooltip {
-  opacity: 0;
+  font-family: "Red Hat Display", "sans-serif";
+  text-align: center;
   position: absolute;
   left: 50%;  
   transform: translate(-50%, -200%);
   bottom: 100%; 
-  background: white;
-  color: black;
-  border: 2px solid black;
-  padding: 5px;
-  border-radius: 3px;
+  background-color: rgba(105, 105, 105, 0);
+  color: rgba(0, 0, 0, 0);
+  border-radius: 10px;
+  padding: 10000px;
   font-size: 14px;
-  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
   margin-bottom: -20px;
+  font-weight: bold;
+  z-index: 99999999;
 }
 
 
-.marker:hover .tooltip, .marker.selected .tooltip {
-  opacity: 1;
+.marker:hover .tooltip {
+  background-color: rgba(105, 105, 105, .8);
   transform: translate(-50%, -100%);
+  color: rgba(0, 0, 0, 1);
+  padding: 5px;
 }
 
 .selected {

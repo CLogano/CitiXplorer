@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Description.module.css";
 import ImageList from "./ImageList";
-import Card from "../../UI/Card";
+import Card from "../../../UI/Card";
 
 const Description = (props) => {
 
@@ -19,14 +19,6 @@ const Description = (props) => {
             </span>
             <ImageList destination={props.destination.name} />
             <div className={classes.description}>{props.destination.description}</div>
-            <span className={classes.maps}>
-                <a 
-                    href={`https://www.google.com/maps?q=${props.destination.name}`}
-                    target="_blank"
-                    rel="noreferrer">Google Maps
-                </a>
-                <span class="material-icons">location_on</span>
-            </span>
         </Card>
     )
 };

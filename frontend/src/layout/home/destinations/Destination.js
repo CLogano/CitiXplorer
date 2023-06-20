@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "../../UI/Card";
+import Card from "../../../UI/Card";
 import classes from "./Destination.module.css";
 
 const Destination = (props) => {

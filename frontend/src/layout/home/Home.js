@@ -5,7 +5,7 @@ import Header from "../header/Header";
 import { getGPTResponse } from "./helpers/getGPTResponse";
 import SkeletonLoader from "../../UI/SkeletonLoader";
 import { fetchData } from "./helpers/getData";
-import DestinationList from "../destinations/DestinationList";
+import Results from "./destinations/Results";
 
 const Home = () => {
 
@@ -61,15 +61,11 @@ const Home = () => {
                 {isLoading ?
                     <SkeletonLoader /> :
                     ((isLoading !== null) &&
-                        <div className={classes["list-container"]}>
-                            
-                                <DestinationList
-                                    destinations={data}
-                                    onSelected={onSelectedDestination}
-                                    selected={destination}
-                                />
-                            
-                        </div>
+                        <Results 
+                            data={data}
+                            onSelectedDestination={onSelectedDestination}
+                            destination={destination} 
+                        />
                     )
                 }
             </div>

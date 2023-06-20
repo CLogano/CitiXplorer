@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DestinationImage from "./DestinationImage";
-import CONSTANTS from "../../constants";
+import CONSTANTS from "../../../constants";
 import classes from "./ImageList.module.css";
-import LoadingRing from "../../UI/LoadingRing";
+import LoadingRing from "../../../UI/LoadingRing";
 
 const ImageList = (props) => {
 
@@ -13,9 +13,9 @@ const ImageList = (props) => {
     const imageSearch = async (destination) => {
 
         try {
-            const response = await fetch(CONSTANTS.apiURL + `/googleMaps?destination=${destination}`);
+            const response = await fetch(CONSTANTS.apiURL + `/googleMaps/images?destination=${destination}`);
             const result = await response.json();
-            setImages(result.content.imageUrls);
+            setImages(result.imageUrls);
             setIsLoading(false);
         } catch (error) {
             console.log("Error occurred while calling API:", error);
@@ -29,16 +29,18 @@ const ImageList = (props) => {
     }, [props.destination]);
 
 
-    const data = images.map((image) => {
-        
-        return (
-            <DestinationImage
-                key={props.destination}
-                id={props.destination}
-                src={image}
-                alt={props.destination}
-            />);
-    });
+    const data = images ?
+        images.map((image) => {
+            return (
+                <DestinationImage
+                    key={props.destination}
+                    id={props.destination}
+                    src={image}
+                    alt={props.destination}
+                />
+            );
+        }) :
+        null;
 
     const leftClickHandler = () => {
 
@@ -61,19 +63,21 @@ const ImageList = (props) => {
             <button
                 className={`${classes.arrow}
                     ${classes.left}
-                    ${index > 0 ? classes.nonempty : classes.empty}`
+                    ${!isLoading && index > 0 ? classes.nonempty : classes.empty}`
             }
                 onClick={leftClickHandler}
             />
             {isLoading ? (
                 <LoadingRing />
             ) : (
-                <ul className={classes.ul}>{data[index]}</ul>
+                <ul className={classes.ul}>
+                    {data[index]}
+                </ul>
             )}
             <button
                 className={`${classes.arrow}
                     ${classes.right}
-                    ${index < data.length - 1 ? classes.nonempty : classes.empty}`
+                    ${!isLoading && index < data.length - 1 ? classes.nonempty : classes.empty}`
                 }
                 onClick={rightClickHandler}
             />

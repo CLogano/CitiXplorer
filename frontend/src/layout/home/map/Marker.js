@@ -35,19 +35,23 @@ const Marker = (props) => {
     }, [selected]);
 
     return (
-        <OverlayView
-            position={props.position}
-            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-            getPixelPositionOffset={getPixelPositionOffset}
-        >
-            <span
-                class={`material-icons ${classes.marker} ${isSelected ? classes.selected :
-                    classes["selected-reverse"]}`}
-                onClick={handleClick}
-            >location_on
-                <div className={classes.tooltip} >{props.name}</div>
-            </span>
-        </OverlayView>
+            <OverlayView
+                position={props.position}
+                mapPaneName={OverlayView.FLOAT_PANE}
+                getPixelPositionOffset={getPixelPositionOffset}
+            >
+                <span
+                    onClick={handleClick}
+                    class={`material-icons
+                        ${classes.marker}
+                        ${isSelected ? classes.selected :
+                            classes["selected-reverse"]}`
+                    }
+                >location_on
+                <div className={classes.tooltip}>{props.name}</div>
+                </span>
+
+            </OverlayView>
     )
 };
 
