@@ -29,7 +29,7 @@ const DestinationList = (props) => {
                 description={destination.description}
                 rating={destination.rating}
                 onSelected={onSelectedHandler}
-                selected={destination.name === props.selected.name ? true : false}
+                selected={props.selected && destination.name === props.selected.name ? true : false}
             />);
     });
 

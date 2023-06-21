@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import classes from "./Home.module.css";
 import MapComponent from "./map/MapComponent";
 import Header from "../header/Header";
-import { getGPTResponse } from "./helpers/getGPTResponse";
+import { getGPTResponse, getRefinedGPTResponse } from "./helpers/getGPTResponse";
 import SkeletonLoader from "../../UI/SkeletonLoader";
 import { fetchData } from "./helpers/getData";
 import Results from "./destinations/Results";
@@ -11,6 +11,7 @@ import RefineSearch from "./destinations/RefineSearch";
 const Home = () => {
 
     const [chatList, setChatList] = useState(null);
+    const [messages, setMessages] = useState([]);
     const [dataFetched, setDataFetched] = useState(false);
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
@@ -21,8 +22,11 @@ const Home = () => {
 
     //Search for results from gpt given prompt and location
     const searchHandler = async (prompt, location) => {
+        await getGPTResponse(prompt, location, setChatList, messages, setMessages, setCity, setIsLoading, setDataFetched);
+    };
 
-        await getGPTResponse(prompt, location, setChatList, setCity, setIsLoading, setDataFetched);
+    const refinedSearchHandler = async (prompt) => {
+        await getRefinedGPTResponse(prompt, city, setChatList, setData, messages, setMessages, setIsLoading, setDataFetched);
     };
 
 
@@ -43,7 +47,7 @@ const Home = () => {
         };
         getData();
         
-    }, [chatList, dataFetched]);
+    }, [chatList, dataFetched, data]);
     
 
     const onSelectedDestination = (destination) => {
@@ -53,7 +57,6 @@ const Home = () => {
     return (
         <Fragment>
             <Header search={searchHandler} />
-            <RefineSearch />
             <div className={classes.dashboard}>
                 <MapComponent
                     address={city}
@@ -70,6 +73,7 @@ const Home = () => {
                                 onSelectedDestination={onSelectedDestination}
                                 destination={destination}
                             />
+                            <RefineSearch search={refinedSearchHandler} />
                         </div>
                     )
                 }

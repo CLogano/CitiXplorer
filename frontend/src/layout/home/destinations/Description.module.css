@@ -32,6 +32,8 @@
     max-width: 100%;
     min-width: 0;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .rating {
@@ -44,13 +46,13 @@
 
 .save-button {
     position: absolute;
-    top: 5%;
-    right: 5%;
+    top: 4%;
+    right: 6%;
     cursor: pointer;
     min-width: 30px;
     width: 10%;
     max-width: 60px;
-    height: 35px;
+    height: 30px;
     background-color: darkorange;
     border: 2px solid white;
     border-radius: 20px;

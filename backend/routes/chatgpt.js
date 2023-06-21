@@ -34,10 +34,34 @@ router.post("/", jsonParser, async (req, res) => {
     try {
         
         const { content } = req.body;
-        console.log(content);
+        // console.log(content);
         const response = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: content}]
+        });
+        return res.status(200).json({
+            success: true,
+            data: response.data.choices[0].message.content
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            error: error.response
+            ? error.response.data
+            : "There was an issue on the server"
+        });
+    }
+});
+
+router.post("/refined", jsonParser, async (req, res) => {
+    try {
+        
+        const { messages } = req.body;
+        // console.log(messages);
+        const response = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: messages
         });
         return res.status(200).json({
             success: true,

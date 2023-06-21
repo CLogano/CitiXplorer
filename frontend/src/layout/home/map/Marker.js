@@ -18,13 +18,12 @@ const Marker = (props) => {
     
     const handleClick = () => {
         if (!isSelected) {
-            onSelectedHandler();
+            setIsSelected(true);
+            props.onSelected(props.id);
+        } else {
+            setIsSelected(false);
+            props.onSelected(null);
         }
-    };
-
-    const onSelectedHandler = () => {
-        setIsSelected(true);
-        props.onSelected(props.id);
     };
 
     const { selected } = props;

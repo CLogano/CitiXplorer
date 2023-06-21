@@ -24,7 +24,7 @@ const MapComponent = (props) => {
 
     onSelectedDestination(destination);
 
-    if (mapRef.current) {
+    if (destination && mapRef.current) {
       mapRef.current.panTo(destination.geometry);
 
       if (mapRef.current.getZoom() < 14) {

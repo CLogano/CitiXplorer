@@ -1,7 +1,7 @@
 import CONSTANTS from "../../../constants";
-import { generateChatPrompt2 } from "../../../prompts";
+import { generateChatPrompt, generateRefinedChatPrompt } from "../../../prompts";
 
-export const getGPTResponse = async (prompt, location, setChatList, setCity, setIsLoading, setDataFetched) => {
+export const getGPTResponse = async (prompt, location, setChatList, messages, setMessages, setCity, setIsLoading, setDataFetched) => {
 
     setIsLoading(true);
     setCity(location);
@@ -63,7 +63,7 @@ export const getGPTResponse = async (prompt, location, setChatList, setCity, set
 
 
     //Generate prompt for ChatGPT API
-    const textInput = generateChatPrompt2(prompt, location);
+    const textInput = generateChatPrompt(prompt, location);
 
     const textInputJSON = {
         content: textInput
@@ -81,6 +81,14 @@ export const getGPTResponse = async (prompt, location, setChatList, setCity, set
 
         const result = await response.json();
         console.log(result.data);
+
+        const updatedMessages = [
+            ...messages,
+            { role: "user", content: textInput },
+            { role: "assistant", content: result.data }
+        ];
+        setMessages(updatedMessages);
+
         const resultArray = parsePlaces(result.data, location);
         //console.log(resultArray);
 
@@ -91,6 +99,50 @@ export const getGPTResponse = async (prompt, location, setChatList, setCity, set
         console.log("Error occurred while calling API:", error);
     }
 };
+
+export const getRefinedGPTResponse = async (prompt, city, setChatList, setData, messages, setMessages, setIsLoading, setDataFetched) => {
+
+    setIsLoading(true);
+    setData(null);
+
+    const textInput = generateRefinedChatPrompt(prompt);
+    let updatedMessages = [
+        ...messages,
+        { role: "user", content: textInput },
+    ];
+
+    const messagesJSON = {
+        messages: updatedMessages
+    };
+
+    try {
+
+        const response = await fetch(CONSTANTS.apiURL + "/gpt/refined", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(messagesJSON),
+        });
+
+        const result = await response.json();
+        console.log(result.data);
+
+        updatedMessages = [
+            ...messages,
+            { role: "assistant", content: result.data }
+        ];
+        setMessages(updatedMessages);
+
+        const resultArray = parsePlaces(result.data, city);
+
+        setChatList(resultArray);
+        setDataFetched(false);
+
+    } catch (error) {
+        console.log("Error occurred while calling API:", error);
+    }
+}
 
 const getCurrentLocation = () => {
 

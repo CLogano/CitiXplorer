@@ -1,13 +1,5 @@
 
-export function generateChatPrompt(topic, location) {
-
-    return "You are an expert in tourism and recommending places for people to visit. Please list 10 places to see as a tourist in " + 
-    location + " with a topic of " + topic + ". Answer in the following format as a list:" + 
-    "'Name: <Name of Place>\nDescription: <Description of Place>.'" + 
-    "Do not include a new line before starting the next place in the list.";
-}
-
-export function generateChatPrompt2(prompt, location) {
+export function generateChatPrompt(prompt, location) {
 
     return "You are TravelGPT, an expert in tourism and recommending places for people to visit. " +
     "Your purpose will be to answer a prompt given by the user for their specified location. " +
@@ -17,6 +9,12 @@ export function generateChatPrompt2(prompt, location) {
     "'Name: <Name of Place>\nDescription: <Description of Place>.' " + 
     "Here is the prompt: '" + prompt + "'. Here is the location for the given prompt: '" + location + "'.";
 }
+
+export function generateRefinedChatPrompt(prompt) {
+
+    return "The answer you provided me is insufficient. Here are more details: '" + prompt + "'. Please retry the search with this information.";
+}
+
 
 export function detectPromptIntents(prompt) {
 
