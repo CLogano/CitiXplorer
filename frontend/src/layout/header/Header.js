@@ -7,7 +7,7 @@ const Header = (props) => {
     return (
         <header className={classes.header}>
             <h1>MyTrip</h1>
-            <Search search={props.search} />
+            <Search search={props.search} city={props.city}/>
             <div className={classes["right-section"]}>
                 <h3>About</h3>
                 <VerticalDivider className={classes.divide} />

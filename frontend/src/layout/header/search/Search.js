@@ -44,7 +44,8 @@ const Search = (props) => {
     };
 
     const locationHandler = (location) => {
-        setLocation(location); 
+        setLocation(location);
+        props.city(location);
     };
 
     const promptHandler = (prompt) => {

@@ -1,10 +1,9 @@
 import CONSTANTS from "../../../constants";
 import { generateChatPrompt, generateRefinedChatPrompt } from "../../../prompts";
 
-export const getGPTResponse = async (prompt, location, setChatList, messages, setMessages, setCity, setIsLoading, setDataFetched) => {
+export const getGPTResponse = async (prompt, location, setChatList, messages, setMessages, setIsLoading, setDataFetched) => {
 
     setIsLoading(true);
-    setCity(location);
 
     //Gather user's current location if selected
     if (location === "Your Location") {

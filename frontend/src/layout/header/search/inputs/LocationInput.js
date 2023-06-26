@@ -36,8 +36,6 @@ const LocationInput = (props) => {
             const identifier = setTimeout(async () => {
                 await fetchCities(text);
             }, 250);  
-            
-            setShowDropDown(true);
 
             return () => {
                 clearTimeout(identifier);
@@ -74,7 +72,13 @@ const LocationInput = (props) => {
         try {
             const response = await fetch(CONSTANTS.apiURL + `/geonames/location?text=${textInput}`);
             const data = await response.json();
-            setCitySuggestions(data);
+            
+            if(data && data.length > 0) {
+                setCitySuggestions(data);
+                setShowDropDown(true);
+            } else {
+                setShowDropDown(false);
+            }
 
         } catch (error) {
             console.error(error);
@@ -83,6 +87,8 @@ const LocationInput = (props) => {
 
     const deleteInput = () => {
         setText("");
+        setIsFocused(true);
+        setIsValid(false);
         locationRef.current.focus();
     };
 

@@ -22,7 +22,7 @@ const Home = () => {
 
     //Search for results from gpt given prompt and location
     const searchHandler = async (prompt, location) => {
-        await getGPTResponse(prompt, location, setChatList, messages, setMessages, setCity, setIsLoading, setDataFetched);
+        await getGPTResponse(prompt, location, setChatList, messages, setMessages, setIsLoading, setDataFetched);
     };
 
     const refinedSearchHandler = async (prompt) => {
@@ -54,9 +54,13 @@ const Home = () => {
         setDestination(destination);
     };
 
+    const cityHandler = (city) => {
+        setCity(city);
+    };
+
     return (
         <Fragment>
-            <Header search={searchHandler} />
+            <Header search={searchHandler} city={cityHandler}/>
             <div className={classes.dashboard}>
                 <MapComponent
                     address={city}
