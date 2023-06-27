@@ -14,6 +14,7 @@
     box-sizing: border-box;
     background-color: rgb(50, 19, 122);
     font-family: "Red Hat Display", "sans-serif";
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .account {

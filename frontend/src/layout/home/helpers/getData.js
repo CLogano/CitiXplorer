@@ -23,9 +23,18 @@ const dataSearch = async (chatList) => {
 
         try {
             const name = destination.name;
-            const response = await fetch(CONSTANTS.apiURL + `/googleMaps/data?destination=${name}`);
-            const result = await response.json();
-            const { rating, geometry } = result.data;
+
+            const ratingResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/rating?destination=${name}`);
+            const ratingResult = await ratingResponse.json();
+            let rating;
+            if (ratingResult.rating) {
+                rating = ratingResult.rating;
+            } else {
+                rating = "N/A";
+            }
+
+            const geometryResponse = await fetch(CONSTANTS.apiURL + `/geolocation/location-by-address?address=${name + ", " + destination.location}`);
+            const geometry = await geometryResponse.json();
             
             return {
                 ...destination,

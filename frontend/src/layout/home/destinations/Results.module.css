@@ -1,17 +1,27 @@
 .container {
     font-family: "Red Hat Display", "sans-serif";
-}
-
-.destinations {
-    height: calc(100% - 5rem);
-    margin-top: 5rem;
-    font-family: "Red Hat Display", "sans-serif";
     position: absolute;
     left: 0;
     top: 0;
-    min-width: 150px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.inner-container {
+    display: flex;
+    justify-content: flex-start;
+    
+}
+
+.destinations {
+    pointer-events: auto;
+    height: calc(100vh - 5rem);
+    margin-top: 5rem;
+    font-family: "Red Hat Display", "sans-serif";
+    min-width: 200px;
     width: 15%;
-    max-width: 225px;
+    max-width: 250px;
     z-index: 10;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -29,6 +39,7 @@
 }
 
 .description {
+    pointer-events: auto;
     height: calc(65% - 5rem);
     margin-top: 5rem;
     font-family: "Red Hat Display", "sans-serif";
@@ -38,5 +49,14 @@
     min-width: 525px;
     width: 30%;
     max-width: 650px;
+    z-index: 10;
+}
+
+.filters {
+    pointer-events: auto;
+    height: calc(10% - 5rem);
+    margin-top: 5rem;
+    font-family: "Red Hat Display", "sans-serif";
+    width: 30%;
     z-index: 10;
 }

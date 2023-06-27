@@ -58,6 +58,46 @@ const Home = () => {
         setCity(city);
     };
 
+    const sortFilterHandler = (type) => {
+
+        if (type === "Rating") {
+
+            const updatedData = [...data];
+            updatedData.sort((a, b) => b.rating - a.rating);
+            setData(updatedData);
+        }   
+        if (type === "Alphabetical Order") {
+
+            const updatedData = [...data];
+            updatedData.sort((a, b) => {
+                
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                
+                if (nameA < nameB) {
+                  return -1;
+                }
+                if (nameA > nameB) {
+                  return 1;
+                }
+                return 0;
+            });
+            setData(updatedData);
+        }
+    };
+
+    const amountFilterHandler = () => {
+
+    };
+
+    const ratingFilterHandler = () => {
+
+    };
+
+    const priceFilterHandler = () => {
+
+    };
+
     return (
         <Fragment>
             <Header search={searchHandler} city={cityHandler}/>
@@ -76,6 +116,10 @@ const Home = () => {
                                 data={data}
                                 onSelectedDestination={onSelectedDestination}
                                 destination={destination}
+                                sortFilter={sortFilterHandler}
+                                amountFilter={amountFilterHandler}
+                                ratingFilter={ratingFilterHandler}
+                                priceFilter={priceFilterHandler}
                             />
                             <RefineSearch search={refinedSearchHandler} />
                         </div>

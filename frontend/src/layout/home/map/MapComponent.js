@@ -86,6 +86,15 @@ const MapComponent = (props) => {
   const options = {
     clickableIcons: false,
     streetViewControl: false,
+    restriction: {
+      latLngBounds: {
+        north: 85,
+        south: -85,
+        west: -180,
+        east: 180
+      }
+    },
+    minZoom: 3,
     styles: [
       {
         featureType: "poi",

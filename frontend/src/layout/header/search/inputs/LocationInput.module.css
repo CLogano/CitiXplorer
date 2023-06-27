@@ -47,9 +47,10 @@
     border: 1px solid gray;
     width: 100%;
     font-family: "Red Hat Display", "sans-serif";
-    border-radius: 15px;
+    border-radius: 4px;
     padding: 5px;
     margin-top: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .dropdown:empty {
@@ -63,7 +64,9 @@
     color: black;
 }
 
-
+.dropdown-row:hover {
+    background-color: lightblue;
+}
 
 .location-icon {
     font-size: 30px;

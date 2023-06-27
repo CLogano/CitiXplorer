@@ -15,6 +15,12 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
+.inner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .description {
     font-size: calc(.5vw + .5vh);
     text-align: center;
@@ -22,15 +28,21 @@
     margin-right: 1.5rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.card {
+    margin: 0.5rem;
+    max-width: 100%;
+    min-width: 0;
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    padding: 0.5rem;
 }
 
 .name {
     font-size: calc(1.5vw + 1vh);
     font-weight: bold;
-    margin: 0.5rem;
-    margin-top: 1.5rem;
-    max-width: 100%;
-    min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -41,12 +53,12 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: calc(.5vw + 1vh);
+    font-size: calc(.5vw + 0.5vh);
 }
 
 .save-button {
     position: absolute;
-    top: 4%;
+    top: 3%;
     right: 6%;
     cursor: pointer;
     min-width: 30px;
@@ -60,14 +72,24 @@
     color: white;
 }
 
-.image-list {
-    margin: 0.5rem;
-}
-
 .save-button:hover {
     background-color: orangered;
     border-color: lightblue;
     animation: pop-out 0.2s ease-out forwards;
+}
+
+.more-button {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.more-button:hover {
+    text-decoration: underline;
 }
 
 @keyframes pop-out {

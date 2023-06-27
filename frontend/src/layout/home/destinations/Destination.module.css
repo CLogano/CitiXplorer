@@ -78,13 +78,12 @@
   margin-right: .5rem;
 }
 
-/* use a different color for the unfilled portion */
-.star::before {
-  background-color: white;
+.star {
+  color: lightblue;
+  font-size: 36px;
 }
 
-/* use the "width" style property to set the percentage of yellow */
-.star {
-  width: calc(var(--rating) / 5 * 100%);
-  background-image: linear-gradient(to right, yellow 0%, yellow 100%);
+.star-selected {
+  color: yellow;
+  font-size: 36px;
 }
