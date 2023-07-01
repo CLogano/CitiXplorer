@@ -60,13 +60,16 @@ const ImageList = (props) => {
 
     return (
         <div className={classes.container}>
-            <button
+            {/* <button
                 className={`${classes.arrow}
                     ${classes.left}
                     ${!isLoading && index > 0 ? classes.nonempty : classes.empty}`
             }
                 onClick={leftClickHandler}
-            />
+            /> */}
+            <span class={`material-symbols-rounded ${classes.arrow} ${!isLoading && index > 0 ? classes.nonempty : classes.empty}`} onClick={leftClickHandler}>
+                arrow_back_ios
+            </span>
             {isLoading ? (
                 <LoadingRing />
             ) : (
@@ -74,13 +77,16 @@ const ImageList = (props) => {
                     {data[index]}
                 </ul>
             )}
-            <button
+            {/* <button
                 className={`${classes.arrow}
                     ${classes.right}
                     ${!isLoading && index < data.length - 1 ? classes.nonempty : classes.empty}`
                 }
                 onClick={rightClickHandler}
-            />
+            /> */}
+            <span class={`material-symbols-rounded ${classes.arrow} ${!isLoading && index < data.length - 1 ? classes.nonempty : classes.empty}`} onClick={rightClickHandler}>
+                arrow_forward_ios
+            </span>
 
         </div>
     );

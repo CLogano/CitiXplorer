@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Results.module.css";
 import DestinationList from "./DestinationList";
 import Description from "./Description";
-import FilterList from "./Filters/FilterList";
+import FilterList from "./filters/FilterList";
 
 const Results = (props) => {
 
@@ -20,6 +20,7 @@ const Results = (props) => {
                     <FilterList 
                         sortFilter={props.sortFilter}
                         amountFilter={props.amountFilter}
+                        initialAmount={props.data.length}
                         ratingFilter={props.ratingFilter}
                         priceFilter={props.priceFilter}
                     />

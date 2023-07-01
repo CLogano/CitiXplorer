@@ -15,14 +15,17 @@ const Rating = (props) => {
                     <option className={classes.option} value="">
                         Rating
                     </option>
-                    <option className={classes.option} value="Alphabetical Order">
-                        A - Z
+                    <option className={classes.option} value="4.5">
+                        4.5 +
                     </option>
-                    <option className={classes.option} value="Price">
-                        Price
+                    <option className={classes.option} value="4.0">
+                        4.0 +
                     </option>
-                    <option className={classes.option} value="Rating">
-                        Rating
+                    <option className={classes.option} value="3.5">
+                        3.5 +
+                    </option>
+                    <option className={classes.option} value="3.0">
+                        3.0 +
                     </option>
                 </select>
             </div>

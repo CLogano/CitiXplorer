@@ -1,6 +1,6 @@
 import CONSTANTS from "../../../constants";
 
-export const fetchData = async (chatList, setData, setDataFetched) => {
+export const fetchData = async (chatList, setData, setOriginalData, setDataFetched) => {
 
     try {
 
@@ -8,6 +8,7 @@ export const fetchData = async (chatList, setData, setDataFetched) => {
 
         if (updatedData.length > 0) {
             setData(updatedData);
+            setOriginalData(updatedData)
             // setDestination(updatedData[0]);
             setDataFetched(true);
         }
@@ -24,13 +25,38 @@ const dataSearch = async (chatList) => {
         try {
             const name = destination.name;
 
-            const ratingResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/rating?destination=${name}`);
-            const ratingResult = await ratingResponse.json();
-            let rating;
-            if (ratingResult.rating) {
-                rating = ratingResult.rating;
+            const dataResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/data?destination=${name}`);
+            const dataResult = await dataResponse.json();
+            let rating, totalRatings, website, hours, address, phoneNumber;
+            if (dataResult.data.rating) {
+                rating = dataResult.data.rating;
             } else {
-                rating = "N/A";
+                return null;
+            }
+            if (dataResult.data.user_ratings_total) {
+                totalRatings = dataResult.data.user_ratings_total;
+            } else {
+                return null;
+            }
+            if (dataResult.data.website) {
+                website = dataResult.data.website;
+            } else {
+                website = "N/A";
+            }
+            if (dataResult.data.opening_hours) {
+                hours = dataResult.data.opening_hours.weekday_text;   
+            } else {
+                hours = "N/A";
+            }
+            if (dataResult.data.formatted_address) {
+                address = dataResult.data.formatted_address;
+            } else {
+                return null;
+            }
+            if (dataResult.data.formatted_phone_number) {
+                phoneNumber = dataResult.data.formatted_phone_number;
+            } else {
+                phoneNumber = "N/A";
             }
 
             const geometryResponse = await fetch(CONSTANTS.apiURL + `/geolocation/location-by-address?address=${name + ", " + destination.location}`);
@@ -41,6 +67,11 @@ const dataSearch = async (chatList) => {
                 rating: (rating && Number.isInteger(rating)) ?
                 rating + ".0" :
                 rating,
+                totalRatings,
+                website,
+                hours,
+                address,
+                phoneNumber,
                 geometry
             };
 
@@ -48,5 +79,6 @@ const dataSearch = async (chatList) => {
             console.log("Error occurred while calling API:", error);
         }
     }));
-    return updatedData;  
+
+    return updatedData.filter((destination) => destination !== null);  
 };

@@ -1,6 +1,6 @@
 .container {
-    width: 100%;
-    height: 50%;
+    width: 90%;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,21 +10,13 @@
 .ul {
     padding: 0;
     height: 100%;
+    width: 100%;
     margin: 0;
 }
 
 .arrow {
     cursor: pointer;
-    border-width: 0 3px 3px 0;
-    border-bottom-left-radius: 2.5px;
-    border-top-right-radius: 2.5px;
-    margin: 1rem;
-    display: inline-block;
-    padding: 3px;
-    background-color: rgb(50, 19, 122);
-    scale: 200%;
-    transform: rotate(45deg);
-    transition: transform 0.2s ease-out;
+    margin: 0.5rem;
 }
 
 .left {
@@ -38,20 +30,17 @@
 }
 
 .empty {
-    border: solid rgb(147, 136, 175);
-    border-width: 0 3px 3px 0;
+    color: rgb(147, 136, 175);
     animation: pop-in 0.1s ease-out forwards;
 }
 
 .nonempty {
-    border: solid white;
-    border-width: 0 3px 3px 0;
+    color: white;
     animation: pop-out 0.1s ease-out forwards;
 }
 
 .nonempty:hover {
-    border: solid lightblue;
-    border-width: 0 3px 3px 0;
+    color: lightblue;
 }
 
 /* .left:hover {
@@ -60,25 +49,25 @@
 
 @keyframes pop-out {
     0% {
-        scale: 200%;
+        scale: 100%;
     }
     50% {
-        scale: 300%;
+        scale: 150%;
     }
     100% {
-        scale: 400%;
+        scale: 200%;
     }
 }
 
 @keyframes pop-in {
     0% {
-        scale: 400%;
+        scale: 200%;
     }
     50% {
-        scale: 300%;
+        scale: 150%;
     }
     100% {
-        scale: 200%;
+        scale: 100%;
     }
 }
 

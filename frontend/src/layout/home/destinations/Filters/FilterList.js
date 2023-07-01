@@ -3,15 +3,19 @@ import classes from "./FilterList.module.css";
 import Sort from "./Sort";
 import Amount from "./Amount";
 import Rating from "./Rating";
-import Price from "./Price";
 
 const FilterList = (props) => {
+
+    const resetHandler = () => {
+
+    };
+
     return (
         <div className={classes.container}>
             <Sort selected={props.sortFilter} />
-            <Amount selected={props.amountFilter} />
             <Rating selected={props.ratingFilter} />
-            <Price selected={props.priceFilter} />
+            <Amount selected={props.amountFilter} initialAmount={props.initialAmount}/>
+            <button className={classes.reset} onClick={resetHandler}>Reset</button>
         </div>
     )
 };

@@ -1,5 +1,7 @@
 .container {
     margin: 3px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -45,4 +47,20 @@
 
 span {
     font-size: 14px;
+}
+
+.container:hover {
+    animation: pop-out 0.2s ease-out forwards;
+}
+
+@keyframes pop-out {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.025);
+    }
+    100% {
+      transform: scale(1.05);
+    }
 }

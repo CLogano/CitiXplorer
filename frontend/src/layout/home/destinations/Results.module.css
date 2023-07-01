@@ -40,15 +40,15 @@
 
 .description {
     pointer-events: auto;
-    height: calc(65% - 5rem);
+    height: calc(90% - 5rem);
     margin-top: 5rem;
     font-family: "Red Hat Display", "sans-serif";
     position: absolute;
     top: 0;
     right: 0;
     min-width: 525px;
-    width: 30%;
-    max-width: 650px;
+    width: 40%;
+    max-width: 750px;
     z-index: 10;
 }
 

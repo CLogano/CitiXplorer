@@ -1,7 +1,7 @@
 import CONSTANTS from "../../../constants";
 import { generateChatPrompt, generateRefinedChatPrompt } from "../../../prompts";
 
-export const getGPTResponse = async (prompt, location, setChatList, messages, setMessages, setIsLoading, setDataFetched) => {
+export const getGPTResponse = async (location, setChatList, messages, setMessages, setIsLoading, setDataFetched) => {
 
     setIsLoading(true);
 
@@ -11,7 +11,7 @@ export const getGPTResponse = async (prompt, location, setChatList, messages, se
     }
 
     console.log("Location: " + location);
-    console.log("Prompt: " + prompt);
+    //console.log("Prompt: " + prompt);
 
 
 
@@ -62,7 +62,7 @@ export const getGPTResponse = async (prompt, location, setChatList, messages, se
 
 
     //Generate prompt for ChatGPT API
-    const textInput = generateChatPrompt(prompt, location);
+    const textInput = generateChatPrompt(location);
 
     const textInputJSON = {
         content: textInput

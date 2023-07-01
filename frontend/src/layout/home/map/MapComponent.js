@@ -86,6 +86,7 @@ const MapComponent = (props) => {
   const options = {
     clickableIcons: false,
     streetViewControl: false,
+    zoomControl: false,
     restriction: {
       latLngBounds: {
         north: 85,

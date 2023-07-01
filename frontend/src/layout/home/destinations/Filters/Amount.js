@@ -3,7 +3,7 @@ import classes from "./Amount.module.css";
 
 const Amount = (props) => {
 
-    const [value, setValue] = useState(5);
+    const [value, setValue] = useState(props.initialAmount);
 
     const onChangeHandler = (event) => {
         setValue(parseInt(event.target.value));
@@ -19,7 +19,7 @@ const Amount = (props) => {
                     type="range"
                     min={5}
                     max={20}
-                    step={5}
+                    step={1}
                     value={value}
                     onChange={onChangeHandler}
                 >

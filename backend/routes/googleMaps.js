@@ -6,7 +6,7 @@ const { Client } = require("@googlemaps/google-maps-services-js");
 
 const mapsClient = new Client({});
 
-router.get("/rating", async (req, res) => {
+router.get("/data", async (req, res) => {
 
   const { destination } = req.query;
 
@@ -18,8 +18,8 @@ router.get("/rating", async (req, res) => {
 
       const destinationId = response.data.candidates[0].place_id;
 
-      const rating = await getRating(mapsClient, destinationId);
-      res.json({ rating });
+      const data = await getData(mapsClient, destinationId);
+      res.json({ data });
 
     } else {
       console.error("No candidates found for destination: " + destination);
@@ -119,22 +119,31 @@ async function getImages(mapsClient, destinationId) {
   } 
 }
 
-async function getRating(mapsClient, destinationId) {
+async function getData(mapsClient, destinationId) {
 
   try {
 
     const response  = await mapsClient.placeDetails({
       params: {
         place_id: destinationId,
-        fields: ["rating"],
+        fields: ["rating", "user_ratings_total", "formatted_address", "formatted_phone_number", "opening_hours", "website"],
         key: apiKey,
       },
       timeout: 1000,
     });
 
-    const { rating } = response.data.result;
+    const { rating, user_ratings_total, formatted_address, formatted_phone_number, opening_hours, website } = response.data.result;
 
-    return rating;
+    const data = {
+      rating,
+      user_ratings_total,
+      formatted_address,
+      formatted_phone_number,
+      opening_hours,
+      website
+    };
+
+    return data;
 
   } catch (error) {
     console.error(error);

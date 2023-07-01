@@ -5,7 +5,7 @@
     margin-right: 2rem;
     padding: 1.5rem;
     border: 3px solid white;
-    border-radius: 75px;
+    border-radius: 50px;
     background-color: rgb(50, 19, 122);
     display: flex;
     flex-direction: column;
@@ -15,10 +15,35 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-.inner-container {
+.inner-container-1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.inner-container-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+}
+
+.inner-container-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.inner-container-4 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .description {
@@ -36,8 +61,8 @@
     max-width: 100%;
     min-width: 0;
     background-color: cornflowerblue;
-    border-radius: 5px;
-    padding: 0.5rem;
+    border-radius: 20px;
+    padding: 1rem;
 }
 
 .name {
@@ -46,14 +71,59 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: "Special Elite", cursive;
+    text-align: center;
+    padding-top: 5px;
 }
 
-.rating {
+.section {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
     font-size: calc(.5vw + 0.5vh);
+}
+
+.section-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: calc(.5vw + 0.5vh);
+}
+
+.hours {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: calc(.5vw + 0.25vh);
+}
+
+.rating {
+    font-size: calc(.5vw + 1vh);
+    text-align: center;
+}
+
+.location-icon {
+    font-size: 30px;
+    color: white;
+}
+
+.phone-number {
+    flex-grow: 1;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}
+
+.link:hover {
+    text-decoration: underline;
+    color: royalblue;
 }
 
 .save-button {
@@ -79,13 +149,10 @@
 }
 
 .more-button {
-    position: absolute;
-    bottom: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
+    color: royalblue;
 }
 
 .more-button:hover {
