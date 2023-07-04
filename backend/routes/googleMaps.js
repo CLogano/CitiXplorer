@@ -8,13 +8,13 @@ const mapsClient = new Client({});
 
 router.get("/data", async (req, res) => {
 
-  const { destination } = req.query;
+  const { destination, city } = req.query;
 
   try {
     
-    const response = await getDestination(mapsClient, destination);
+    const response = await getDestination(mapsClient, destination, city);
 
-    if (response.data.candidates && response.data.candidates.length > 0) {
+    if (response.data && response.data.candidates.length > 0) {
 
       const destinationId = response.data.candidates[0].place_id;
 
@@ -34,11 +34,11 @@ router.get("/data", async (req, res) => {
 
 router.get("/images", async (req, res) => {
 
-  const { destination } = req.query;
+  const { destination, city } = req.query;
 
   try {
     
-    const response = await getDestination(mapsClient, destination);
+    const response = await getDestination(mapsClient, destination, city);
 
     if (response.data.candidates && response.data.candidates.length > 0) {
 
@@ -65,13 +65,13 @@ router.get("/apiKey", async (req, res) => {
 module.exports = router;
 
 
-async function getDestination(mapsClient, destination) {
+async function getDestination(mapsClient, destination, city) {
 
   try {
 
     const response = await mapsClient.findPlaceFromText({
       params: {
-        input: destination,
+        input: destination + ", " + city,
         inputtype: "textquery",
         fields: ["place_id"],
         key: apiKey,
@@ -94,23 +94,27 @@ async function getImages(mapsClient, destinationId) {
     const response = await mapsClient.placeDetails({
       params: {
         place_id: destinationId,
-        fields: ["photos"],
+        fields: ["photos", "name", "formatted_address"],
         key: apiKey,
       },
       timeout: 1000,
     });
-  
+
     const images = response.data.result.photos;
   
     const imageUrls = [];
-    for (const image of images) {
+    if (images) {
+      for (const image of images) {
   
-      const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${image.photo_reference}&key=${apiKey}`;
-      imageUrls.push(url);
-  
-      if (imageUrls.length >= 5) {
-        break;
+        const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${image.photo_reference}&key=${apiKey}`;
+        imageUrls.push(url);
+    
+        if (imageUrls.length >= 5) {
+          break;
+        }
       }
+    } else {
+      console.error("No photos found for destinationId: " + destinationId);
     }
     return imageUrls;
 
@@ -126,15 +130,16 @@ async function getData(mapsClient, destinationId) {
     const response  = await mapsClient.placeDetails({
       params: {
         place_id: destinationId,
-        fields: ["rating", "user_ratings_total", "formatted_address", "formatted_phone_number", "opening_hours", "website"],
+        fields: ["name", "rating", "user_ratings_total", "formatted_address", "formatted_phone_number", "opening_hours", "website"],
         key: apiKey,
       },
       timeout: 1000,
     });
 
-    const { rating, user_ratings_total, formatted_address, formatted_phone_number, opening_hours, website } = response.data.result;
+    const { name, rating, user_ratings_total, formatted_address, formatted_phone_number, opening_hours, website } = response.data.result;
 
     const data = {
+      name,
       rating,
       user_ratings_total,
       formatted_address,

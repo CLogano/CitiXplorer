@@ -19,8 +19,8 @@ const Header = (props) => {
                 <h3>About</h3>
                 <VerticalDivider className={classes.divide} />
                 <h3>Contact</h3>
-                <VerticalDivider className={classes.divide} />
-                <span class={`material-icons ${classes.account}`}>account_circle</span>
+                {/* <VerticalDivider className={classes.divide} /> */}
+                {/* <span class={`material-icons ${classes.account}`}>account_circle</span> */}
             </div>
         </header>
     )

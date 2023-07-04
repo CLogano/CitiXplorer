@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "rc-slider": "^10.2.1",
+    "react-slider": "^2.0.6"
+  }
+}

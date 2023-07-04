@@ -40,16 +40,22 @@
 
 .description {
     pointer-events: auto;
-    height: calc(90% - 5rem);
-    margin-top: 5rem;
+    height: calc(100% - 13rem);
     font-family: "Red Hat Display", "sans-serif";
     position: absolute;
-    top: 0;
+    top: 9rem;
     right: 0;
     min-width: 525px;
-    width: 40%;
+    width: 50%;
     max-width: 750px;
     z-index: 10;
+}
+
+@media screen and (max-width: 1400px) {
+    .description {
+        height: calc(100% - 25rem);
+        top: 15rem;
+    }
 }
 
 .filters {
@@ -57,6 +63,6 @@
     height: calc(10% - 5rem);
     margin-top: 5rem;
     font-family: "Red Hat Display", "sans-serif";
-    width: 30%;
+    width: 50%;
     z-index: 10;
 }

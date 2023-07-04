@@ -1,10 +1,10 @@
 import CONSTANTS from "../../../constants";
 
-export const fetchData = async (chatList, setData, setOriginalData, setDataFetched) => {
+export const fetchData = async (chatList, city, setData, setOriginalData, setDataFetched) => {
 
     try {
 
-        const updatedData = await dataSearch(chatList);
+        const updatedData = await dataSearch(chatList, city);
 
         if (updatedData.length > 0) {
             setData(updatedData);
@@ -18,16 +18,22 @@ export const fetchData = async (chatList, setData, setOriginalData, setDataFetch
     }
 };
 
-const dataSearch = async (chatList) => {
+const dataSearch = async (chatList, city) => {
 
     const updatedData = await Promise.all(chatList.map(async (destination) => {
 
         try {
-            const name = destination.name;
 
-            const dataResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/data?destination=${name}`);
+            const dataResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/data?destination=${destination.name}&city=${city}`);
             const dataResult = await dataResponse.json();
+
             let rating, totalRatings, website, hours, address, phoneNumber;
+
+            if (destination.name && dataResult.data.name) {
+                destination.name = dataResult.data.name;
+            } else {
+                return null;
+            }
             if (dataResult.data.rating) {
                 rating = dataResult.data.rating;
             } else {
@@ -47,6 +53,7 @@ const dataSearch = async (chatList) => {
                 hours = dataResult.data.opening_hours.weekday_text;   
             } else {
                 hours = "N/A";
+                console.log(destination.name + " " + hours)
             }
             if (dataResult.data.formatted_address) {
                 address = dataResult.data.formatted_address;
@@ -59,7 +66,7 @@ const dataSearch = async (chatList) => {
                 phoneNumber = "N/A";
             }
 
-            const geometryResponse = await fetch(CONSTANTS.apiURL + `/geolocation/location-by-address?address=${name + ", " + destination.location}`);
+            const geometryResponse = await fetch(CONSTANTS.apiURL + `/geolocation/location-by-address?address=${destination.name + ", " + destination.location}`);
             const geometry = await geometryResponse.json();
             
             return {

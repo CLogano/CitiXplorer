@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Results.module.css";
-import DestinationList from "./DestinationList";
-import Description from "./Description";
+import DestinationList from "./destination list/DestinationList";
+import Description from "./description/Description";
 import FilterList from "./filters/FilterList";
 
 const Results = (props) => {
@@ -22,13 +22,16 @@ const Results = (props) => {
                         amountFilter={props.amountFilter}
                         initialAmount={props.data.length}
                         ratingFilter={props.ratingFilter}
-                        priceFilter={props.priceFilter}
+                        hoursFilter={props.hoursFilter}
+                        resetFilter={props.resetFilter}
                     />
                 </div>
             </div>
-            <div className={classes.description}>
-                <Description destination={props.destination} />
-            </div>
+            {props.destination &&
+                <div className={classes.description}>
+                    <Description destination={props.destination} />
+                </div>
+            }
         </div>
     )
 };
