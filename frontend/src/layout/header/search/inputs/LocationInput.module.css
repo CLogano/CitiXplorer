@@ -27,6 +27,7 @@
     border: none;
     font-family: "Red Hat Display", "sans-serif";
     padding-left: 35px;
+    border: 2px solid white;
 }
 
 .search-inner input::placeholder {
@@ -34,7 +35,7 @@
 }
 
 .search-inner.invalid input {
-    border-color: red;
+    border: 2px solid red;
 }
 
 .dropdown {
@@ -86,6 +87,6 @@
     padding-right: 4px;
 }
 
-.close-mark:hover {
+.close-icon:hover {
     color:lightblue;
 }

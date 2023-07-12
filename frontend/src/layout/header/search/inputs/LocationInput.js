@@ -29,6 +29,10 @@ const LocationInput = (props) => {
         setIsFocused(false);
     }, []);
 
+    const onFocusHandler = useCallback(() => {
+        setIsFocused(true);
+    }, []);
+
     useEffect(() => {
 
         if (!isValid && isFocused && text !== "") {
@@ -47,6 +51,12 @@ const LocationInput = (props) => {
 
     }, [isValid, isFocused, text]);
 
+    const { locationValidity } = props;
+    useEffect(() => {
+        locationValidity(isValid);
+    }, [isValid, locationValidity]);
+
+
     const onClickHandler = useCallback(() => {
 
         if (!touchedOnce) {
@@ -55,6 +65,15 @@ const LocationInput = (props) => {
         setIsFocused(true);
     }, [touchedOnce]);
 
+    // useEffect(() => {
+    //     console.log("touched once: " + touchedOnce);
+    //     console.log("is focused : " + isFocused);
+    //     console.log("is valid: " + isValid);
+    //     console.log("show dropdown: " + showDropDown);
+    //     console.log("");
+        
+    // }, [isFocused, isValid, showDropDown, touchedOnce]);
+
     const selectTerm = (item) => (event) => {
 
         event.preventDefault();
@@ -62,10 +81,12 @@ const LocationInput = (props) => {
         setText(item.name)
         setIsValid(true);
 
+        //IMPLEMENT
+        // props.location({name: item.name, population: item.population});
         props.location(item.name);
     };
 
-    let isInvalid = !isValid && touchedOnce;
+    let isInvalid = !isValid && touchedOnce && !isFocused;
 
     const fetchCities = async (textInput) => {
 
@@ -95,8 +116,7 @@ const LocationInput = (props) => {
     return (
         <div className={classes["search-container"]}>
             <div className={`${classes["search-inner"]}
-                ${isInvalid === true ? classes.invalid : ""
-                }`}>
+                ${isInvalid && classes.invalid}`}>
                 <span class={`material-icons ${classes["location-icon"]}`}>location_on</span>
                 <input
                     type={props.type}
@@ -105,6 +125,7 @@ const LocationInput = (props) => {
                     onClick={onClickHandler}
                     onChange={onChangeHandler}
                     onBlur={onBlurHandler}
+                    onFocus={onFocusHandler}
                     placeholder={props.placeholder}
                     autoComplete="off"
                     ref={locationRef}

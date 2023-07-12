@@ -1,7 +1,7 @@
 import CONSTANTS from "../../../constants";
 import { generateChatPrompt, generateRefinedChatPrompt } from "../../../prompts";
 
-export const getGPTResponse = async (location, setChatList, messages, setMessages, setIsLoading, setDataFetched) => {
+export const getGPTResponse = async (location, chatList, setChatList, messages, setMessages, setIsLoading, setDataFetched) => {
 
     setIsLoading(true);
 
@@ -68,35 +68,44 @@ export const getGPTResponse = async (location, setChatList, messages, setMessage
         content: textInput
     };
 
-    try {
+    let result = {};
 
-        const response = await fetch(CONSTANTS.apiURL + "/gpt", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(textInputJSON),
-        });
+    while (!result.data && !chatList)
+        try {
 
-        const result = await response.json();
-        console.log(result.data);
+            const response = await fetch(CONSTANTS.apiURL + "/gpt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(textInputJSON),
+            });
 
-        const updatedMessages = [
-            ...messages,
-            { role: "user", content: textInput },
-            { role: "assistant", content: result.data }
-        ];
-        setMessages(updatedMessages);
+            result = await response.json();
+            console.log(result.data);
 
-        const resultArray = parsePlaces(result.data, location);
-        //console.log(resultArray);
+            // if (result.data.includes("I'm sorry") || result.data.includes("Apologies") || result.data.includes("sorry") || result.data.includes("Unfortunately")) {
+            //     setChatList("N/A");
+            // }
 
-        setChatList(resultArray);
-        setDataFetched(false);
+            const updatedMessages = [
+                ...messages,
+                { role: "user", content: textInput },
+                { role: "assistant", content: result.data }
+            ];
+            setMessages(updatedMessages);
+        
+            const resultArray = parsePlaces(result.data, location);
+            console.log(resultArray);
+            if (resultArray.length > 0) {
+                setChatList(resultArray);
+            }
 
-    } catch (error) {
-        console.log("Error occurred while calling API:", error);
-    }
+            setDataFetched(false);
+
+        } catch (error) {
+            console.log("Error occurred while calling API:", error);
+        }
 };
 
 export const getRefinedGPTResponse = async (prompt, city, setChatList, setData, messages, setMessages, setIsLoading, setDataFetched) => {
@@ -154,7 +163,7 @@ const getCurrentLocation = () => {
                 const longitude = position.coords.longitude;
 
                 try {
-                    const response = await fetch(CONSTANTS.apiURL + `/geolocation/location?lat=${latitude}&long=${longitude}`);
+                    const response = await fetch(CONSTANTS.apiURL + `/googleMaps/location?lat=${latitude}&long=${longitude}`);
                     const data = await response.json();
                     resolve(data.formatted_address);
 
@@ -176,8 +185,11 @@ const parsePlaces = (str, location) => {
 
     for (let i = 0; i < filteredLines.length; i += 2) {
         
-        const name = filteredLines[i].split(": ")[1];
-        const description = filteredLines[i + 1].split(": ")[1];
+        const name = filteredLines[i].includes("Name:") ? filteredLines[i].split(": ")[1] : null;
+        const description = filteredLines[i + 1].includes("Description:") ? filteredLines[i + 1].split(": ")[1] : null;
+        if (!name || !description) {
+            break;
+        }
         const place = { name: name, description: description, location: location};
         places.push(place);
     }

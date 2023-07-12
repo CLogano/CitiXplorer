@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import Marker from './Marker';
 import CONSTANTS from '../../../constants';
@@ -8,9 +8,10 @@ const containerStyle = {
   height: '100%'
 };
 
-const MapComponent = (props) => {
+const MapComponent = React.forwardRef((props, ref) => {
 
   const [map, setMap] = useState(null);
+  const [forceUpdate, setForceUpdate] = useState(false);
   const mapRef = useRef(null);
 
   const devApiKey = "AIzaSyCj4i7ATOdumVfn3eDuiIbMdzzTxoP2EBE";
@@ -27,20 +28,28 @@ const MapComponent = (props) => {
     if (destination && mapRef.current) {
       mapRef.current.panTo(destination.geometry);
 
-      if (mapRef.current.getZoom() < 14) {
-        mapRef.current.setZoom(14);
+      if (mapRef.current.getZoom() < 13) {
+        mapRef.current.setZoom(13);
       }
     }
 
   }, [data, onSelectedDestination]);
+
+  const forceMapUpdate = () => {
+    setForceUpdate(!forceUpdate);
+  };
+
+  useImperativeHandle(ref, () => ({
+    forceMapUpdate,
+  }));
 
   useEffect(() => {
 
     if (destination && mapRef.current) {
         mapRef.current.panTo(destination.geometry);
 
-        if (mapRef.current.getZoom() < 14) {
-            mapRef.current.setZoom(14);
+        if (mapRef.current.getZoom() < 13) {
+            mapRef.current.setZoom(13);
         }
     }
 
@@ -50,11 +59,12 @@ const MapComponent = (props) => {
     const fetchLocation = async () => {
       try {
         const response = await fetch(
-          CONSTANTS.apiURL + `/geolocation/location-by-address?address=${props.address}`
+          CONSTANTS.apiURL + `/googleMaps/location-by-address?address=${props.address}`
         );
         const data = await response.json();
         if (map) {
           map.setCenter(data);
+          map.setZoom(10);
         }
       } catch (error) {
         console.error(error);
@@ -66,7 +76,7 @@ const MapComponent = (props) => {
     if (props.address && map) {
       fetchLocation();
     }
-  }, [props.address, map]);
+  }, [props.address, map, forceUpdate]);
 
   //Pan & zoom to first destination when data is fetched
   useEffect(() => {
@@ -74,7 +84,7 @@ const MapComponent = (props) => {
     if (data && data.length > 0 && mapRef.current) {
 
         mapRef.current.panTo(data[0].geometry);
-        mapRef.current.setZoom(15);
+        mapRef.current.setZoom(12);
     }
   }, [data]);
 
@@ -120,13 +130,13 @@ const MapComponent = (props) => {
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={props.address ? null : { lat: 0, lng: 0 }}
-          zoom={10}
+          zoom={4}
           onLoad={onLoad}
           options={options}
         >
           {data && data.map((d) => (
             <Marker
-              key={d.name}
+              key={`${d.name}-${d.address}`}
               id={d.name}
               name={d.name}
               description={d.description}
@@ -140,6 +150,6 @@ const MapComponent = (props) => {
       </LoadScript>
     </React.Fragment>
   );
-};
+});
 
 export default MapComponent;

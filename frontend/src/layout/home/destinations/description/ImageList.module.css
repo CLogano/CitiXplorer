@@ -1,5 +1,5 @@
 .container {
-    width: 90%;
+    width: 100%;
     height: auto;
     display: flex;
     justify-content: center;
@@ -7,11 +7,14 @@
     margin: 0.5rem;
 }
 
-.ul, .loading {
+.ul {
     padding: 0;
-    height: 100%;
+    height: auto;
     width: 100%;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ul, .li {
@@ -32,8 +35,9 @@
 }
 
 .empty {
-    color: rgb(147, 136, 175);
+    color: royalblue;
     animation: pop-in 0.1s ease-out forwards;
+    cursor: default;
 }
 
 .nonempty {

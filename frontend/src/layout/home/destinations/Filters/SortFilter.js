@@ -12,6 +12,7 @@ const SortFilter = (props) => {
         <select className={classes.container} onChange={onChangeHandler} value={props.value}>
             <option className={classes.option} value="">Sort by</option>
             <option className={classes.option} value="Alphabetical Order">A - Z</option>
+            <option className={classes.option} value="Popularity">Popularity</option>
             <option className={classes.option} value="Rating">Rating</option>
         </select>
     )

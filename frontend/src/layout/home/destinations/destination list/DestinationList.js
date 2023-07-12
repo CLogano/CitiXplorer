@@ -23,7 +23,7 @@ const DestinationList = (props) => {
         return (
             <Destination
                 ref={refs[destination.name]}
-                key={destination.name}
+                key={`${destination.name}-${destination.address}`}
                 id={destination.name}
                 name={destination.name}
                 description={destination.description}

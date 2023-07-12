@@ -6,32 +6,39 @@ import classes from "./Search.module.css";
 const Search = (props) => {
 
     const [formIsValid, setFormIsValid] = useState(false);
-    const [location, setLocation] = useState(null);
+    const [locationValidity, setLocationValidity] = useState(null);
+    const [city, setCity] = useState(null);
     // const [prompt, setPrompt] = useState(null);
 
     useEffect(() => {
         const identifier = setTimeout(() => {
             //setFormIsValid(location && prompt);
-            setFormIsValid(location);
+            setFormIsValid(city && locationValidity);
         }, 500);
             
         return () => {
             clearTimeout(identifier);
         };
     //}, [location, prompt]);
-    }, [location]);
+    }, [city, locationValidity]);
 
      const onSubmitHandler = (event) => {
         event.preventDefault();
         if (formIsValid) {
             // props.search(prompt, location);
-            props.search(location);
+            props.search(city);
         }
     };
 
     const locationHandler = (location) => {
-        setLocation(location);
+        
+        setCity(location);
         props.city(location);
+        
+    };
+
+    const locationValidityHandler = (isValid) => {
+        setLocationValidity(isValid);
     };
 
     // const promptHandler = (prompt) => {
@@ -45,6 +52,7 @@ const Search = (props) => {
                 type="text"
                 placeholder="New York City, NY, United States"
                 location={locationHandler}
+                locationValidity={locationValidityHandler}
             />
             {/* <PromptInput
                 id="Prompt"

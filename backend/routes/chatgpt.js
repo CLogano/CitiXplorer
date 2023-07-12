@@ -37,7 +37,7 @@ router.post("/", jsonParser, async (req, res) => {
         // console.log(content);
         const response = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: content}]
+            messages: [{ role: "user", content: content}],
         });
         return res.status(200).json({
             success: true,

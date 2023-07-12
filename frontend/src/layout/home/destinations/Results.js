@@ -6,6 +6,10 @@ import FilterList from "./filters/FilterList";
 
 const Results = (props) => {
 
+    const deselectHandler = () => {
+        props.onSelectedDestination(null);
+    };
+
     return (
         <div className={classes.container}>
             <div className={classes["inner-container"]}>
@@ -29,7 +33,10 @@ const Results = (props) => {
             </div>
             {props.destination &&
                 <div className={classes.description}>
-                    <Description destination={props.destination} />
+                    <Description
+                        destination={props.destination}
+                        deselect={deselectHandler}
+                    />
                 </div>
             }
         </div>

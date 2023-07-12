@@ -15,6 +15,9 @@ export const getFilteredHours = (hourData, data) => {
                     if (rest === "Closed") {
                         continue;
                     }
+                    if (rest === "Open 24 hours") {
+                        return true;
+                    }
                     const timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)\b/gi;
                     const times = destination.hours[i].match(timePattern);
                     const militaryTimes = [];
@@ -64,6 +67,9 @@ export const getFilteredHours = (hourData, data) => {
                     const rest = destination.hours[i].split(":")[1].trim();
                     if (rest === "Closed") {
                         return false;
+                    }
+                    if (rest === "Open 24 hours") {
+                        return true;
                     }
 
                     const timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)\b/gi;
@@ -128,7 +134,15 @@ export const getSortedData = (type, data) => {
             const updatedData = [...data];
             updatedData.sort((a, b) => b.rating - a.rating);
             return updatedData;
-        }   
+        }  
+        
+        if (type === "Popularity") {
+
+            const updatedData = [...data];
+            updatedData.sort((a, b) => b.totalRatings - a.totalRatings);
+            return updatedData;
+        }  
+
         if (type === "Alphabetical Order") {
 
             const updatedData = [...data];

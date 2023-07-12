@@ -1,8 +1,9 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import classes from "./Home.module.css";
 import MapComponent from "./map/MapComponent";
 import Header from "../header/Header";
-import { getGPTResponse, getRefinedGPTResponse } from "./helpers/getGPTResponse";
+import Modal from "../../UI/Modal";
+import { getGPTResponse } from "./helpers/getGPTResponse";
 import SkeletonLoader from "../../UI/SkeletonLoader";
 import { fetchData } from "./helpers/getData";
 import { getFilteredHours, getFilteredRatings, getSortedData } from "./helpers/getFilteredData";
@@ -11,25 +12,27 @@ import Results from "./destinations/Results";
 
 const Home = () => {
 
-    const [chatList, setChatList] = useState(null);
+    const [chatList, setChatList] = useState([]);
     const [messages, setMessages] = useState([]);
     const [dataFetched, setDataFetched] = useState(false);
     const [originalData, setOriginalData] = useState(null);
     const [data, setData] = useState(null);
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const [filterCriteria, setFilterCriteria] = useState({sort: null, rating: null, hours: null});
     const [isLoading, setIsLoading] = useState(null);
-    const [city, setCity] = useState("New York City, NY, United States");
+    const [city, setCity] = useState(null);
     const [destination, setDestination] = useState(null);
-    
-    
+    const mapUpdateRef = useRef();
 
     //Search for results from gpt given prompt and location
     // const searchHandler = async (prompt, location) => {
     //     await getGPTResponse(prompt, location, setChatList, messages, setMessages, setIsLoading, setDataFetched);
     // };
 
-    const searchHandler = async (location) => {
-        await getGPTResponse(location, setChatList, messages, setMessages, setIsLoading, setDataFetched);
+    const searchHandler = async () => {
+        setChatList(null);
+        setData(null);
+        setDataFetched(false);
     };
 
     // const refinedSearchHandler = async (prompt) => {
@@ -42,19 +45,38 @@ const Home = () => {
         
         const getData = async () => {
 
-            if (chatList && chatList.length > 0 && !dataFetched) {
+            if (chatList && Array.isArray(chatList) && chatList.length > 0 && !dataFetched) {
 
                 setDestination(null);
                 await fetchData(chatList, city, setData, setOriginalData, setDataFetched);
 
+            } else if (chatList === "N/A") {
+                // setShowErrorModal(true);
+                // setIsLoading(false);
             } else if (dataFetched) {
-                setDestination(originalData[0]);
+
+                if (originalData) {
+                    setDestination(originalData[0]);
+                } else {
+                    setShowErrorModal(true);
+                }
                 setIsLoading(false);
             }
         };
         getData();
         
-    }, [chatList, city, dataFetched, originalData]);
+    }, [chatList, dataFetched, originalData]);
+
+    useEffect(() => {
+
+        async function fetchGPTResponse() {
+            await getGPTResponse(city, chatList, setChatList, messages, setMessages, setIsLoading, setDataFetched);
+        }
+        if (!chatList) {
+            fetchGPTResponse();
+        }
+        
+    }, [city, chatList, messages])
     
 
     const onSelectedDestination = (destination) => {
@@ -63,6 +85,11 @@ const Home = () => {
 
     const cityHandler = (city) => {
         setCity(city);
+        mapUpdateRef.current.forceMapUpdate();
+    };
+
+    const closeModalHandler = () => {
+        setShowErrorModal(false);
     };
 
     // const amountFilterHandler = (value) => {
@@ -98,31 +125,35 @@ const Home = () => {
 
     useEffect(() => {
 
-        if (!filterCriteria.sort && !filterCriteria.rating && !filterCriteria.hours) {
-            setData(originalData);
-        } else {
+        if (originalData) {
 
-            let updatedData = [...originalData];
-            
-            //Filter ratings
-            if (filterCriteria.rating) {
-                updatedData =  getFilteredRatings(filterCriteria.rating, updatedData);
-            } 
-            //Filter hours
-            if (filterCriteria.hours) {
-                updatedData = getFilteredHours(filterCriteria.hours, updatedData);
+            if (!filterCriteria.sort && !filterCriteria.rating && !filterCriteria.hours) {
+                setData(originalData);
+            } else {
+    
+                let updatedData = [...originalData];
+                
+                //Filter ratings
+                if (filterCriteria.rating) {
+                    updatedData =  getFilteredRatings(filterCriteria.rating, updatedData);
+                } 
+                //Filter hours
+                if (filterCriteria.hours) {
+                    updatedData = getFilteredHours(filterCriteria.hours, updatedData);
+                }
+                //Sort at end
+                if (filterCriteria.sort) {
+                    updatedData = getSortedData(filterCriteria.sort, updatedData);
+                }
+    
+                setData(updatedData);
             }
-            //Sort at end
-            if (filterCriteria.sort) {
-                updatedData = getSortedData(filterCriteria.sort, updatedData);
-            }
-
-            setData(updatedData);
         }
+        
     }, [filterCriteria, originalData])
 
     useEffect(() => {
-        if (data && !data.includes(destination)) {
+        if (destination && data && !data.includes(destination)) {
             setDestination(data[0]);
         } else if (!data) {
             setDestination(null);
@@ -131,9 +162,19 @@ const Home = () => {
 
     return (
         <Fragment>
-            <Header search={searchHandler} city={cityHandler}/>
+            <Header search={searchHandler} city={cityHandler} />
+            {showErrorModal && <Modal onClose={closeModalHandler}>
+                <div className={classes["error-outer-container"]}>
+                    <div className={classes["error-inner-container"]}>
+                        <span class={`material-symbols-rounded ${classes["error-icon"]}`}>sentiment_dissatisfied</span>
+                        <h1>Oops!</h1>
+                    </div>
+                    <p className={classes["error-message"]}>{`No results found for ${city}. Please try again or enter another city.`}</p>
+                </div>
+            </Modal>}
             <div className={classes.dashboard}>
                 <MapComponent
+                    ref={mapUpdateRef}
                     address={city}
                     data={data}
                     destination={destination}
@@ -141,7 +182,7 @@ const Home = () => {
                 />
                 {isLoading ?
                     <SkeletonLoader /> :
-                    ((isLoading !== null) &&
+                    ((isLoading !== null && data) &&
                         <div>
                             <Results
                                 data={data}

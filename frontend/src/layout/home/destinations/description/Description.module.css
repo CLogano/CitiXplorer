@@ -1,8 +1,8 @@
 .container {
     position: relative;
     height: 100%;
-    margin-right: 2rem;
-    padding: 1.5rem;
+    margin-right: 1rem;
+    padding: 3rem;
     border: 3px solid white;
     border-radius: 50px;
     background-color: rgb(50, 19, 122);
@@ -15,9 +15,37 @@
     box-sizing: border-box;
 }
 
-.inner-container-1 {
+/* .close-container {
+    align-self: flex-end;
+    cursor: pointer;
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 30px;
+    border-radius: 30px;
+    margin: 0.5rem;
+    border: none;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+} */
+
+.close-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.close-icon:hover {
+    color: lightblue;
+}
+
+.inner-container-1 {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 100%;
@@ -27,7 +55,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    align-items: center;
+    width: calc(50% - 1rem);
     height: 100%;
 }
 
@@ -35,16 +64,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.inner-container-4 {
-    display: flex;
-    justify-content: flex-start;
     align-items: center;
     width: 100%;
-    height: 100%;
 }
 
 .description {
@@ -59,28 +80,29 @@
 
 .card {
     margin: 0.5rem;
-    max-width: 100%;
-    min-width: 0;
+    width: 100%;
     background-color: cornflowerblue;
     border-radius: 20px;
-    padding: 0.5rem;
+    padding: 0.25rem;
     flex-grow: 1;
     display: flex;
     align-content: center;
     justify-content: center;
+    border: 3px solid royalblue;
 }
 
 .name-container {
     margin: 0.5rem;
-    max-width: 100%;
-    min-width: 0;
+    margin-top: 1rem;
+    width: 100%;
     min-height: 75px;
     background-color: cornflowerblue;
     border-radius: 20px;
-    padding: 0.5rem;
+    padding: 0.25rem;
     display: flex;
     align-content: center;
     justify-content: center;
+    border: 3px solid royalblue;
 }
 
 .name {
@@ -94,10 +116,54 @@
     align-self: center;
     padding-top: 5px;
     min-width: 300px;
+    flex-grow: 1;
+}
+
+.stars {
+    margin: 0 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.outer-star {
+    color: white;
+    font-size: 30px;
+    margin: 0;
+    position: relative;
+}
+
+@media screen and (max-width: 1300px) {
+    .stars {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .outer-star {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .inner-star {
+        font-size: 18px;
+    }
+}
+
+.inner-star {
+    color: cornflowerblue;
+    font-size: 24;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .section {
     width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,6 +191,12 @@
 .rating {
     font-size: calc(.5vw + 1vh);
     text-align: center;
+    
+}
+
+.total-ratings {
+    font-size: calc(.5vw + .5vh);
+    text-align: center;
 }
 
 .location-icon {
@@ -140,7 +212,15 @@
 .link {
     text-decoration: none;
     color: white;
-    font-size: calc(.5vw + 0.25vh)
+    font-size: calc(.5vw + 0.25vh);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.address {
+    color: white;
+    font-size: calc(.5vw + 0.25vh);
 }
 
 .link:hover {
@@ -171,7 +251,7 @@
 }
 
 .more-button {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     cursor: pointer;
     color: royalblue;
