@@ -90,3 +90,84 @@
 .close-icon:hover {
     color:lightblue;
 }
+
+.tooltip {
+    position: absolute;
+    left: 50%;  
+    bottom: 100%; 
+    width: 65%;
+    height: 125%;
+    transform: translate(-50%, 175%);
+    font-family: "Red Hat Display", "sans-serif";
+    text-align: center;
+    background-color: rgb(105, 105, 105);
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1vw;
+    z-index: 99999999;
+    border: none;
+    pointer-events: none;
+}
+
+.visible {
+    animation: fade-in 0.5s ease-in forwards, drop-down 0.25s ease-in-out forwards;
+    
+}
+
+.invisible {
+    animation: fade-out 0.5s ease-in forwards, drop-up 0.25s ease-in-out forwards;
+    
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.425;
+    }
+    100% {
+        opacity: 0.85;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 0.85;
+    }
+    50% {
+        opacity: 0.425;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes drop-down {
+    0% {
+      transform: translate(-50%, 175%);
+    }
+    50% {
+      transform: translate(-50%, 200%);
+    }
+    100% {
+      transform: translate(-50%, 225%);
+    }
+}
+
+@keyframes drop-up {
+    0% {
+      transform: translate(-50%, 225%);
+    }
+    50% {
+      transform: translate(-50%, 200%);
+    }
+    100% {
+      transform: translate(-50%, 175%);
+    }
+}

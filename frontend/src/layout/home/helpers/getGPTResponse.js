@@ -1,16 +1,16 @@
 import CONSTANTS from "../../../constants";
 import { generateChatPrompt, generateRefinedChatPrompt } from "../../../prompts";
 
-export const getGPTResponse = async (location, chatList, setChatList, messages, setMessages, setIsLoading, setDataFetched) => {
+export const getGPTResponse = async (city, chatList, setChatList, messages, setMessages, setIsLoading, setDataFetched) => {
 
     setIsLoading(true);
 
     //Gather user's current location if selected
-    if (location === "Your Location") {
-        location = await getCurrentLocation();
-    }
+    // if (city === "Your Location") {
+    //     city = await getCurrentLocation();
+    // }
 
-    console.log("Location: " + location);
+    console.log("City: " + city.name);
     //console.log("Prompt: " + prompt);
 
 
@@ -62,15 +62,16 @@ export const getGPTResponse = async (location, chatList, setChatList, messages, 
 
 
     //Generate prompt for ChatGPT API
-    const textInput = generateChatPrompt(location);
+    const textInput = generateChatPrompt(city.name);
 
     const textInputJSON = {
         content: textInput
     };
 
     let result = {};
+    let numTries = 0;
+    while (!result.data && !chatList && numTries < 5) {
 
-    while (!result.data && !chatList)
         try {
 
             const response = await fetch(CONSTANTS.apiURL + "/gpt", {
@@ -95,7 +96,7 @@ export const getGPTResponse = async (location, chatList, setChatList, messages, 
             ];
             setMessages(updatedMessages);
         
-            const resultArray = parsePlaces(result.data, location);
+            const resultArray = parsePlaces(result.data, city.name);
             console.log(resultArray);
             if (resultArray.length > 0) {
                 setChatList(resultArray);
@@ -106,14 +107,13 @@ export const getGPTResponse = async (location, chatList, setChatList, messages, 
         } catch (error) {
             console.log("Error occurred while calling API:", error);
         }
+        numTries++;
+    }
 };
 
-export const getRefinedGPTResponse = async (prompt, city, setChatList, setData, messages, setMessages, setIsLoading, setDataFetched) => {
+export const getRefinedGPTResponse = async (city, messages, setMessages) => {
 
-    setIsLoading(true);
-    setData(null);
-
-    const textInput = generateRefinedChatPrompt(prompt);
+    const textInput = generateRefinedChatPrompt;
     let updatedMessages = [
         ...messages,
         { role: "user", content: textInput },
@@ -142,40 +142,39 @@ export const getRefinedGPTResponse = async (prompt, city, setChatList, setData, 
         ];
         setMessages(updatedMessages);
 
-        const resultArray = parsePlaces(result.data, city);
+        const resultArray = parsePlaces(result.data, city.name);
 
-        setChatList(resultArray);
-        setDataFetched(false);
+        return resultArray;
 
     } catch (error) {
         console.log("Error occurred while calling API:", error);
     }
 }
 
-const getCurrentLocation = () => {
+// const getCurrentLocation = () => {
 
-    return new Promise((resolve, reject) => {
+//     return new Promise((resolve, reject) => {
 
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(async position => {
+//         if ("geolocation" in navigator) {
+//             navigator.geolocation.getCurrentPosition(async position => {
 
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+//                 const latitude = position.coords.latitude;
+//                 const longitude = position.coords.longitude;
 
-                try {
-                    const response = await fetch(CONSTANTS.apiURL + `/googleMaps/location?lat=${latitude}&long=${longitude}`);
-                    const data = await response.json();
-                    resolve(data.formatted_address);
+//                 try {
+//                     const response = await fetch(CONSTANTS.apiURL + `/googleMaps/location?lat=${latitude}&long=${longitude}`);
+//                     const data = await response.json();
+//                     resolve(data.formatted_address);
 
-                } catch (error) {
-                    reject(error);
-                }
-            })
-        } else {
-            reject("This browser does not support Geolocation.");
-        }
-    })  
-};
+//                 } catch (error) {
+//                     reject(error);
+//                 }
+//             })
+//         } else {
+//             reject("This browser does not support Geolocation.");
+//         }
+//     })  
+// };
 
 const parsePlaces = (str, location) => {
 

@@ -18,8 +18,26 @@ export const getFilteredHours = (hourData, data) => {
                     if (rest === "Open 24 hours") {
                         return true;
                     }
-                    const timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)\b/gi;
-                    const times = destination.hours[i].match(timePattern);
+
+                    let timePattern, intervals;
+                    if (destination.hours[i].includes(",")) {
+                        timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)?\b/gi;
+                        intervals = destination.hours[i].split(",");
+                    } else {
+                        timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)\b/gi;
+                        intervals = [destination.hours[i]];
+                    }
+                    
+                    const times = [];
+                    for (let interval of intervals) {
+                        let intervalTimes = interval.match(timePattern);
+                        if (intervalTimes.length === 2 && !(intervalTimes[0].includes('AM') || intervalTimes[0].includes('PM'))) {
+                            let amOrPm = intervalTimes[1].match(/(?:AM|PM)/gi)[0];
+                            intervalTimes[0] = intervalTimes[0] + " " + amOrPm;
+                        }
+                        times.push(...intervalTimes);
+                    }
+                    
                     const militaryTimes = [];
 
                     for (let j = 0; j < times.length; j++) {
@@ -50,9 +68,16 @@ export const getFilteredHours = (hourData, data) => {
                         militaryTimes.push(militaryTime);
                     }
 
-                    if (militaryTimes[0] >= hourData.hours[0] && militaryTimes[1] <= hourData.hours[1]) {
-                        return true;
-                    }     
+                    if (militaryTimes.length === 2) {
+                        if (militaryTimes[0] >= hourData.hours[0] && militaryTimes[1] <= hourData.hours[1]) {
+                            return true;
+                        }
+                    } else if (militaryTimes.length === 4) {
+                        if ((militaryTimes[0] >= hourData.hours[0] && militaryTimes[1] <= hourData.hours[1]) ||
+                            (militaryTimes[2] >= hourData.hours[0] && militaryTimes[3] <= hourData.hours[1])) {
+                            return true;
+                        }
+                    }    
                 }
             } else {
                 for (let i = 0; i < destination.hours.length; i++) {
@@ -65,6 +90,7 @@ export const getFilteredHours = (hourData, data) => {
                     }
 
                     const rest = destination.hours[i].split(":")[1].trim();
+                    console.log(rest);
                     if (rest === "Closed") {
                         return false;
                     }
@@ -72,8 +98,25 @@ export const getFilteredHours = (hourData, data) => {
                         return true;
                     }
 
-                    const timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)\b/gi;
-                    const times = destination.hours[i].match(timePattern);
+                    let timePattern, intervals;
+                    if (destination.hours[i].includes(",")) {
+                        timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)?\b/gi;
+                        intervals = destination.hours[i].split(",");
+                    } else {
+                        timePattern = /\b(?:1[0-2]|0?[1-9]):[0-5][0-9]\s?(?:AM|PM)\b/gi;
+                        intervals = [destination.hours[i]];
+                    }
+                    
+                    const times = [];
+                    for (let interval of intervals) {
+                        let intervalTimes = interval.match(timePattern);
+                        if (intervalTimes.length === 2 && !(intervalTimes[0].includes('AM') || intervalTimes[0].includes('PM'))) {
+                            let amOrPm = intervalTimes[1].match(/(?:AM|PM)/gi)[0];
+                            intervalTimes[0] = intervalTimes[0] + " " + amOrPm;
+                        }
+                        times.push(...intervalTimes);
+                    }
+
                     const militaryTimes = [];
 
                     for (let j = 0; j < times.length; j++) {
@@ -104,8 +147,15 @@ export const getFilteredHours = (hourData, data) => {
                         militaryTimes.push(militaryTime);
                     }
 
-                    if (militaryTimes[0] >= hourData.hours[0] && militaryTimes[1] <= hourData.hours[1]) {
-                        return true;
+                    if (militaryTimes.length === 2) {
+                        if (militaryTimes[0] >= hourData.hours[0] && militaryTimes[1] <= hourData.hours[1]) {
+                            return true;
+                        }
+                    } else if (militaryTimes.length === 4) {
+                        if ((militaryTimes[0] >= hourData.hours[0] && militaryTimes[1] <= hourData.hours[1]) ||
+                            (militaryTimes[2] >= hourData.hours[0] && militaryTimes[3] <= hourData.hours[1])) {
+                            return true;
+                        }
                     }
                 }
             }

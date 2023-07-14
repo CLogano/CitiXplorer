@@ -5,10 +5,13 @@ export function generateChatPrompt(location) {
     "Your answers should be in the following format: 'Name: <Name of Place>\nDescription: <Description of Place>.' Here is the inputted city you must answer for: '" + location + "'.";
 }
 
-export function generateRefinedChatPrompt(prompt) {
+export const generateRefinedChatPrompt = "Please provide me with five more historical attractions. Please answer in the same format as before.";
 
-    return "The answer you provided me is insufficient. Here are more details: '" + prompt + "'. Please retry the search with this information.";
-}
+
+// export function generateRefinedChatPrompt(prompt) {
+
+//     return "The answer you provided me is insufficient. Here are more details: '" + prompt + "'. Please retry the search with this information.";
+// }
 
 export function generateDestinationDetailPrompt(destinationName, location) {
 

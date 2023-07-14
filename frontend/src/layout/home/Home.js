@@ -32,6 +32,7 @@ const Home = () => {
     const searchHandler = async () => {
         setChatList(null);
         setData(null);
+        setMessages([]);
         setDataFetched(false);
     };
 
@@ -48,7 +49,7 @@ const Home = () => {
             if (chatList && Array.isArray(chatList) && chatList.length > 0 && !dataFetched) {
 
                 setDestination(null);
-                await fetchData(chatList, city, setData, setOriginalData, setDataFetched);
+                await fetchData(chatList, city, setData, setOriginalData, setDataFetched, messages, setMessages);
 
             } else if (chatList === "N/A") {
                 // setShowErrorModal(true);
@@ -169,7 +170,7 @@ const Home = () => {
                         <span class={`material-symbols-rounded ${classes["error-icon"]}`}>sentiment_dissatisfied</span>
                         <h1>Oops!</h1>
                     </div>
-                    <p className={classes["error-message"]}>{`No results found for ${city}. Please try again or enter another city.`}</p>
+                    <p className={classes["error-message"]}>{`No results found for ${city.name}. Please try again or enter another city.`}</p>
                 </div>
             </Modal>}
             <div className={classes.dashboard}>

@@ -59,7 +59,7 @@ const MapComponent = React.forwardRef((props, ref) => {
     const fetchLocation = async () => {
       try {
         const response = await fetch(
-          CONSTANTS.apiURL + `/googleMaps/location-by-address?address=${props.address}`
+          CONSTANTS.apiURL + `/googleMaps/location-by-address?address=${props.address.name}`
         );
         const data = await response.json();
         if (map) {
@@ -71,9 +71,9 @@ const MapComponent = React.forwardRef((props, ref) => {
       }
     };
 
-    console.log("ADDRESS: " + props.address)
 
     if (props.address && map) {
+      console.log("ADDRESS: " + props.address.name)
       fetchLocation();
     }
   }, [props.address, map, forceUpdate]);

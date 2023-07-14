@@ -9,6 +9,7 @@ const Description = (props) => {
 
 
     const [showModal, setShowModal] = useState(false);
+    const [lockedInPlace, setLockedInPlace] = useState(false);
 
     // const saveDestinationHandler = () => {
 
@@ -21,6 +22,10 @@ const Description = (props) => {
     const closeModalHandler = () => {
         setShowModal(false);
     }
+
+    const lockHandler = () => {
+        setLockedInPlace(!lockedInPlace);
+    };
 
     const nameRef = useRef(null);
 
@@ -66,13 +71,13 @@ const Description = (props) => {
         {[...Array(5)].map((_, index) => {
 
             if (index < filledStars) {
-                return <span class={`material-icons ${classes["outer-star"]}`}>star</span>
+                return <span key={index} class={`material-icons ${classes["outer-star"]}`}>star</span>
             } else if (index === filledStars && unfilledStars > 0) {
-                return (<span class={`material-icons ${classes["outer-star"]}`}>star
+                return (<span key={index} class={`material-icons ${classes["outer-star"]}`}>star
                     <span class={`material-icons ${classes["inner-star"]}`} style={{clipPath}}>star</span>
                 </span>);
             } else if (index > filledStars) {
-                return (<span class={`material-icons ${classes["outer-star"]}`}>star
+                return (<span key={index} class={`material-icons ${classes["outer-star"]}`}>star
                     <span class={`material-icons ${classes["inner-star"]}`}>star</span>
                 </span>);
             }
@@ -91,17 +96,21 @@ const Description = (props) => {
         })
     }
 
-    const deselectDestinationHandler = () => {
-        props.deselect();
-    };
+    // const deselectDestinationHandler = () => {
+    //     props.deselect();
+    // };
 
     return (
-        <div className={classes.container}>
+        <div className={`${classes.container} ${lockedInPlace ? classes.locked : ""}`}>
             {/* <button className={classes["save-button"]} onClick={saveDestinationHandler}>Save</button> */}
             {showModal && <Modal onClose={closeModalHandler}>
                 <Details destination={destination} />
             </Modal>}
-            <span class={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deselectDestinationHandler}>close</span>
+            <span class={`material-symbols-rounded ${classes["lock-icon"]} ${lockedInPlace ? classes["lock-icon-locked"] : classes["locked-icon-unlocked"]}`} onClick={lockHandler}>{`${lockedInPlace ? "lock" : "lock_open"}`}</span>
+            <span class={`material-symbols-rounded ${classes.arrow}`}>
+                arrow_drop_up
+            </span>
+            {/* <span class={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deselectDestinationHandler}>close</span> */}
             <Card className={classes["name-container"]}>
                 <div ref={nameRef} className={classes.name}>{destination.name}</div>
             </Card>

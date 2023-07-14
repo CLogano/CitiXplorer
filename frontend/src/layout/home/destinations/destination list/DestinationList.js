@@ -21,17 +21,18 @@ const DestinationList = (props) => {
     const destinationList = props.destinations.map((destination) => {
         
         return (
-            <Destination
-                ref={refs[destination.name]}
-                key={`${destination.name}-${destination.address}`}
-                id={destination.name}
-                name={destination.name}
-                description={destination.description}
-                rating={destination.rating}
-                onSelected={onSelectedHandler}
-                selected={props.selected && destination.name === props.selected.name ? true : false}
-            />);
-    });
+                <Destination
+                    ref={refs[destination.name]}
+                    key={`${destination.name}-${destination.address}`}
+                    id={destination.name}
+                    name={destination.name}
+                    description={destination.description}
+                    rating={destination.rating}
+                    onSelected={onSelectedHandler}
+                    selected={props.selected && destination.name === props.selected.name ? true : false}
+                />   
+            );
+        });
 
     function onSelectedHandler(id) {
         const destination = props.destinations.find(destination => {

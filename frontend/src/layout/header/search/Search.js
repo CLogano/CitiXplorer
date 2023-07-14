@@ -32,7 +32,7 @@ const Search = (props) => {
 
     const locationHandler = (location) => {
         
-        setCity(location);
+        setCity(location.name);
         props.city(location);
         
     };

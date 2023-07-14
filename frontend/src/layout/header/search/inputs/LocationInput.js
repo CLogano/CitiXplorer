@@ -10,7 +10,10 @@ const LocationInput = (props) => {
     const [isValid, setIsValid] = useState(null);
     const [showDropDown, setShowDropDown] = useState(false);
     const [citySuggestions, setCitySuggestions] = useState([]);
+    const [tooltipVisible, setTooltipVisible] = useState(false);
+    const tooltipTimerRef = useRef(null);
     const locationRef = useRef(null);
+    const message = "Please select from the list of places.";
 
 
     const onChangeHandler = useCallback((event) => {
@@ -27,11 +30,19 @@ const LocationInput = (props) => {
 
     const onBlurHandler = useCallback(() => {
         setIsFocused(false);
+        if (tooltipTimerRef.current) {
+            clearTimeout(tooltipTimerRef.current);
+        }
+        tooltipTimerRef.current = setTimeout(() => {
+            setTooltipVisible(true);
+        }, 500);
+        
     }, []);
 
     const onFocusHandler = useCallback(() => {
         setIsFocused(true);
-    }, []);
+        clearTimeout(tooltipTimerRef.current);
+      }, []);
 
     useEffect(() => {
 
@@ -74,6 +85,18 @@ const LocationInput = (props) => {
         
     // }, [isFocused, isValid, showDropDown, touchedOnce]);
 
+    useEffect(() => {
+
+        if (tooltipVisible) {
+            const timeoutId = setTimeout(() => {
+                setTooltipVisible(false);
+              }, 5000);
+              return () => {
+                clearTimeout(timeoutId);
+              };
+        }
+    }, [tooltipVisible]);
+
     const selectTerm = (item) => (event) => {
 
         event.preventDefault();
@@ -81,9 +104,9 @@ const LocationInput = (props) => {
         setText(item.name)
         setIsValid(true);
 
-        //IMPLEMENT
-        // props.location({name: item.name, population: item.population});
-        props.location(item.name);
+        
+        props.location({name: item.name, population: item.population});
+       
     };
 
     let isInvalid = !isValid && touchedOnce && !isFocused;
@@ -131,8 +154,11 @@ const LocationInput = (props) => {
                     ref={locationRef}
                 />
                 <span class={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deleteInput}>close</span>
+                {isInvalid && !showDropDown && (
+                    <div className={`${classes.tooltip} ${tooltipVisible ? classes.visible : ""}`}>{message}</div>
+                )}
             </div>
-            {showDropDown && (
+            {!isInvalid && showDropDown && (
                 <div className={classes.dropdown}>
                     {citySuggestions
                         .slice(0, 10)
@@ -146,6 +172,7 @@ const LocationInput = (props) => {
                         ))}
                 </div>
             )}
+            
         </div>
     );
 };

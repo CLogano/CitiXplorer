@@ -1,18 +1,38 @@
 .container {
     position: relative;
     height: 100%;
-    margin-right: 1rem;
     padding: 3rem;
     border: 3px solid white;
-    border-radius: 50px;
+    border-right: none;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
     background-color: rgb(50, 19, 122);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     color: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
+    transform: translateX(93%);  
+    transition: transform 0.5s ease-in-out;
+    pointer-events: auto;
+}
+
+.locked {
+    transform: translateX(0)
+}
+
+.locked .arrow {
+    transform: rotate(90deg) translateX(-50%);
+}
+
+.container:hover {
+    transform: translateX(0);
+}
+
+.container:hover .arrow {
+    transform: rotate(90deg) translateX(-50%);
 }
 
 /* .close-container {
@@ -30,7 +50,17 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 } */
 
-.close-icon {
+.arrow {
+    color: white;
+    font-size: 48px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    user-select: none;
+    transform: rotate(-90deg) translateX(50%);
+}
+
+/* .close-icon {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -41,6 +71,23 @@
 
 .close-icon:hover {
     color: lightblue;
+} */
+
+.lock-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-50%, 50%);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.lock-icon-locked {
+    color: lightgreen;
+}
+
+.lock-icon-unlocked {
+    color: white;
 }
 
 .inner-container-1 {
@@ -55,7 +102,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: calc(50% - 1rem);
     height: 100%;
 }
@@ -64,7 +111,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
 }
 
@@ -261,6 +308,14 @@
     text-decoration: underline;
 }
 
+.expand-left {
+    animation: shift-left 0.15s ease-in-out forwards;
+}
+
+.expand-right {
+    animation: shift-right 0.15s ease-in-out forwards;
+}
+
 @keyframes pop-out {
     0% {
       transform: scale(1);
@@ -270,5 +325,29 @@
     }
     100% {
       transform: scale(1.1);
+    }
+}
+
+@keyframes shift-left {
+    0% {
+        transform: translate(-50%, 85%);
+      }
+    50% {
+        transform: translate(-50%, 40%);
+    }
+    100% {
+        transform: translate(-50%, 0%);
+    }
+}
+
+@keyframes shift-right {
+    0% {
+      transform: translate(-50%, 0%);
+    }
+    50% {
+      transform: translate(-50%, 40%);
+    }
+    100% {
+      transform: translate(-50%, 85%);
     }
 }
