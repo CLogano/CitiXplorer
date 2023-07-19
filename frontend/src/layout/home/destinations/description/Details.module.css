@@ -3,8 +3,52 @@
     height: 80vh;
     padding: 3rem;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-family: "Red Hat Display", "sans-serif";
     font-size: 20px;
+}
+
+.name-container {
+  margin: 0.5rem;
+  padding: 1rem;
+  margin-top: 0;
+  width: 100%;
+  min-height: 75px;
+  background-color: cornflowerblue;
+  border-radius: 20px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border: 3px solid royalblue;
+}
+
+.name {
+  /* font-size: calc(1.5vw + 1vh); */
+  font-weight: bold;
+  font-family: "Special Elite", cursive;
+  text-align: center;
+  align-self: center;
+  padding-top: 5px;
+  min-width: 300px;
+  flex-grow: 1;
+}
+
+.card {
+  margin: 0.5rem;
+  width: 100%;
+  background-color: cornflowerblue;
+  border-radius: 20px;
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  border: 3px solid royalblue;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .cursor {
@@ -17,6 +61,7 @@
 
 .text {
   font-size: 20px;
+  font-family: "Red Hat Display", "sans-serif";
 }
 
 p {

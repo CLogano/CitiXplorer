@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 //import PromptInput from "./inputs/PromptInput";
 import LocationInput from "./inputs/LocationInput";
 import classes from "./Search.module.css";
@@ -7,9 +8,12 @@ const Search = (props) => {
 
     const [formIsValid, setFormIsValid] = useState(false);
     const [locationValidity, setLocationValidity] = useState(null);
-    const [city, setCity] = useState(null);
+    const navigate = useNavigate();
+    const pathLocation = useLocation();
+    // const [city, setCity] = useState(null);
     // const [prompt, setPrompt] = useState(null);
 
+    const { city } = props;
     useEffect(() => {
         const identifier = setTimeout(() => {
             //setFormIsValid(location && prompt);
@@ -26,14 +30,18 @@ const Search = (props) => {
         event.preventDefault();
         if (formIsValid) {
             // props.search(prompt, location);
-            props.search(city);
+            props.searchHandler(true);
+            
+            if (pathLocation.pathname !== "/") {
+                navigate("/");
+            }
         }
     };
 
     const locationHandler = (location) => {
         
-        setCity(location.name);
-        props.city(location);
+        // setCity(location.name);
+        props.cityHandler(location);
         
     };
 
@@ -53,6 +61,7 @@ const Search = (props) => {
                 placeholder="New York City, NY, United States"
                 location={locationHandler}
                 locationValidity={locationValidityHandler}
+                city={city}
             />
             {/* <PromptInput
                 id="Prompt"

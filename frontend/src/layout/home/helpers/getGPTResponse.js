@@ -70,7 +70,7 @@ export const getGPTResponse = async (city, chatList, setChatList, messages, setM
 
     let result = {};
     let numTries = 0;
-    while (!result.data && !chatList && numTries < 5) {
+    while (!result.data && !chatList && numTries < 3) {
 
         try {
 

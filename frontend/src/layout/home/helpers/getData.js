@@ -58,7 +58,7 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
             const dataResult = await dataResponse.json();
             
 
-            let rating, totalRatings, website, hours, address, phoneNumber, imageUrls, geometry;
+            let rating, totalRatings, website, hours, address, phoneNumber, imageUrls, reviews, geometry;
 
             if (dataResult.data) {
 
@@ -90,10 +90,19 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
                     website = "N/A";
                 }
                 if (dataResult.data.opening_hours) {
-                    hours = dataResult.data.opening_hours.weekday_text;   
+                    hours = dataResult.data.opening_hours.weekday_text;
                 } else {
-                    //hours = ["Monday: Open 24 Hours", "Tuesday: Open 24 Hours", "Wednesday: Open 24 Hours", "Thursday: Open 24 Hours", "Friday: Open 24 Hours", "Saturday: Open 24 Hours", "Sunday: Open 24 Hours"];
-                    hours = "N/A";
+                    console.log(destination.name + " " + dataResult.data.business_status)
+                    if (dataResult.data.business_status) {
+                        if (dataResult.data.business_status === "CLOSED_TEMPORARILY" ||
+                        dataResult.data.business_status === "CLOSED_PERMANENTLY") {
+                            return null;
+                        } else {
+                            hours = "N/A";
+                        }
+                    } else {
+                        hours = "N/A";
+                    }
                 }
                 if (dataResult.data.formatted_address) {
                     
@@ -123,6 +132,13 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
                 }
                 if (dataResult.data.imageUrls.length > 0) {
                     imageUrls = dataResult.data.imageUrls;
+                } else {
+                    return null;
+                }
+                if (dataResult.data.reviews) {
+                    reviews = dataResult.data.reviews;
+                    console.log(destination.name);
+                    console.log(reviews);
                 } else {
                     return null;
                 }
@@ -167,6 +183,7 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
                 address,
                 phoneNumber,
                 imageUrls,
+                reviews,
                 geometry
             };
 
@@ -185,7 +202,7 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
     console.log("POPULATION: " + city.population)
     console.log("MAX DIS: " + maxDistance + "km")
     let numTries = 0;
-    while (updatedData.length < minRecommendations && numTries < 5) {
+    while (updatedData.length < minRecommendations && numTries < 3) {
 
         console.log("UPDATED DATA:");
         console.log(updatedData);
@@ -200,7 +217,7 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
                     const dataResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/data?destination=${destination.name}&city=${city.name}`);
                     const dataResult = await dataResponse.json();
         
-                    let rating, totalRatings, website, hours, address, phoneNumber, imageUrls, geometry;
+                    let rating, totalRatings, website, hours, address, phoneNumber, imageUrls, reviews, geometry;
         
                     if (dataResult.data) {
         
@@ -232,9 +249,17 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
                             website = "N/A";
                         }
                         if (dataResult.data.opening_hours) {
-                            hours = dataResult.data.opening_hours.weekday_text;   
+                            hours = dataResult.data.opening_hours.weekday_text;
                         } else {
-                            hours = "N/A";
+                            console.log(destination.name + " " + dataResult.data.business_status)
+                            if (dataResult.data.business_status) {
+                                if (dataResult.data.business_status === "CLOSED_TEMPORARILY" ||
+                                dataResult.data.business_status === "CLOSED_PERMANENTLY") {
+                                    return null;
+                                }
+                            } else {
+                                hours = "N/A";
+                            }
                         }
                         if (dataResult.data.formatted_address) {
                             address = dataResult.data.formatted_address;
@@ -248,6 +273,11 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
                         }
                         if (dataResult.data.imageUrls.length > 0) {
                             imageUrls = dataResult.data.imageUrls;
+                        } else {
+                            return null;
+                        }
+                        if (dataResult.data.reviews) {
+                            reviews = dataResult.data.reviews;
                         } else {
                             return null;
                         }
@@ -281,6 +311,7 @@ const dataSearch = async (chatList, city, minRecommendations, maxRecommendations
                         address,
                         phoneNumber,
                         imageUrls,
+                        reviews,
                         geometry
                     };
         

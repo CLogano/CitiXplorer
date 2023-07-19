@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import classes from "./Home.module.css";
 import MapComponent from "./map/MapComponent";
-import Header from "../header/Header";
 import Modal from "../../UI/Modal";
 import { getGPTResponse } from "./helpers/getGPTResponse";
 import SkeletonLoader from "../../UI/SkeletonLoader";
@@ -10,7 +9,7 @@ import { getFilteredHours, getFilteredRatings, getSortedData } from "./helpers/g
 import Results from "./destinations/Results";
 // import RefineSearch from "./destinations/RefineSearch";
 
-const Home = () => {
+const Home = (props) => {
 
     const [chatList, setChatList] = useState([]);
     const [messages, setMessages] = useState([]);
@@ -20,7 +19,8 @@ const Home = () => {
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [filterCriteria, setFilterCriteria] = useState({sort: null, rating: null, hours: null});
     const [isLoading, setIsLoading] = useState(null);
-    const [city, setCity] = useState(null);
+    // const [city, setCity] = useState(null);
+    // const [clickedCity, setClickedCity] = useState(null);
     const [destination, setDestination] = useState(null);
     const mapUpdateRef = useRef();
 
@@ -29,18 +29,40 @@ const Home = () => {
     //     await getGPTResponse(prompt, location, setChatList, messages, setMessages, setIsLoading, setDataFetched);
     // };
 
-    const searchHandler = async () => {
-        setChatList(null);
-        setData(null);
-        setMessages([]);
-        setDataFetched(false);
-    };
+    // useEffect(() => {
+    //     const userInfo = localStorage.getItem("visited");
+    //     if (!userInfo) {
+    //       setShowWelcomeModal(true);
+    //       localStorage.setItem("visited", "true");
+    //     } else {
+    //         setShowWelcomeModal(false);
+    //     }
+    //   }, []);
+
+    const { search, searchHandler } = props;
+    useEffect(() => {
+
+        const searchAttractions = () => {
+            console.log("SEARCHING!!")
+            setChatList(null);
+            setData(null);
+            setMessages([]);
+            setDataFetched(false);
+        };
+
+        if (search) {
+            searchHandler(false);
+            searchAttractions();
+        }
+    }, [search, searchHandler])
+
+    
 
     // const refinedSearchHandler = async (prompt) => {
     //     await getRefinedGPTResponse(prompt, city, setChatList, setData, messages, setMessages, setIsLoading, setDataFetched);
     // };
 
-
+    const { city } = props;
     //Fetch ratings and geometry data based on gpt results and update "data" state
     useEffect(() => {
         
@@ -85,12 +107,19 @@ const Home = () => {
     };
 
     const cityHandler = (city) => {
-        setCity(city);
+        props.cityHandler(city);
         mapUpdateRef.current.forceMapUpdate();
     };
 
+    // const clickedCityHandler = (city) => {
+    //     props.cityHandler(city);
+    //     props.clickedCityHandler(city);
+    //     // mapUpdateRef.current.forceMapUpdate();
+    // };
+
     const closeModalHandler = () => {
-        setShowErrorModal(false);
+
+       setShowErrorModal(false);
     };
 
     // const amountFilterHandler = (value) => {
@@ -163,7 +192,7 @@ const Home = () => {
 
     return (
         <Fragment>
-            <Header search={searchHandler} city={cityHandler} />
+            {/* <Header search={searchHandler} city={cityHandler} clickedCity={clickedCity}/> */}
             {showErrorModal && <Modal onClose={closeModalHandler}>
                 <div className={classes["error-outer-container"]}>
                     <div className={classes["error-inner-container"]}>
@@ -172,11 +201,13 @@ const Home = () => {
                     </div>
                     <p className={classes["error-message"]}>{`No results found for ${city.name}. Please try again or enter another city.`}</p>
                 </div>
-            </Modal>}
+            </Modal>
+            }
             <div className={classes.dashboard}>
                 <MapComponent
                     ref={mapUpdateRef}
                     address={city}
+                    clickedCity={cityHandler}
                     data={data}
                     destination={destination}
                     onSelectedDestination={onSelectedDestination}

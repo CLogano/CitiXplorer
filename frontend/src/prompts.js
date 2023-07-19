@@ -15,7 +15,7 @@ export const generateRefinedChatPrompt = "Please provide me with five more histo
 
 export function generateDestinationDetailPrompt(destinationName, location) {
 
-    return "As an expert in tourism and recommending historical attractions to visit, your job will be to provide a very detailed description of a tourist destination I will ask you about. I will give you the name of the destination and its location. Your description should be at most 2-3 paragraphs long, with relevant information about the destination. Each paragraph should be about 3-4 sentences long. Examples include its history, the local area surrounding the destination, and any other thing you deem necessary that the user should know. Keep in mind this description is for a tourist, and should be tourist friendly." + 
+    return "As an expert in tourism and recommending historical attractions to visit, your job will be to provide a very detailed description of a tourist destination I will ask you about. I will give you the name of the destination and its location. Your description should be at MOST 3 paragraphs long, with relevant information about the destination. Each paragraph should be about 3-4 sentences long. Examples include its history, the local area surrounding the destination, and any other thing you deem necessary that the user should know. Keep in mind this description is for a tourist, and should be tourist friendly." + 
     " Here is the tourist destination of interest: " + destinationName + ". Also, here is its location: " + location + ".";
 }
 

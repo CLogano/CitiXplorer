@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import Card from "../../../../UI/Card";
 import { generateDestinationDetailPrompt } from "../../../../prompts";
 import CONSTANTS from "../../../../constants";
 import classes from "./Details.module.css";
@@ -14,8 +15,6 @@ const TypingAnimation = (props) => {
 
       if (text.length > 0 && currentParagraph < text.length) {
 
-        
-          
           let shouldCancel = false;
           let paragraph = text[currentParagraph];
 
@@ -59,9 +58,35 @@ const TypingAnimation = (props) => {
 const Details = (props) => {
 
   const [text, setText] = useState(props.text ? props.text : []);
+  const nameRef = useRef(null);
+
+  const { destination } = props;
+    useLayoutEffect(() => {
+
+        if (!destination) {
+            return;
+        }
+
+        //Adjust font size depending on name
+        const nameElement = nameRef.current;
+        const nameLength = destination.name.length;
+        const maxFontSize = 42;
+        const minFontSize = 20;
+        const maxNameLength = 100;
+
+        let fontSize;
+        if (nameLength >= maxNameLength) {
+            fontSize = minFontSize;
+        } else {
+            fontSize = maxFontSize - ((nameLength / maxNameLength) * (maxFontSize - minFontSize));
+        }
+
+        nameElement.style.fontSize = `${fontSize}px`;
+
+    }, [destination]);
 
 
-  const { name, location } = props.destination;
+  const { name, location } = destination;
   useEffect(() => {
 
     async function fetchDetails(destinationName, location) {
@@ -101,7 +126,12 @@ const Details = (props) => {
 
     return (
         <div className={classes.container}>
-            <TypingAnimation text={text}/>
+          <Card className={classes["name-container"]}>
+              <div ref={nameRef} className={classes.name}>{destination.name}</div>
+          </Card>
+          <Card className={classes.card}>
+            <TypingAnimation text={text} />
+          </Card>
         </div>
     );
 };

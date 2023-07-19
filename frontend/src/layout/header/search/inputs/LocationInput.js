@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import classes from "./LocationInput.module.css";
 import CONSTANTS from "../../../../constants";
 
@@ -11,9 +12,12 @@ const LocationInput = (props) => {
     const [showDropDown, setShowDropDown] = useState(false);
     const [citySuggestions, setCitySuggestions] = useState([]);
     const [tooltipVisible, setTooltipVisible] = useState(false);
+    const [pop, setPop] = useState(false);
     const tooltipTimerRef = useRef(null);
     const locationRef = useRef(null);
-    const message = "Please select from the list of places.";
+    const message = "Please select a valid city.";
+    const navigate = useNavigate();
+    const pathLocation = useLocation();
 
 
     const onChangeHandler = useCallback((event) => {
@@ -29,9 +33,14 @@ const LocationInput = (props) => {
 
 
     const onBlurHandler = useCallback(() => {
+
+        if (!touchedOnce) {
+            setTouchedOnce(true);
+        }
         setIsFocused(false);
         if (tooltipTimerRef.current) {
             clearTimeout(tooltipTimerRef.current);
+            setTooltipVisible(false);
         }
         tooltipTimerRef.current = setTimeout(() => {
             setTooltipVisible(true);
@@ -68,6 +77,46 @@ const LocationInput = (props) => {
     }, [isValid, locationValidity]);
 
 
+    const { location } = props;
+    // const selectTermMap = useCallback((item) => {
+
+    //     location({name: item.name, population: item.population});
+    //     setText(item.name)
+    //     setIsValid(true); 
+    //     setPop(true);
+
+    //     const timer = setTimeout(() => {
+    //         setPop(false);
+    //     }, 200); 
+    //     return () => {
+    //         clearTimeout(timer);
+    //     };
+
+        
+       
+    // }, [location]);
+
+    const { city } = props;
+    useEffect(() => {
+
+        if (city) {
+            
+            // selectTermMap(city);
+            setText(city.name);
+            setIsValid(true);
+            setPop(true);
+
+            const timer = setTimeout(() => {
+                setPop(false);
+            }, 200);
+            return () => {
+                clearTimeout(timer);
+            };  
+        }     
+
+    }, [city]);
+
+
     const onClickHandler = useCallback(() => {
 
         if (!touchedOnce) {
@@ -76,14 +125,15 @@ const LocationInput = (props) => {
         setIsFocused(true);
     }, [touchedOnce]);
 
-    // useEffect(() => {
-    //     console.log("touched once: " + touchedOnce);
-    //     console.log("is focused : " + isFocused);
-    //     console.log("is valid: " + isValid);
-    //     console.log("show dropdown: " + showDropDown);
-    //     console.log("");
+    useEffect(() => {
+        console.log("touched once: " + touchedOnce);
+        console.log("is focused : " + isFocused);
+        console.log("is valid: " + isValid);
+        console.log("show dropdown: " + showDropDown);
+        console.log("show tooltip: " + tooltipVisible);
+        console.log("");
         
-    // }, [isFocused, isValid, showDropDown, touchedOnce]);
+    }, [isFocused, isValid, showDropDown, touchedOnce, tooltipVisible]);
 
     useEffect(() => {
 
@@ -97,16 +147,14 @@ const LocationInput = (props) => {
         }
     }, [tooltipVisible]);
 
-    const selectTerm = (item) => (event) => {
+    const selectTermDropdown = (item) => (event) => {
 
         event.preventDefault();
+        location({name: item.name, population: item.population});
 
-        setText(item.name)
-        setIsValid(true);
-
-        
-        props.location({name: item.name, population: item.population});
-       
+        if (pathLocation.pathname !== "/") {
+            navigate("/");
+        }
     };
 
     let isInvalid = !isValid && touchedOnce && !isFocused;
@@ -137,7 +185,7 @@ const LocationInput = (props) => {
     };
 
     return (
-        <div className={classes["search-container"]}>
+        <div className={`${classes["search-container"]} ${pop && classes.pop}`}>
             <div className={`${classes["search-inner"]}
                 ${isInvalid && classes.invalid}`}>
                 <span class={`material-icons ${classes["location-icon"]}`}>location_on</span>
@@ -166,7 +214,7 @@ const LocationInput = (props) => {
                             <div
                                 className={classes["dropdown-row"]}
                                 key={item.geonameId}
-                                onMouseDown={selectTerm(item)}
+                                onMouseDown={selectTermDropdown(item)}
                             >{item.name}
                             </div>
                         ))}

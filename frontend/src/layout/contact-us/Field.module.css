@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 50%;
+    max-height: 35%;
+    margin: 1rem;
+}
+
+.email-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Red Hat Display", "sans-serif";
+    width: 90%;
+}
+
+.type {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: "Red Hat Display", "sans-serif";
+    text-align: center;
+    color: rgb(50, 19, 122);
+    margin-bottom: 0.5rem;
+}
+
+.input, .textbox, .domain, .zipcode {
+    font-size: 16px;
+    background-color: lightgray;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-color: gray;
+    padding: 3px;
+    outline: none;
+    font-family: "Red Hat Display", "sans-serif";
+    border-width: 1px;
+    min-width: 50px;
+}
+
+.input {
+    width: 75%;
+}
+
+.textbox {
+    width: 100%;
+    resize: vertical;
+}
+
+.domain {
+    width: 35%;
+}
+
+.zipcode {
+    width: 20%;
+}
+
+.zipcode::-webkit-inner-spin-button,
+.zipcode-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px lightgray inset;
+    /* Replace 'white' with your desired background color */
+}
+
+.selected {
+    border-color: rgb(50, 19, 122);
+}

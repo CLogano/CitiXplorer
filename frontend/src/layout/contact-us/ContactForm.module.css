@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 70%;
+    height: calc(100% - 4rem);
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.inner-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    min-width: 65px;
+    width: 10%;
+    max-width: 100px;
+    height: 40px;
+    background-color: rgb(50, 19, 122);
+    border: 2px solid white;
+    border-radius: 20px;
+    font-family: "Red Hat Display", "sans-serif";
+    color: white;
+}
+
+.button:hover {
+    background-color: rgb(27, 6, 75);
+    animation: pop-out 0.2s ease-out forwards;
+}
+
+.notice {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    color: rgb(50, 19, 122);
+    font-size: 14px;
+    font-family: "Red Hat Display", "sans-serif";
+    font-weight: bold;
+    text-align: center;
+}

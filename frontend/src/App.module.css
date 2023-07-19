@@ -1,0 +1,23 @@
+.welcome-container-outer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Red Hat Display", "sans-serif";
+    font-size: 20px;
+    height: 20vh;
+}
+
+.welcome-container-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-header {
+    font-size: 48px;
+}
+
+.city-icon {
+    font-size: 48px;
+}

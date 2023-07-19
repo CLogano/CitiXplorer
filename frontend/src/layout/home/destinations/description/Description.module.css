@@ -1,7 +1,9 @@
 .container {
     position: relative;
     height: 100%;
-    padding: 3rem;
+    padding: 2rem;
+    padding-right: 3rem;
+    padding-left: 0;
     border: 3px solid white;
     border-right: none;
     border-top-left-radius: 50px;
@@ -12,11 +14,22 @@
     align-items: flex-start;
     justify-content: center;
     color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
-    transform: translateX(93%);  
+    transform: translateX(94%);  
     transition: transform 0.5s ease-in-out;
     pointer-events: auto;
+}
+
+.content {
+    position: relative;
+    height: 100%;
+    max-width: 700px;
+    background-color: rgb(50, 19, 122);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    color: white; 
 }
 
 .locked {
@@ -53,9 +66,6 @@
 .arrow {
     color: white;
     font-size: 48px;
-    position: absolute;
-    top: 50%;
-    left: 0;
     user-select: none;
     transform: rotate(-90deg) translateX(50%);
 }
@@ -77,7 +87,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    transform: translate(-50%, 50%);
+    transform: translate(-10%, 20%);
     font-size: 22px;
     cursor: pointer;
 }
@@ -103,7 +113,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    width: calc(50% - 1rem);
+    width: calc(50% - 0.75rem);
     height: 100%;
 }
 
@@ -126,7 +136,7 @@
 }
 
 .card {
-    margin: 0.5rem;
+    margin: 0.25rem;
     width: 100%;
     background-color: cornflowerblue;
     border-radius: 20px;
@@ -139,8 +149,8 @@
 }
 
 .name-container {
-    margin: 0.5rem;
-    margin-top: 1rem;
+    margin: 0.25rem;
+    margin-top: 0;
     width: 100%;
     min-height: 75px;
     background-color: cornflowerblue;
@@ -153,11 +163,8 @@
 }
 
 .name {
-    font-size: calc(1.5vw + 1vh);
+    /* font-size: calc(1.5vw + 1vh); */
     font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     font-family: "Special Elite", cursive;
     text-align: center;
     align-self: center;
@@ -200,7 +207,7 @@
 
 .inner-star {
     color: cornflowerblue;
-    font-size: 24;
+    font-size: 24px;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -212,10 +219,11 @@
     width: 100%;
     height: 100%;
     display: flex;
+    flex-grow: 1;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: calc(.5vw + 0.5vh);
+    /* font-size: calc(.5vw + 0.5vh); */
 }
 
 .section-2 {
@@ -224,7 +232,8 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: calc(.5vw + 0.5vh);
+    flex-grow: 1;
+    /* font-size: calc(.5vw + 0.5vh); */
 }
 
 .hours {
@@ -232,7 +241,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    font-size: calc(.5vw + 0.25vh);
+    font-size: calc(.5vw + 0.5vh);
 }
 
 .rating {
@@ -259,7 +268,7 @@
 .link {
     text-decoration: none;
     color: white;
-    font-size: calc(.5vw + 0.25vh);
+    /* font-size: calc(.5vw + 0.25vh); */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -267,7 +276,7 @@
 
 .address {
     color: white;
-    font-size: calc(.5vw + 0.25vh);
+    /* font-size: calc(.5vw + 0.25vh); */
 }
 
 .link:hover {
@@ -301,7 +310,7 @@
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
-    color: royalblue;
+    color: rgb(50, 19, 122);
 }
 
 .more-button:hover {

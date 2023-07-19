@@ -19,7 +19,7 @@
     height: calc(100vh - 5rem);
     margin-top: 5rem;
     font-family: "Red Hat Display", "sans-serif";
-    min-width: 200px;
+    min-width: 230px;
     width: 15%;
     max-width: 285px;
     z-index: 10;
@@ -40,25 +40,25 @@
 
 .description {
     pointer-events: auto;
-    height: calc(100% - 13rem);
+    height: calc(100vh - 13rem); /* change to desired proportional height */
     font-family: "Red Hat Display", "sans-serif";
     position: absolute;
-    top: 9rem;
-    right: 0;
-    min-width: 525px;
-    width: 50%;
-    max-width: 800px;
+    top: calc((50vh - 50% + 9rem)); /* keep it vertically centered */
+    right: 0; /* keep it horizontally centered */
+    min-width: 400px;
+    max-width: 850px;
     z-index: 10;
     overflow: hidden;
     pointer-events: none;
+    transition: all 0.2s ease-out; /* optional - smooth transitions */
 }
 
-@media screen and (max-width: 1400px) {
+/* @media screen and (max-width: 1400px) {
     .description {
         height: calc(100% - 25rem);
         top: 15rem;
     }
-}
+} */
 
 .filters {
     pointer-events: auto;

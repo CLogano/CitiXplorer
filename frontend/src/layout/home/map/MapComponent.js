@@ -12,6 +12,7 @@ const MapComponent = React.forwardRef((props, ref) => {
 
   const [map, setMap] = useState(null);
   const [forceUpdate, setForceUpdate] = useState(false);
+  const [clickedMarker, setClickedMarker] = useState(false);
   const mapRef = useRef(null);
 
   const devApiKey = "AIzaSyCj4i7ATOdumVfn3eDuiIbMdzzTxoP2EBE";
@@ -23,6 +24,7 @@ const MapComponent = React.forwardRef((props, ref) => {
       return destination.name === id;
     });
 
+    setClickedMarker(true);
     onSelectedDestination(destination);
 
     if (destination && mapRef.current) {
@@ -34,6 +36,45 @@ const MapComponent = React.forwardRef((props, ref) => {
     }
 
   }, [data, onSelectedDestination]);
+
+  const markerClickHandler = useCallback((id) => {
+
+    setClickedMarker(true);
+
+    onSelectedHandler(id);
+
+  }, [onSelectedHandler]);
+
+  const fetchCityName = async (lat, lng) => {
+
+    try {
+      const response = await fetch(CONSTANTS.apiURL + `/geonames/nearest-city?lat=${lat}&lng=${lng}`);
+      const cityName = await response.json();
+
+      return cityName;
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const clickCityHandler = async (event) => {
+
+    if (clickedMarker) {
+      setClickedMarker(false);
+      return;
+    }
+
+    const clickedCity = await fetchCityName(event.latLng.lat(), event.latLng.lng());
+
+    if (!Array.isArray(clickedCity)) {
+      props.clickedCity(clickedCity);
+    } else {
+      console.log("No city corresponding to these coordinates");
+    }
+    
+    setClickedMarker(false);
+  };
 
   const forceMapUpdate = () => {
     setForceUpdate(!forceUpdate);
@@ -64,7 +105,9 @@ const MapComponent = React.forwardRef((props, ref) => {
         const data = await response.json();
         if (map) {
           map.setCenter(data);
-          map.setZoom(10);
+          if (mapRef.current.getZoom() < 9) {
+            mapRef.current.setZoom(9);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -97,6 +140,7 @@ const MapComponent = React.forwardRef((props, ref) => {
     clickableIcons: false,
     streetViewControl: false,
     zoomControl: false,
+    disableDoubleClickZoom: true,
     restriction: {
       latLngBounds: {
         north: 85,
@@ -133,6 +177,7 @@ const MapComponent = React.forwardRef((props, ref) => {
           zoom={4}
           onLoad={onLoad}
           options={options}
+          onClick={clickCityHandler}
         >
           {data && data.map((d) => (
             <Marker
@@ -142,7 +187,7 @@ const MapComponent = React.forwardRef((props, ref) => {
               description={d.description}
               rating={d.rating}
               selected={destination && d.name === destination.name ? true : false}
-              onSelected={onSelectedHandler}
+              onSelected={markerClickHandler}
               position={d.geometry}
             />
           ))}

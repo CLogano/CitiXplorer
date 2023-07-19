@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import DestinationImage from "./DestinationImage";
 // import CONSTANTS from "../../../../constants";
 import classes from "./ImageList.module.css";
@@ -8,6 +9,7 @@ const ImageList = (props) => {
 
     const [images, setImages] = useState([]);
     const [index, setIndex] = useState(0);
+    const [showModal, setShowModal] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
 
     // const imageSearch = async (destination) => {
@@ -62,36 +64,47 @@ const ImageList = (props) => {
         setIndex(index + 1);
     }
 
+    const imageClickHandler = () => {
+        setShowModal(true);
+    };
+
+    const closeModalHandler = () => {
+        setShowModal(false);
+    }
+
     return (
         <div className={classes.container}>
-            {/* <button
-                className={`${classes.arrow}
-                    ${classes.left}
-                    ${!isLoading && index > 0 ? classes.nonempty : classes.empty}`
-            }
-                onClick={leftClickHandler}
-            /> */}
+            {showModal && 
+            ReactDOM.createPortal(
+                (
+                    <div className={classes.backdrop} onClick={closeModalHandler}>
+                        <DestinationImage
+                        id={props.destination}
+                        src={images[index]}
+                        alt={props.destination}
+                        modalOpen={showModal}
+                    />
+                    </div>
+                ),
+                document.getElementById("modal-root")
+                // <Modal className={classes.modal} onClose={closeModalHandler}>
+                //     <DestinationImage
+                //         id={props.destination}
+                //         src={images[index]}
+                //         alt={props.destination}
+                //         modalOpen={showModal}
+                //     />
+                // </Modal>
+            )}
             <span class={`material-symbols-rounded ${classes.arrow} ${index > 0 ? classes.nonempty : classes.empty}`} onClick={leftClickHandler}>
                 arrow_back_ios
             </span>
-            {/* {isLoading ? (
-                <LoadingRing className={classes.loading}/>
-            ) : ( */}
-            <ul className={classes.ul}>
+            <ul className={classes.ul} onClick={imageClickHandler}>
                 {data[index]}
             </ul>
-            {/* )} */}
-            {/* <button
-                className={`${classes.arrow}
-                    ${classes.right}
-                    ${!isLoading && index < data.length - 1 ? classes.nonempty : classes.empty}`
-                }
-                onClick={rightClickHandler}
-            /> */}
             <span class={`material-symbols-rounded ${classes.arrow} ${classes.right} ${index < data.length - 1 ? classes.nonempty : classes.empty}`} onClick={rightClickHandler}>
                 arrow_back_ios
             </span>
-
         </div>
     );
 };

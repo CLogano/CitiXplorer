@@ -66,18 +66,28 @@ router.get("/apiKey", async (req, res) => {
 module.exports = router;
 
 
-router.get("/location", async (req, res) => {
+router.get("/city-name", async (req, res) => {
 
   const latitude = req.query.lat;
-  const longitude = req.query.long;
+  const longitude = req.query.lng;
   
   try {
 
-      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`);
-      res.json(response.data.results[0]);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`);
+    const data = await response.json();
+
+    let cityName = null;
+    for (let i = 0; i < data.results.length; i++) {
+      if (data.results[i].types.includes("locality")) {
+        cityName = data.results[i].address_components[0].long_name;
+        break;
+      }
+    }
+    console.log(cityName);
+    res.json(cityName);
 
   } catch (error) {
-      console.error(error);
+    console.error(error);
   }
   
 });
@@ -248,13 +258,13 @@ async function getData(mapsClient, destinationId) {
     const response  = await mapsClient.placeDetails({
       params: {
         place_id: destinationId,
-        fields: ["name", "rating", "user_ratings_total", "formatted_address", "formatted_phone_number", "opening_hours", "website", "photos"],
+        fields: ["name", "rating", "user_ratings_total", "formatted_address", "formatted_phone_number", "opening_hours", "website", "photos", "business_status", "reviews"],
         key: apiKey,
       },
       timeout: 1000,
     });
 
-    const { name, rating, user_ratings_total, formatted_address, formatted_phone_number, opening_hours, website, photos } = response.data.result;
+    const { name, rating, user_ratings_total, formatted_address, formatted_phone_number, opening_hours, website, photos, business_status, reviews } = response.data.result;
 
     const imageUrls = [];
     if (photos) {
@@ -279,7 +289,9 @@ async function getData(mapsClient, destinationId) {
       formatted_phone_number,
       opening_hours,
       website,
-      imageUrls
+      imageUrls,
+      business_status,
+      reviews
     };
 
     return data;
