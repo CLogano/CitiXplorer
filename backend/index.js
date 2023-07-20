@@ -7,6 +7,7 @@ const geonamesRouter = require("./routes/geonames");
 const chatGPTRouter = require("./routes/chatgpt");
 const googleNLRouter = require("./routes/googleNL");
 const openStreetMapRouter = require("./routes/openStreetMap");
+const googleSheetsRouter = require("./routes/googleSheets");
 //const { loadNLPModel, nlpRouter } = require("./routes/nlp");
 
 const app = express();
@@ -19,8 +20,8 @@ app.use("/translate", translateRouter);
 app.use("/openStreetMap", openStreetMapRouter);
 //app.use("/geolocation", geolocationRouter);
 app.use("/geonames", geonamesRouter);
+app.use("/googleSheets", googleSheetsRouter);
 app.use("/googleNL", googleNLRouter);
-
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

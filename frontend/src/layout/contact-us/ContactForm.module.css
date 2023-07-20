@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    width: 70%;
+    width: calc(100% - 4rem);
     height: calc(100% - 4rem);
     border: 1px solid gray;
     border-radius: 10px;
@@ -14,28 +14,42 @@
 .inner-container {
     width: 100%;
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.inner-container-2 {
+    width: 100%;
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.button {
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
+.button, .invalid-button {
+    margin: 1rem;
     min-width: 65px;
     width: 10%;
     max-width: 100px;
     height: 40px;
-    background-color: rgb(50, 19, 122);
-    border: 2px solid white;
     border-radius: 20px;
     font-family: "Red Hat Display", "sans-serif";
     color: white;
 }
 
+.button {
+    background-color: rgb(50, 19, 122);
+    border: 2px solid white;
+    cursor: pointer;
+}
+
 .button:hover {
-    background-color: rgb(27, 6, 75);
-    animation: pop-out 0.2s ease-out forwards;
+    background-color: rgb(19, 1, 59);
+}
+
+.invalid-button {
+    background-color: lightgray;
+    border: 2px solid lightgray;
+    cursor: auto;
 }
 
 .notice {
@@ -46,4 +60,36 @@
     font-family: "Red Hat Display", "sans-serif";
     font-weight: bold;
     text-align: center;
+}
+
+.captcha {
+    color: gray;
+    margin: 1rem;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    font-family: "Red Hat Display", "sans-serif";
+    font-weight: bold;
+    text-align: center;
+}
+
+.modal-container-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Red Hat Display", "sans-serif";
+    font-weight: bold;
+    text-align: center;
+}
+
+.text-rest {
+    font-size: 20px;
+}
+
+.text-thanks, .smile-icon {
+    font-size: 48px;
 }

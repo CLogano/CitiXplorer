@@ -2,10 +2,61 @@
     width: 30%;
     height: calc(100% - 4rem);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     margin: 2rem;
-    border: 1px solid gray;
+    margin-left: 0;
+    /* border: 1px solid gray;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); */
+}
+
+.inner-container-1 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-width: 150px;
+}
+
+
+.inner-container-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    width: 100%;
+}
+
+.inner-container-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: "Red Hat Display", "sans-serif";
+    margin-left: 1rem;
+}
+
+.logo {
+    min-width: 150px;
+    width: 60%;
+    height: auto;
+    margin: 1rem;
+}
+
+.icon {
+    font-size: 48px;
+    color: rgb(50, 19, 122);
+}
+
+.type {
+    color: rgb(50, 19, 122);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.info {
+    font-size: 16px;
 }

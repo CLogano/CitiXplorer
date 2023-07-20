@@ -9,11 +9,12 @@ const Header = (props) => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const imgPath = "../../pictures/logo.png";
-        const resolvedPath = new URL(imgPath, window.location.href).href;
-        console.log("Resolved path:", resolvedPath);
-    }, []);
+    // useEffect(() => {
+    //     const imgPath = "../../pictures/logo.png";
+    //     const resolvedPath = new URL(imgPath, window.location.href).href;
+    //     console.log("Resolved path:", resolvedPath);
+    // }, []);
+    
     return (
         <header className={classes.header}>
             <img src={logo} alt="Logo" className={classes.logo} onClick={() => navigate("/")}/>
