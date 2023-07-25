@@ -86,12 +86,12 @@ const Details = (props) => {
     }, [destination]);
 
 
-  const { name, location } = destination;
+  const { name, city } = destination;
   useEffect(() => {
 
-    async function fetchDetails(destinationName, location) {
+    async function fetchDetails(destinationName, city) {
 
-        const textInput = generateDestinationDetailPrompt(destinationName, location);
+        const textInput = generateDestinationDetailPrompt(destinationName, city);
         console.log(textInput)
         const textInputJSON = {
           content: textInput
@@ -121,8 +121,8 @@ const Details = (props) => {
 
     }
 
-    fetchDetails(name, location);
-  }, [name, location]);
+    fetchDetails(name, city);
+  }, [name, city]);
 
     return (
         <div className={classes.container}>

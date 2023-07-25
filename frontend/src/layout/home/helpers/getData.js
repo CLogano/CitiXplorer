@@ -1,34 +1,243 @@
 import CONSTANTS from "../../../constants";
 import { getRefinedGPTResponse } from "./getGPTResponse";
+import { generateCityHistoryPrompt, generateDestinationShortPrompt } from "../../../prompts";
 
-export const fetchData = async (chatList, city, setData, setOriginalData, setDataFetched, messages, setMessages) => {
+// export const fetchData = async (chatList, city, setData, setOriginalData, setDataFetched, messages, setMessages) => {
+
+//     try {
+
+//         let minRecommendations, minReviews, maxDistance;
+//         const maxRecommendations = 10;
+//         if (city.population < 100000) {
+//             minRecommendations = 0;
+//             minReviews = 40;
+//             maxDistance = 5;
+//         } else if (city.population >= 100000 && city.population < 1000000) {
+//             minRecommendations = 5;
+//             minReviews = 500;
+//             maxDistance = 15;
+//         } else if (city.population >= 1000000) {
+//             minRecommendations = 10;
+//             minReviews = 1000;
+//             maxDistance = 25;
+//         }
+
+//         const updatedData = await dataSearch(chatList, city, minRecommendations, maxRecommendations, minReviews, maxDistance, messages, setMessages);
+
+//         if (updatedData.length > 0) {
+//             setData(updatedData);
+//             setOriginalData(updatedData)
+//         } else {
+//             setOriginalData(null);
+//             setData(null);
+//         }
+//         setDataFetched(true);
+
+//     } catch (error) {
+//         console.log("Error occurred while fetching data:", error);
+//     }
+// };
+
+export const fetchData = async (city, setAttractions, setOriginalAttractions, setCityData, setDataFetched) => {
 
     try {
 
-        let minRecommendations, minReviews, maxDistance;
-        const maxRecommendations = 10;
+        let minReviews, maxDistance;
         if (city.population < 100000) {
-            minRecommendations = 0;
             minReviews = 40;
             maxDistance = 5;
         } else if (city.population >= 100000 && city.population < 1000000) {
-            minRecommendations = 5;
             minReviews = 500;
             maxDistance = 15;
         } else if (city.population >= 1000000) {
-            minRecommendations = 10;
             minReviews = 1000;
             maxDistance = 25;
         }
 
-        const updatedData = await dataSearch(chatList, city, minRecommendations, maxRecommendations, minReviews, maxDistance, messages, setMessages);
+        const response = await fetch(CONSTANTS.apiURL + `/googleMaps/search?city=${city.name}`);
+        const data = await response.json();
+        console.log("ATTRACTIONS" , data)
 
-        if (updatedData.length > 0) {
-            setData(updatedData);
-            setOriginalData(updatedData)
+        if (data) {
+
+            const cityGeometryResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/location-by-address?address=${city.name}`);
+            const cityGeometry = await cityGeometryResponse.json();
+            console.log("CITY GEO: ", cityGeometry);
+
+            let updatedData = await Promise.all(data.map(async (destination) => {
+
+                let name, rating, totalRatings, website, hours, address, phoneNumber, imageUrls, reviews, geometry;
+
+                if (!destination.name) {
+                    return null;
+                } else {
+                    name = destination.name;
+                }
+                if (!destination.formatted_address) {
+                    return null;
+                } else {
+                    address = destination.formatted_address;
+                }
+                if (!destination.geometry) {
+                    return null;
+                } else {
+                    geometry = destination.geometry;
+                }
+                if (!destination.rating || destination.rating < 3.0) {
+                    return null;
+                } else {
+                    rating = destination.rating;
+                }
+                if (!destination.user_ratings_total || destination.user_ratings_total < minReviews) {
+                    return null;
+                } else {
+                    totalRatings = destination.user_ratings_total;
+                }
+                if (destination.imageUrls.length === 0) {
+                    return null;
+                } else {
+                    imageUrls = destination.imageUrls;
+                }
+                if (!destination.opening_hours) {
+                    if (destination.business_status) {
+                        if (destination.business_status === "CLOSED_TEMPORARILY" ||
+                        destination.business_status === "CLOSED_PERMANENTLY") {
+                            console.log(destination.name)
+                            return null;
+                        } else {
+                            hours = "N/A";
+                        }
+                    } else {
+                        hours = "N/A";
+                    }
+                } else {
+                    hours = destination.opening_hours.weekday_text;
+                } 
+                if (!destination.website) {
+                    website = "N/A";
+                } else {
+                    website = destination.website;
+                } 
+                if (!destination.formatted_phone_number) {
+                    phoneNumber = "N/A";
+                } else {
+                    phoneNumber = destination.formatted_phone_number;
+                } 
+                if (!destination.reviews) {
+                    return null;
+                } else {
+                    reviews = destination.reviews;
+                }
+
+                const geometryResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/location-by-address?address=${address}`);
+                geometry = await geometryResponse.json();
+                console.log("GEO: ", geometry);
+                
+                if (!isFinite(cityGeometry.lat) || !isFinite(cityGeometry.lng) || !isFinite(geometry.lat) || !isFinite(geometry.lng)) {
+                    console.error("Invalid coordinates");
+                    return;
+                }
+                
+                const distance = getDistanceFromLatLngInKm(cityGeometry.lat, cityGeometry.lng, geometry.lat, geometry.lng);
+                console.log(destination.name + " dis: " + distance);
+                if (distance > maxDistance) {
+                    return null;
+                }
+
+                return {
+                    name,
+                    rating: ((rating && Number.isInteger(rating)) ? rating + ".0" : rating),
+                    totalRatings,
+                    website,
+                    hours,
+                    address,
+                    phoneNumber,
+                    imageUrls,
+                    reviews,
+                    geometry,
+                    city: city.name
+                };
+            }));
+
+            updatedData = updatedData.filter((destination) => destination !== undefined && destination !== null);
+
+            console.log("UPDATED PLACES: ", updatedData);
+
+            if (updatedData.length === 0) {
+                setAttractions(null);
+                setOriginalAttractions(null);
+                setCityData(null);
+            } else { 
+                
+                //Fetch gpt descriptions
+                updatedData = await Promise.all(updatedData.map(async (data) => {
+
+                    const textInput = generateDestinationShortPrompt(data.name, city.name);
+                    const textInputJSON = {
+                        content: textInput
+                    };
+
+                        const response = await fetch(CONSTANTS.apiURL + "/gpt", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(textInputJSON),
+                        });
+
+                        const result = await response.json();
+                        console.log(result.data);
+
+                        return {
+                            ...data,
+                            description: result.data
+                        };
+                }));
+                console.log("FINAL PLACES W DESCRIPTION: ", updatedData);
+
+                //Fetch city data
+                const cityHistoryInput = generateCityHistoryPrompt(city.name);
+                const cityHistoryInputJSON = {
+                    content: cityHistoryInput
+                };
+
+                const cityResponse = await fetch(CONSTANTS.apiURL + "/gpt", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(cityHistoryInputJSON),
+                });
+                const cityResult = await cityResponse.json();
+
+                const paragraphs = cityResult.data.split("\n\n");
+                console.log(paragraphs);
+
+                const cityImagesResponse = await fetch(CONSTANTS.apiURL + `/googleMaps/images-city?city=${city.name}`);
+                const cityImagesResult = await cityImagesResponse.json();
+                const images = cityImagesResult.imageUrls;
+                console.log(images)
+
+                if (paragraphs.length !== images.length) {
+                    const minLength = Math.min(paragraphs.length, images.length);
+                    paragraphs = paragraphs.slice(0, minLength);
+                    images = images.slice(0, minLength);
+                }
+
+                const cityData = {
+                    name: city.name,
+                    paragraphs: paragraphs,
+                    images: cityImagesResult.imageUrls
+                };
+
+                setCityData(cityData);
+                setAttractions(updatedData);
+                setOriginalAttractions(updatedData);
+            }
         } else {
-            setOriginalData(null);
-            setData(null);
+            setAttractions(null);
+            setOriginalAttractions(null);
+            setCityData(null);
         }
         setDataFetched(true);
 

@@ -2,10 +2,10 @@ import React from "react";
 import classes from "./LoadingRing.module.css";
 
 
-const LoadingRing = () => {
+const LoadingRing = (props) => {
 
     return (
-        <div className={classes.load} />
+        <div className={`${classes.load} ${props.className}`} />
     );
 };
 

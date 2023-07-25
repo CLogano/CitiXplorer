@@ -1,27 +1,32 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import classes from "./Home.module.css";
-import MapComponent from "./map/MapComponent";
+import MapComponent from "./tabs/map/MapComponent";
 import Modal from "../../UI/Modal";
-import { getGPTResponse } from "./helpers/getGPTResponse";
+// import { getGPTResponse } from "./helpers/getGPTResponse";
 import SkeletonLoader from "../../UI/SkeletonLoader";
 import { fetchData } from "./helpers/getData";
 import { getFilteredHours, getFilteredRatings, getSortedData } from "./helpers/getFilteredData";
 import Results from "./destinations/Results";
+import TabGroup from "./tabs/TabGroup";
+import CityInfo from "./tabs/city/CityInfo";
 // import RefineSearch from "./destinations/RefineSearch";
 
 const Home = (props) => {
 
-    const [chatList, setChatList] = useState([]);
-    const [messages, setMessages] = useState([]);
-    const [dataFetched, setDataFetched] = useState(false);
-    const [originalData, setOriginalData] = useState(null);
-    const [data, setData] = useState(null);
+    // const [chatList, setChatList] = useState([]);
+    // const [messages, setMessages] = useState([]);
+    const [dataFetched, setDataFetched] = useState(null);
+    // const [data, setData] = useState(null);
+    const [attractions, setAttractions] = useState(null);
+    const [originalAttractions, setOriginalAttractions] = useState(null);
+    const [cityData, setCityData] = useState(null);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [filterCriteria, setFilterCriteria] = useState({sort: null, rating: null, hours: null});
     const [isLoading, setIsLoading] = useState(null);
     // const [city, setCity] = useState(null);
     // const [clickedCity, setClickedCity] = useState(null);
     const [destination, setDestination] = useState(null);
+    const [tab, setTab] = useState("Map");
     const mapUpdateRef = useRef();
 
     //Search for results from gpt given prompt and location
@@ -42,15 +47,19 @@ const Home = (props) => {
     const { search, searchHandler } = props;
     useEffect(() => {
 
-        const searchAttractions = () => {
+        const searchAttractions = async () => {
             console.log("SEARCHING!!")
-            setChatList(null);
-            setData(null);
-            setMessages([]);
+            //setChatList(null);
+            setAttractions(null);
+            setCityData(null);
+            setFilterCriteria({sort: null, rating: null, hours: null});
+            //setMessages([]);
+            setIsLoading(true);
             setDataFetched(false);
         };
 
         if (search) {
+            setTab("Map");
             searchHandler(false);
             searchAttractions();
         }
@@ -62,24 +71,46 @@ const Home = (props) => {
     //     await getRefinedGPTResponse(prompt, city, setChatList, setData, messages, setMessages, setIsLoading, setDataFetched);
     // };
 
-    const { city } = props;
     //Fetch ratings and geometry data based on gpt results and update "data" state
+    // useEffect(() => {
+        
+    //     const getData = async () => {
+
+    //         if (chatList && Array.isArray(chatList) && chatList.length > 0 && !dataFetched) {
+
+    //             setDestination(null);
+    //             await fetchData(chatList, city, setData, setOriginalData, setDataFetched, messages, setMessages);
+
+    //         } else if (chatList === "N/A") {
+    //             // setShowErrorModal(true);
+    //             // setIsLoading(false);
+    //         } else if (dataFetched) {
+
+    //             if (originalData) {
+    //                 setDestination(originalData[0]);
+    //             } else {
+    //                 setShowErrorModal(true);
+    //             }
+    //             setIsLoading(false);
+    //         }
+    //     };
+    //     getData();
+        
+    // }, [chatList, dataFetched, originalData]);
+
+    const { city } = props;
     useEffect(() => {
         
         const getData = async () => {
 
-            if (chatList && Array.isArray(chatList) && chatList.length > 0 && !dataFetched) {
-
+            if (city && dataFetched === false) {
                 setDestination(null);
-                await fetchData(chatList, city, setData, setOriginalData, setDataFetched, messages, setMessages);
-
-            } else if (chatList === "N/A") {
-                // setShowErrorModal(true);
-                // setIsLoading(false);
-            } else if (dataFetched) {
-
-                if (originalData) {
-                    setDestination(originalData[0]);
+                await fetchData(city, setAttractions, setOriginalAttractions, setCityData, setDataFetched);
+            }
+            else if (dataFetched) {
+                
+                if (originalAttractions && cityData) {
+                    setDestination(originalAttractions[0]);
                 } else {
                     setShowErrorModal(true);
                 }
@@ -88,23 +119,27 @@ const Home = (props) => {
         };
         getData();
         
-    }, [chatList, dataFetched, originalData]);
+    }, [dataFetched, originalAttractions, cityData]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        async function fetchGPTResponse() {
-            await getGPTResponse(city, chatList, setChatList, messages, setMessages, setIsLoading, setDataFetched);
-        }
-        if (!chatList) {
-            fetchGPTResponse();
-        }
+    //     async function fetchGPTResponse() {
+    //         await getGPTResponse(city, chatList, setChatList, messages, setMessages, setIsLoading, setDataFetched);
+    //     }
+    //     if (!chatList) {
+    //         fetchGPTResponse();
+    //     }
         
-    }, [city, chatList, messages])
+    // }, [city, chatList, messages])
     
 
     const onSelectedDestination = (destination) => {
         setDestination(destination);
     };
+
+    const onSelectedTab = (tab) => {
+        setTab(tab);
+    }
 
     const cityHandler = (city) => {
         props.cityHandler(city);
@@ -118,21 +153,8 @@ const Home = (props) => {
     // };
 
     const closeModalHandler = () => {
-
        setShowErrorModal(false);
     };
-
-    // const amountFilterHandler = (value) => {
-
-    //     if (originalData && value <= originalData.length) {
-    //         const updatedData = [...originalData].slice(0, value);
-    //         setData(updatedData);
-    //     }
-    // };
-
-    // const ratingFilterHandler = useCallback((value) => {
-    //     getFilteredRatings(value, setData, originalData);
-    // }, [originalData]);
 
     const sortFilterHandler = (type) => {
         const updatedCriteria = {...filterCriteria, sort: type};
@@ -155,40 +177,40 @@ const Home = (props) => {
 
     useEffect(() => {
 
-        if (originalData) {
+        if (originalAttractions) {
 
             if (!filterCriteria.sort && !filterCriteria.rating && !filterCriteria.hours) {
-                setData(originalData);
+                setAttractions(originalAttractions);
             } else {
     
-                let updatedData = [...originalData];
+                let updatedAttractions = [...originalAttractions];
                 
                 //Filter ratings
                 if (filterCriteria.rating) {
-                    updatedData =  getFilteredRatings(filterCriteria.rating, updatedData);
+                    updatedAttractions =  getFilteredRatings(filterCriteria.rating, updatedAttractions);
                 } 
                 //Filter hours
                 if (filterCriteria.hours) {
-                    updatedData = getFilteredHours(filterCriteria.hours, updatedData);
+                    updatedAttractions = getFilteredHours(filterCriteria.hours, updatedAttractions);
                 }
                 //Sort at end
                 if (filterCriteria.sort) {
-                    updatedData = getSortedData(filterCriteria.sort, updatedData);
+                    updatedAttractions = getSortedData(filterCriteria.sort, updatedAttractions);
                 }
     
-                setData(updatedData);
+                setAttractions(updatedAttractions);
             }
         }
         
-    }, [filterCriteria, originalData])
+    }, [filterCriteria, originalAttractions])
 
     useEffect(() => {
-        if (destination && data && !data.includes(destination)) {
-            setDestination(data[0]);
-        } else if (!data) {
+        if (destination && attractions && !attractions.includes(destination)) {
+            setDestination(attractions[0]);
+        } else if (!attractions) {
             setDestination(null);
         }
-    }, [data, destination]);
+    }, [attractions, destination]);
 
     return (
         <Fragment>
@@ -204,32 +226,38 @@ const Home = (props) => {
             </Modal>
             }
             <div className={classes.dashboard}>
-                <MapComponent
-                    ref={mapUpdateRef}
-                    address={city}
-                    clickedCity={cityHandler}
-                    data={data}
-                    destination={destination}
-                    onSelectedDestination={onSelectedDestination}
-                />
-                {isLoading ?
-                    <SkeletonLoader /> :
-                    ((isLoading !== null && data) &&
-                        <div>
-                            <Results
-                                data={data}
-                                onSelectedDestination={onSelectedDestination}
-                                destination={destination}
-                                sortFilter={sortFilterHandler}
-                                // amountFilter={amountFilterHandler}
-                                ratingFilter={ratingFilterHandler}
-                                hoursFilter={hoursFilterHandler}
-                                resetFilter={resetFilterHandler}
-                            />
-                            {/* <RefineSearch search={refinedSearchHandler} /> */}
-                        </div>
-                    )
+                <TabGroup onTabChange={onSelectedTab} selected={tab} showTabs={dataFetched && attractions !== null} />
+                {tab === "Map" ?
+                    <Fragment>
+                        <MapComponent
+                            ref={mapUpdateRef}
+                            address={city}
+                            clickedCity={cityHandler}
+                            data={attractions}
+                            destination={destination}
+                            onSelectedDestination={onSelectedDestination}
+                        />
+                        {isLoading ?
+                            <SkeletonLoader /> :
+                            ((isLoading !== null && attractions) &&
+                                <div>
+                                    <Results
+                                        data={attractions}
+                                        onSelectedDestination={onSelectedDestination}
+                                        destination={destination}
+                                        sortFilter={sortFilterHandler}
+                                        // amountFilter={amountFilterHandler}
+                                        ratingFilter={ratingFilterHandler}
+                                        hoursFilter={hoursFilterHandler}
+                                        resetFilter={resetFilterHandler}
+                                    />
+                                    {/* <RefineSearch search={refinedSearchHandler} /> */}
+                                </div>
+                            )}
+                    </Fragment> :
+                    cityData && <CityInfo cityData={cityData} />   
                 }
+
             </div>
         </Fragment>
     )

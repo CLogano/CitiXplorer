@@ -1,0 +1,33 @@
+.container {
+    width: 75px;
+    height: 100px;
+    background-color: rgb(50, 19, 122);
+    border: 2px solid white;
+    border-left: none;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin: 1px 0;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.icon {
+    color: white;
+    font-size: 30px;
+}
+
+.text {
+    color: white;
+}
+
+.container:hover {
+    transform: translateX(0);
+}
+
+.selected {
+    background-color: darkorange;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useImperativeHandle } from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import Marker from './Marker';
-import CONSTANTS from '../../../constants';
+import CONSTANTS from '../../../../constants';
 
 const containerStyle = {
   width: '100%',
@@ -99,11 +99,13 @@ const MapComponent = React.forwardRef((props, ref) => {
   useEffect(() => {
     const fetchLocation = async () => {
       try {
+        
         const response = await fetch(
           CONSTANTS.apiURL + `/googleMaps/location-by-address?address=${props.address.name}`
         );
         const data = await response.json();
         if (map) {
+          console.log("INCORRECT PANNING")
           map.setCenter(data);
           if (mapRef.current.getZoom() < 9) {
             mapRef.current.setZoom(9);
@@ -116,7 +118,6 @@ const MapComponent = React.forwardRef((props, ref) => {
 
 
     if (props.address && map) {
-      console.log("ADDRESS: " + props.address.name)
       fetchLocation();
     }
   }, [props.address, map, forceUpdate]);

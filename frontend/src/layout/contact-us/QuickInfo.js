@@ -14,13 +14,13 @@ const QuickInfo = () => {
         <div className={classes.container}>
             <img src={logo} alt="Logo" className={classes.logo} />
             <div className={classes["inner-container-1"]}>
-                <div className={classes["inner-container-2"]}>
+                {/* <div className={classes["inner-container-2"]}>
                     <span class={`material-symbols-rounded ${classes.icon}`}>phone_iphone</span>
                     <div className={classes["inner-container-3"]}>
                         <div className={classes.type}>Phone</div>
                         <a>(914) 563-6005</a>
                     </div>
-                </div>
+                </div> */}
                 <div className={classes["inner-container-2"]}>
                     <span class={`material-symbols-rounded ${classes.icon}`}>contact_mail</span>
                     <div className={classes["inner-container-3"]}>

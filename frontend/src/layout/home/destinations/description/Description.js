@@ -1,4 +1,4 @@
-import React,  { useState, useLayoutEffect, useRef } from "react";
+import React,  { useState, useEffect, useLayoutEffect, useRef } from "react";
 import classes from "./Description.module.css";
 import ImageList from "./ImageList";
 import Details from "./Details";
@@ -12,6 +12,7 @@ const Description = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [lockedInPlace, setLockedInPlace] = useState(false);
     const [initialExpand, setInitialExpand] = useState(true);
+    const [hasRendered, setHasRendered] = useState(false);
 
     // const saveDestinationHandler = () => {
 
@@ -29,9 +30,16 @@ const Description = (props) => {
         setLockedInPlace(!lockedInPlace);
     };
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          setHasRendered(true);
+        }, 100); // Adjust delay as needed
+      
+        // Cleanup function to clear the timeout if the component unmounts
+        return () => clearTimeout(timer);
+      }, []);
+
     const nameRef = useRef(null);
-
-
     const { destination } = props;
     useLayoutEffect(() => {
 
@@ -74,27 +82,27 @@ const Description = (props) => {
         {[...Array(5)].map((_, index) => {
 
             if (index < filledStars) {
-                return <span key={index} class={`material-icons ${classes["outer-star"]}`}>star</span>
+                return <span key={index} className={`material-icons ${classes["outer-star"]}`}>star</span>
             } else if (index === filledStars && unfilledStars > 0) {
-                return (<span key={index} class={`material-icons ${classes["outer-star"]}`}>star
-                    <span class={`material-icons ${classes["inner-star"]}`} style={{ clipPath }}>star</span>
+                return (<span key={index} className={`material-icons ${classes["outer-star"]}`}>star
+                    <span className={`material-icons ${classes["inner-star"]}`} style={{ clipPath }}>star</span>
                 </span>);
             } else if (index > filledStars) {
-                return (<span key={index} class={`material-icons ${classes["outer-star"]}`}>star
-                    <span class={`material-icons ${classes["inner-star"]}`}>star</span>
+                return (<span key={index} className={`material-icons ${classes["outer-star"]}`}>star
+                    <span className={`material-icons ${classes["inner-star"]}`}>star</span>
                 </span>);
             }
             return null;
         })}
     </div>
 
-    let hours = null;
+    let hours = "N/A";
     if (destination) {
         hours = destination.hours;
         if (Array.isArray(hours))
             hours = destination.hours.map((day) => {
                 return (
-                    <div key={Math.random()}>{day}</div>
+                    <div key={day}>{day}</div>
                 );
             })
     }
@@ -104,14 +112,14 @@ const Description = (props) => {
     // };
 
     return (
-        <div className={`${classes.container} ${(lockedInPlace || initialExpand) ? classes.locked : ""}`} onMouseLeave={() => setInitialExpand(false)}>
+        <div className={`${classes.container} ${((lockedInPlace || initialExpand) && hasRendered) ? classes.locked : ""}`} onMouseLeave={() => setInitialExpand(false)}>
             {/* <button className={classes["save-button"]} onClick={saveDestinationHandler}>Save</button> */}
             {showModal && <Modal onClose={closeModalHandler}>
-                <Details destination={destination} />
+                <Details ref={nameRef} destination={destination} />
             </Modal>}
-            <span class={`material-symbols-rounded ${classes["lock-icon"]} ${lockedInPlace ? classes["lock-icon-locked"] : classes["locked-icon-unlocked"]}`} onClick={lockHandler}>{`${lockedInPlace ? "lock" : "lock_open"}`}</span>
+            <span className={`material-symbols-rounded ${classes["lock-icon"]} ${lockedInPlace ? classes["lock-icon-locked"] : classes["locked-icon-unlocked"]}`} onClick={lockHandler}>{`${lockedInPlace ? "lock" : "lock_open"}`}</span>
             <div className={classes["inner-container-1"]}>
-                <span class={`material-symbols-rounded ${classes.arrow}`}>
+                <span className={`material-symbols-rounded ${classes.arrow}`}>
                     arrow_drop_up
                 </span>
                 {/* <span class={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deselectDestinationHandler}>close</span> */}
@@ -143,7 +151,7 @@ const Description = (props) => {
                                 <div className={classes["inner-container-2"]}>
                                     <Card className={classes.card}>
                                         <span className={classes.section}>
-                                            <span class="material-icons" style={iconStyle}>location_on</span>
+                                            <span className="material-icons" style={iconStyle}>location_on</span>
                                             <div className={classes.address}>{destination.address}</div>
                                         </span>
                                     </Card>
@@ -171,7 +179,7 @@ const Description = (props) => {
                                 <div className={classes["inner-container-2"]}>
                                     <Card className={classes.card}>
                                         <span className={classes.section}>
-                                            <span class="material-symbols-rounded" style={iconStyle}>schedule</span>
+                                            <span className="material-symbols-rounded" style={iconStyle}>schedule</span>
                                             <div className={classes.hours}>{hours}</div>
                                         </span>
                                     </Card>
@@ -181,7 +189,7 @@ const Description = (props) => {
                                 <div className={classes["inner-container-2"]}>
                                     <Card className={classes.card}>
                                         <span className={classes.section}>
-                                            <span class="material-symbols-rounded" style={iconStyle}>link</span>
+                                            <span className="material-symbols-rounded" style={iconStyle}>link</span>
                                             {destination.website !== "N/A" ?
                                                 <a
                                                     href={`${destination.website}`}
@@ -198,7 +206,7 @@ const Description = (props) => {
                                 <div className={classes["inner-container-2"]}>
                                     <Card className={`${classes.card} ${classes["phone-number"]}`}>
                                         <span className={classes.section}>
-                                            <span class="material-symbols-rounded" style={iconStyle}>call</span>
+                                            <span className="material-symbols-rounded" style={iconStyle}>call</span>
                                             {destination.phoneNumber !== "N/A" ?
                                                 <a
                                                     href={`tel:${destination.phoneNumber}`}

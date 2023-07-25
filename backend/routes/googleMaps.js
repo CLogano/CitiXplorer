@@ -7,6 +7,63 @@ const { Client } = require("@googlemaps/google-maps-services-js");
 
 const mapsClient = new Client({});
 
+router.get("/search", async (req, res) => {
+
+  
+  const city = req.query.city;
+  console.log("Searching in " + city)
+  
+  try {
+    const response = await mapsClient.textSearch({
+      params: {
+        query: `historical attractions in ${city}`,
+        key: apiKey,
+      },
+      timeout: 1000
+    });
+
+    const promises = response.data.results.map(async (result) => {
+      const details = await mapsClient.placeDetails({
+        params: {
+          place_id: result.place_id,
+          key: apiKey,
+          fields: ["reviews", "website", "formatted_phone_number", "photos", "opening_hours"],
+        },
+      });
+
+      const { photos, website, reviews, formatted_phone_number, opening_hours } = details.data.result;
+
+      const imageUrls = [];
+      if (photos) {
+        for (const photo of photos) {
+    
+          const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${photo.photo_reference}&key=${apiKey}`;
+          imageUrls.push(url);
+      
+          if (imageUrls.length >= 5) {
+            break;
+          }
+        }
+      }
+
+      return {
+        ...result,
+        website,
+        formatted_phone_number,
+        reviews,
+        imageUrls,
+        opening_hours
+      };
+    });
+
+    const updatedResults = await Promise.all(promises);
+    
+    res.json(updatedResults);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
 router.get("/data", async (req, res) => {
 
   const { destination, city } = req.query;
@@ -32,6 +89,39 @@ router.get("/data", async (req, res) => {
   }
 });
 
+router.get("/images-city", async (req, res) => {
+
+  const { city } = req.query;
+
+  try {
+    
+    const response = await mapsClient.findPlaceFromText({
+      params: {
+        input: city,
+        inputtype: "textquery",
+        fields: ["place_id"],
+        key: apiKey,
+      },
+      timeout: 1000,
+    });
+
+    if (response.data.candidates && response.data.candidates.length > 0) {
+
+      const destinationId = response.data.candidates[0].place_id;
+
+      const imageUrls = await getImages(mapsClient, destinationId);
+
+      res.json({ imageUrls });
+
+    } else {
+      console.error("No candidates found for city: " + city);
+      res.status(404).json({ error: "No candidates found for city: " + city });
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 router.get("/images", async (req, res) => {
 
@@ -222,7 +312,7 @@ async function getImages(mapsClient, destinationId) {
     const response = await mapsClient.placeDetails({
       params: {
         place_id: destinationId,
-        fields: ["photos", "name", "formatted_address"],
+        fields: ["photos"],
         key: apiKey,
       },
       timeout: 1000,
@@ -234,10 +324,10 @@ async function getImages(mapsClient, destinationId) {
     if (images) {
       for (const image of images) {
   
-        const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${image.photo_reference}&key=${apiKey}`;
+        const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&minwidth=400&maxheight=500&photoreference=${image.photo_reference}&key=${apiKey}`;
         imageUrls.push(url);
     
-        if (imageUrls.length >= 5) {
+        if (imageUrls.length >= 4) {
           break;
         }
       }

@@ -26,7 +26,6 @@ const DestinationList = (props) => {
                     key={`${destination.name}-${destination.address}`}
                     id={destination.name}
                     name={destination.name}
-                    description={destination.description}
                     rating={destination.rating}
                     onSelected={onSelectedHandler}
                     selected={props.selected && destination.name === props.selected.name ? true : false}

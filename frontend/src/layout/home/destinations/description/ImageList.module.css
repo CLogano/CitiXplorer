@@ -34,7 +34,7 @@
 }
 
 .empty {
-    color: royalblue;
+    color: slateblue;
     animation: pop-in 0.1s ease-out forwards;
     cursor: default;
 }

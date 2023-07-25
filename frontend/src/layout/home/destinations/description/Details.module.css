@@ -17,12 +17,12 @@
   margin-top: 0;
   width: 100%;
   min-height: 75px;
-  background-color: cornflowerblue;
+  background-color: indigo;
   border-radius: 20px;
   display: flex;
   align-content: center;
   justify-content: center;
-  border: 3px solid royalblue;
+  border: 3px solid slateblue;
 }
 
 .name {
@@ -39,14 +39,14 @@
 .card {
   margin: 0.5rem;
   width: 100%;
-  background-color: cornflowerblue;
+  background-color: indigo;
   border-radius: 20px;
   padding: 1rem;
   flex-grow: 1;
   display: flex;
   align-content: center;
   justify-content: center;
-  border: 3px solid royalblue;
+  border: 3px solid slateblue;
   display: flex;
   justify-content: flex-start;
 }

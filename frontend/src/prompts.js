@@ -13,24 +13,36 @@ export const generateRefinedChatPrompt = "Please provide me with five more histo
 //     return "The answer you provided me is insufficient. Here are more details: '" + prompt + "'. Please retry the search with this information.";
 // }
 
-export function generateDestinationDetailPrompt(destinationName, location) {
+export function generateDestinationShortPrompt(destinationName, location) {
 
-    return "As an expert in tourism and recommending historical attractions to visit, your job will be to provide a very detailed description of a tourist destination I will ask you about. I will give you the name of the destination and its location. Your description should be at MOST 3 paragraphs long, with relevant information about the destination. Each paragraph should be about 3-4 sentences long. Examples include its history, the local area surrounding the destination, and any other thing you deem necessary that the user should know. Keep in mind this description is for a tourist, and should be tourist friendly." + 
+    return "As an expert in tourism and recommending historical attractions to visit, your job will be to provide a concise, easy-to-read, and tourist-friendly description of a tourist destination I will ask you about. I will give you the name of the destination and its location. Your description should be 1-2 sentences long." + 
     " Here is the tourist destination of interest: " + destinationName + ". Also, here is its location: " + location + ".";
 }
 
+export function generateDestinationDetailPrompt(destinationName, location) {
 
-export function detectPromptIntents(prompt) {
-
-    return "You are TravelGPT, an expert in tourism and recommending destinations for people to visit. " + 
-    "We have a request with the following details: '" + prompt + "' " +
-    "Please seperate this request into possible intents that the user is asking for related to finding destinations to visit. " +
-    "Here is a list of the possible intents:\n" + 
-    "1. Destination Rating (must contain a number) \n" +
-    "2. Destination Price\n" +
-    "3. Destination Topic\n" +
-    "If the request does not fall under any of these intents, please return the phrase 'No intent found' " +
-    "Otherwise, your answer must be in the format '1. {Intent 1} 2. {Intent 2} etc.' Your answer may contain more than one intent or only have one intent. " +
-    "Give an explanation for each intent."
+    return "As an expert in tourism and recommending historical attractions to visit, your job will be to provide a very detailed description of a tourist destination I will ask you about. I will give you the name of the destination and its location. Your description should be 2-3 paragraphs long, with relevant information about the destination. Each paragraph should be about 3-4 sentences long. Examples include its history, the local area surrounding the destination, and any other thing you deem necessary that the user should know. Keep in mind this description is for a tourist, and should be tourist friendly." + 
+    " Here is the tourist destination of interest: " + destinationName + ". Also, here is its location: " + location + ".";
 }
+
+export function generateCityHistoryPrompt(location) {
+
+    return "As an expert in history, your job will be to provide a four paragraph response which entails the history of a location I will ask you about. Answer in a neutral perspective and make sure to include relevant dates and events pertaining to the history. Make sure your response is informative, yet easy to read. Each paragraph should be between 4 - 6 sentences. " +
+    "Here is the location of interest: " + location + "."
+}
+
+
+// export function detectPromptIntents(prompt) {
+
+//     return "You are TravelGPT, an expert in tourism and recommending destinations for people to visit. " + 
+//     "We have a request with the following details: '" + prompt + "' " +
+//     "Please seperate this request into possible intents that the user is asking for related to finding destinations to visit. " +
+//     "Here is a list of the possible intents:\n" + 
+//     "1. Destination Rating (must contain a number) \n" +
+//     "2. Destination Price\n" +
+//     "3. Destination Topic\n" +
+//     "If the request does not fall under any of these intents, please return the phrase 'No intent found' " +
+//     "Otherwise, your answer must be in the format '1. {Intent 1} 2. {Intent 2} etc.' Your answer may contain more than one intent or only have one intent. " +
+//     "Give an explanation for each intent."
+// }
 
