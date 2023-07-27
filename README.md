@@ -1,4 +1,4 @@
-# MyTrip
+# CitiXplorer
 Application that allows users to easily find tourist destinations while travelling.
 
 To run the application, follow these steps:
