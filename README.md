@@ -9,7 +9,7 @@ To run the application, follow these steps:
 4. Create a new .env file in the backend folder to store API keys and other sensitive information.
 5. Obtain the necessary API keys, etc. by following the steps at the bottom of the page and paste them into the .env file (see ".env_sample" as a reference).
 6. Navigate to /frontend and run "npm start".
-7. Navigate to /backend and run "npm run dev".
+7. In the root folder (/CitiXplorer) run "npm run dev".
 
 ** Information about the project **
 
