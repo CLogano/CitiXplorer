@@ -25,14 +25,14 @@ const CityInfo = (props) => {
             const newContent = [...Array(cityData.paragraphs.length)].map((_, index) => {
                 if (index % 2 === 0) {
                     return (
-                        <div className={classes["inner-container"]}>
+                        <div className={classes["inner-container"]} key={index}>
                             <img className={classes.image} src={loadedImages[index].src} />
                             <p className={classes["right-paragraph"]}>{cityData.paragraphs[index]}</p>
                         </div>
                     );
                 } else {
                     return (
-                        <div className={classes["inner-container"]}>
+                        <div className={classes["inner-container"]} key={index}>
                             <p className={classes["left-paragraph"]}>{cityData.paragraphs[index]}</p>
                             <img className={classes.image} src={loadedImages[index].src} />
                         </div>

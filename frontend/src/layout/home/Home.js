@@ -34,20 +34,11 @@ const Home = (props) => {
     //     await getGPTResponse(prompt, location, setChatList, messages, setMessages, setIsLoading, setDataFetched);
     // };
 
-    // useEffect(() => {
-    //     const userInfo = localStorage.getItem("visited");
-    //     if (!userInfo) {
-    //       setShowWelcomeModal(true);
-    //       localStorage.setItem("visited", "true");
-    //     } else {
-    //         setShowWelcomeModal(false);
-    //     }
-    //   }, []);
-
     const { search, searchHandler } = props;
     useEffect(() => {
 
         const searchAttractions = async () => {
+
             console.log("SEARCHING!!")
             //setChatList(null);
             setAttractions(null);
@@ -64,7 +55,6 @@ const Home = (props) => {
             searchAttractions();
         }
     }, [search, searchHandler])
-
     
 
     // const refinedSearchHandler = async (prompt) => {

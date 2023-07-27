@@ -22,10 +22,10 @@ const QuickInfo = () => {
                     </div>
                 </div> */}
                 <div className={classes["inner-container-2"]}>
-                    <span class={`material-symbols-rounded ${classes.icon}`}>contact_mail</span>
+                    <span className={`material-symbols-rounded ${classes.icon}`}>contact_mail</span>
                     <div className={classes["inner-container-3"]}>
                         <div className={classes.type}>Email</div>
-                        <a>email addy</a>
+                        <a className={classes.email} href="mailto:info@citixplorer.com">info@citixplorer.com</a>
                     </div>
                 </div>
             </div>

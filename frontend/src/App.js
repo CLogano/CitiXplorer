@@ -39,10 +39,10 @@ function App() {
       {showWelcomeModal && pathLocation.pathname === "/" && <Modal onClose={closeModalHandler}>
                 <div className={classes["welcome-container-outer"]}>
                     <div className={classes["welcome-container-inner"]}>
-                        <h1 className={classes["welcome-header"]}>Welcome to VeloCity!</h1>
+                        <h1 className={classes["welcome-header"]}>Welcome to CitiXplorer!</h1>
                         <span class={`material-symbols-rounded ${classes["city-icon"]}`}>apartment</span>
                     </div>
-                    <p>Enter a city in the search bar to generate a list of historical attractions for that city!</p>
+                    <p className={classes["welcome-description"]}>To get started, enter a city in the search bar or interact with the map to search for historical attractions!</p>
                 </div>
       </Modal>}
       <Header searchHandler={searchHandler} cityHandler={cityHandler} city={city} />

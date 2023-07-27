@@ -14,6 +14,7 @@ const MapComponent = React.forwardRef((props, ref) => {
   const [forceUpdate, setForceUpdate] = useState(false);
   const [clickedMarker, setClickedMarker] = useState(false);
   const mapRef = useRef(null);
+  const prevDataRef = useRef();
 
   const devApiKey = "AIzaSyCj4i7ATOdumVfn3eDuiIbMdzzTxoP2EBE";
 
@@ -84,11 +85,11 @@ const MapComponent = React.forwardRef((props, ref) => {
     forceMapUpdate,
   }));
 
+  //Center on selected destination
   useEffect(() => {
 
     if (destination && mapRef.current) {
         mapRef.current.panTo(destination.geometry);
-
         if (mapRef.current.getZoom() < 13) {
             mapRef.current.setZoom(13);
         }
@@ -105,7 +106,6 @@ const MapComponent = React.forwardRef((props, ref) => {
         );
         const data = await response.json();
         if (map) {
-          console.log("INCORRECT PANNING")
           map.setCenter(data);
           if (mapRef.current.getZoom() < 9) {
             mapRef.current.setZoom(9);
@@ -117,16 +117,18 @@ const MapComponent = React.forwardRef((props, ref) => {
     };
 
 
-    if (props.address && map) {
+    if (props.address) {
       fetchLocation();
     }
   }, [props.address, map, forceUpdate]);
 
+
   //Pan & zoom to first destination when data is fetched
   useEffect(() => {
 
-    if (data && data.length > 0 && mapRef.current) {
-
+    prevDataRef.current = data;
+    if (data && data.length > 0 && mapRef.current && JSON.stringify(data) !== JSON.stringify(prevDataRef.current)) {
+        
         mapRef.current.panTo(data[0].geometry);
         mapRef.current.setZoom(12);
     }
@@ -168,6 +170,23 @@ const MapComponent = React.forwardRef((props, ref) => {
       }
     ]
   };
+    
+
+  let markers = <div></div>;
+  if (data) {
+    markers = data && JSON.stringify(data) === JSON.stringify(prevDataRef.current) && data.map((d) => (
+      <Marker
+        key={`${d.name}-${d.address}`}
+        id={d.name}
+        name={d.name}
+        description={d.description}
+        rating={d.rating}
+        selected={destination && d.name === destination.name ? true : false}
+        onSelected={markerClickHandler}
+        position={d.geometry}
+      />
+    ));
+  }
 
   return (
     <React.Fragment>
@@ -180,18 +199,7 @@ const MapComponent = React.forwardRef((props, ref) => {
           options={options}
           onClick={clickCityHandler}
         >
-          {data && data.map((d) => (
-            <Marker
-              key={`${d.name}-${d.address}`}
-              id={d.name}
-              name={d.name}
-              description={d.description}
-              rating={d.rating}
-              selected={destination && d.name === destination.name ? true : false}
-              onSelected={markerClickHandler}
-              position={d.geometry}
-            />
-          ))}
+          {markers}
         </GoogleMap>
       </LoadScript>
     </React.Fragment>

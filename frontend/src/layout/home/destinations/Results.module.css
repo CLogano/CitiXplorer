@@ -15,7 +15,7 @@
 }
 
 .destinations {
-    pointer-events: auto;
+    pointer-events: none;
     height: calc(100vh - 5rem);
     margin-top: 5rem;
     font-family: "Red Hat Display", "sans-serif";

@@ -21,9 +21,9 @@ const Header = (props) => {
             <Search searchHandler={props.searchHandler} city={props.city} cityHandler={props.cityHandler} />
             <div className={classes["right-section"]}>
                 <h3 onClick={() => navigate("/")}>Home</h3>
-                <VerticalDivider className={classes.divide} />
+                {/* <VerticalDivider className={classes.divide} /> */}
                 <h3 onClick={() => navigate("/about")}>About</h3>
-                <VerticalDivider className={classes.divide} />
+                {/* <VerticalDivider className={classes.divide} /> */}
                 <h3 onClick={() => navigate("/contact-us")}>Contact</h3>
                 {/* <VerticalDivider className={classes.divide} /> */}
                 {/* <span class={`material-icons ${classes.account}`}>account_circle</span> */}

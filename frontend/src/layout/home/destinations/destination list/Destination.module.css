@@ -8,6 +8,7 @@
     font-weight: bold;
     color: white;
     padding: 1rem;
+    pointer-events: auto;
 }
 
 .card {
