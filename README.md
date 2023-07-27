@@ -1,5 +1,5 @@
 # CitiXplorer
-Application that allows users to easily find tourist destinations while travelling.
+Application that allows users to browse historical attractions of various cities, along with learning the history of the city itself.
 
 To run the application, follow these steps:
 
