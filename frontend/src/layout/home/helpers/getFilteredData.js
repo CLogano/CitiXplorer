@@ -90,7 +90,6 @@ export const getFilteredHours = (hourData, data) => {
                     }
 
                     const rest = destination.hours[i].split(":")[1].trim();
-                    console.log(rest);
                     if (rest === "Closed") {
                         return false;
                     }

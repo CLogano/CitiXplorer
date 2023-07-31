@@ -19,7 +19,7 @@
     height: calc(100vh - 5rem);
     margin-top: 5rem;
     font-family: "Red Hat Display", "sans-serif";
-    min-width: 230px;
+    min-width: 200px;
     width: 15%;
     max-width: 285px;
     z-index: 10;
@@ -64,7 +64,40 @@
     pointer-events: auto;
     height: calc(10% - 5rem);
     margin-top: 5rem;
+    width: 100%;
     font-family: "Red Hat Display", "sans-serif";
-    width: 50%;
     z-index: 10;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 1200px) {
+    .destinations {
+        width: 200px; 
+        margin-left: 3rem;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .destinations {
+        width: 175px; 
+        margin-left: 3rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .destinations {
+        margin-left: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .destinations {
+        height: calc(100vh - 8rem);
+        margin-top: 8rem;
+    } 
+    .filters {
+        height: calc(100vh - 8rem);
+        margin-top: 8rem;
+        overflow: hidden;
+    }
 }

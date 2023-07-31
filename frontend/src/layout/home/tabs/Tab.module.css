@@ -31,3 +31,15 @@
 .selected {
     background-color: darkorange;
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 50px;
+    }
+    .icon {
+        font-size: 20px;
+    }
+    .text {
+        font-size: 12px;
+    }
+}

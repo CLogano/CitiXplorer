@@ -33,7 +33,7 @@
 }
 
 .input, .phone-number {
-    width: 75%;
+    width: 85%;
 }
 
 .textbox {
@@ -64,4 +64,34 @@ input:-webkit-autofill, textarea:-webkit-autofill {
 
 .selected {
     border-color: rgb(50, 19, 122);
+}
+
+@media screen and (max-width: 768px) {
+    .input, .phone-number {
+        font-size: 14px;
+    }
+    .zipcode {
+        width: 30%;
+        font-size: 14px;
+    }
+    .textbox {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .input, .phone-number {
+        width: 100%;
+        font-size: 12px;
+    }
+    .zipcode {
+        width: 40%;
+        font-size: 12px;
+    }
+    .type {
+        font-size: 13px;
+    }
+    .textbox {
+        font-size: 12px;
+    }
 }

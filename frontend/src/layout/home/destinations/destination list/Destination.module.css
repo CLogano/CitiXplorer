@@ -8,17 +8,16 @@
     font-weight: bold;
     color: white;
     padding: 1rem;
-    pointer-events: auto;
 }
 
 .card {
-    min-height: 125px;
+    min-height: 100px;
+    min-width: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: rgb(50, 19, 122);
-    border: 2px solid white;
-    
+    border: 2px solid white;   
 }
 
 .card:hover {
@@ -90,4 +89,20 @@
 .star-selected {
   color: yellow;
   font-size: 36px;
+}
+
+@media screen and (max-width: 1024px) {
+  .star {
+    font-size: 24px;
+  }
+  .rating {
+    font-size: 20px;
+  }
+  .name {
+    font-size: 16px;
+  }
+  .card {
+    padding: 0.75rem;
+    max-height: 125px;
+  }
 }

@@ -43,3 +43,21 @@
       transform: scale(1.1);
     }
 } */
+
+@media screen and (max-width: 1024px) {
+  .option {
+      font-size: 12px; 
+  }
+  .container {
+    margin-left: 0.15rem;
+    margin-right: 0.15rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 0.5rem 0;
+    border: none;
+    box-shadow: none;
+  }
+}

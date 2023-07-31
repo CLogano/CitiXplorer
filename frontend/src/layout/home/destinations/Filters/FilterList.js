@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import classes from "./FilterList.module.css";
 import SortFilter from "./SortFilter";
-import AmountFilter from "./AmountFilter";
 import RatingFilter from "./RatingFilter";
 import HoursFilter from "./HoursFilter";
 
@@ -45,8 +44,7 @@ const FilterList = (props) => {
         <div className={classes.container}>
             <SortFilter selected={onSortChangeHandler} value={sortFilter} />
             <RatingFilter selected={onRatingChangeHandler} value={ratingFilter} />
-            <HoursFilter selectedDay={onDayChangeHandler} selectedHours={onHoursChangeHandler} day={dayFilter} hours={hoursFilter}/>
-            {/* <AmountFilter selected={props.amountFilter} initialAmount={props.initialAmount} /> */}
+            <HoursFilter selectedDay={onDayChangeHandler} selectedHours={onHoursChangeHandler} day={dayFilter} hours={hoursFilter} />
             <button className={classes.reset} onClick={resetHandler}>Reset</button>
         </div>
     )

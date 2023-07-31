@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import classes from "./Results.module.css";
 import DestinationList from "./destination list/DestinationList";
 import Description from "./description/Description";
 import FilterList from "./filters/FilterList";
+import FilterBox from "./filters/FilterBox";
 
 const Results = (props) => {
+
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+
+        const checkScreenSize = () => {
+            setIsSmallScreen(window.innerWidth < 768);
+        };
+        window.addEventListener("resize", checkScreenSize);
+
+        return () => window.removeEventListener("resize", checkScreenSize);
+
+    }, []);
 
     const deselectHandler = () => {
         props.onSelectedDestination(null);
@@ -21,14 +35,21 @@ const Results = (props) => {
                     />
                 </div>
                 <div className={classes.filters}>
-                    <FilterList 
-                        sortFilter={props.sortFilter}
-                        amountFilter={props.amountFilter}
-                        initialAmount={props.data.length}
-                        ratingFilter={props.ratingFilter}
-                        hoursFilter={props.hoursFilter}
-                        resetFilter={props.resetFilter}
-                    />
+                    {isSmallScreen ?
+                        <FilterBox
+                            sortFilter={props.sortFilter}
+                            ratingFilter={props.ratingFilter}
+                            hoursFilter={props.hoursFilter}
+                            resetFilter={props.resetFilter}
+                        />
+                        :
+                        <FilterList
+                            sortFilter={props.sortFilter}
+                            ratingFilter={props.ratingFilter}
+                            hoursFilter={props.hoursFilter}
+                            resetFilter={props.resetFilter}
+                        />
+                    }
                 </div>
             </div>
             {props.destination &&

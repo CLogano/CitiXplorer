@@ -15,6 +15,8 @@ const ContactForm = () => {
     const [message, setMessage] = useState("");
     const [formIsValid, setFormIsValid] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const siteKey = process.env.NODE_ENV === "production" ? process.env.REACT_APP_GOOGLE_CAPTCHA_SITE_KEY : "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
     useEffect(() => {
 
@@ -36,7 +38,8 @@ const ContactForm = () => {
                 emailAddress: emailAddress,
                 phoneNumber: phoneNumber,
                 zipcode: zipcode,
-                message: message
+                message: message,
+                captchaValue: captchaValue
             };
 
             const response = await fetch(CONSTANTS.apiURL + "/googleSheets/contact", {
@@ -50,10 +53,10 @@ const ContactForm = () => {
             const result = await response.json();
             
             if (result.message === "Data submitted successfully") {
-
-                //Send automated email
-
                 setShowSuccessModal(true);
+            }
+            else if (response.status === 400 && result.message === "Invalid captcha") {
+                setShowErrorModal(true);
             }
         }
     };
@@ -78,7 +81,12 @@ const ContactForm = () => {
     };
 
     const closeModalHandler = () => {
-        setShowSuccessModal(false);
+        if (showSuccessModal) {
+            setShowSuccessModal(false);
+        }
+        else if (showErrorModal) {
+            setShowErrorModal(false);
+        }
     };
 
     return (
@@ -94,6 +102,17 @@ const ContactForm = () => {
                     </div>
                 </Modal>
             }
+            {showErrorModal && 
+                <Modal onClose={closeModalHandler}>
+                    <div className={classes["modal-container"]}>
+                        <div className={classes["modal-container-inner"]}>
+                            <h1 className={classes["text-thanks"]}>An Error Occurred</h1>
+                            <span class={`material-symbols-rounded ${classes["smile-icon"]}`}>sentiment_dissatisfied</span>
+                        </div>
+                        <p className={classes["text-rest"]}>Invalid Captcha. Please try again.</p>
+                    </div>
+                </Modal>
+            }
             <form className={classes.container} onSubmit={onSubmitHandler}>
                 <Field type="Name" mandatory={false} fieldHandler={nameChangeHandler} />
                 <div className={classes["inner-container"]}>
@@ -104,7 +123,7 @@ const ContactForm = () => {
                 <Field type="Message" mandatory={true} fieldHandler={messageChangeHandler} />
                 <ReCAPTCHA
                     className={classes.captcha}
-                    sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                    sitekey={siteKey}
                     onChange={captchaChangeHandler}
                 />
                 <div className={classes["inner-container-2"]}>

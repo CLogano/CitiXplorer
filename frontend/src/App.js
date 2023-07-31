@@ -40,7 +40,7 @@ function App() {
                 <div className={classes["welcome-container-outer"]}>
                     <div className={classes["welcome-container-inner"]}>
                         <h1 className={classes["welcome-header"]}>Welcome to CitiXplorer!</h1>
-                        <span class={`material-symbols-rounded ${classes["city-icon"]}`}>apartment</span>
+                        <span className={`material-symbols-rounded ${classes["city-icon"]}`}>apartment</span>
                     </div>
                     <p className={classes["welcome-description"]}>To get started, enter a city in the search bar or interact with the map to search for historical attractions!</p>
                 </div>

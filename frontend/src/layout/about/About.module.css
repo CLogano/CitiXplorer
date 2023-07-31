@@ -1,5 +1,8 @@
 .container {
     width: 100vw;
+    height: calc(100% - 5rem);
+    margin-top: 5rem;
+    position: relative;
     background-image: url("../../pictures/eiffel-tower.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -11,6 +14,8 @@
     justify-content: flex-start;
     background-color: white;
     z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .inner-container {
@@ -20,7 +25,6 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    height: 60vh;
     background-color: white;
 }
 
@@ -29,28 +33,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 40%;
+    max-width: 50%;
     margin: 3rem;
-}
-
-.top-paragraph {
-    text-align: center;
-    width: 125%;
-    font-size: 18px;
-}
-
-.left-paragraph {
-    margin-left: 1rem;
-    text-align: start;
-    width: 50%;
-    font-size: 18px;
-}
-
-.right-paragraph {
-    margin-right: 1rem;
-    text-align: end;
-    width: 50%;
-    font-size: 18px;
 }
 
 .inner-container-3 {
@@ -60,18 +44,40 @@
     width: 100%;
 }
 
+.paragraph {
+    text-align: center;
+    width: 100%;
+    font-size: 24px;
+}
+
+.right-paragraph {
+    align-self: start;
+    margin-left: 1rem;
+    text-align: start;
+    min-width: 50%;
+    font-size: 24px;
+}
+
+.left-paragraph {
+    align-self: start;
+    margin-right: 1rem;
+    text-align: end;
+    min-width: 50%;
+    font-size: 24px;
+}
+
 .heading {
     font-size: 32px;
     font-style: italic;
     font-weight: bold;
     color: rgb(50, 19, 122);
+    margin-bottom: 2rem;
 }
 
 .image-container {
     position: relative;
     width: 100%;
-    height: calc(60vh - 5rem);
-    margin-top: 5rem;
+    height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,6 +103,100 @@
     color: white;
 }
 
+.picture {
+    width: 1200px;
+    margin: 1rem;
+    margin-top: 0;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
 .notice {
     color: grey;
+    margin: 1rem;
+    text-align: center;
+}
+
+@media screen and (max-width: 1800px) {
+    .paragraph {
+        font-size: 22px;
+    }
+    .left-paragraph {
+        font-size: 22px;
+    }
+    .right-paragraph {
+        font-size: 22px;
+    }
+    .picture {
+        width: 1000px;
+    }
+}
+
+@media screen  and (max-width: 1500px) {
+    .paragraph {
+        font-size: 20px;
+    }
+    .left-paragraph {
+        font-size: 20px;
+        text-align: center;
+        margin: 1rem;
+    }
+    .right-paragraph {
+        font-size: 20px;
+        text-align: center;
+        margin: 1rem;
+    }
+    .inner-container-2 {
+        max-width: 80%;
+        margin: 1rem;
+    }
+    .inner-container-3 {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    
+}
+
+@media screen and (max-width: 768px) {
+    .image-text {
+        font-size: 48px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        height: calc(100% - 8rem);
+        margin-top: 8rem;
+    }
+    .heading {
+        font-size: 16px;
+    }
+    .paragraph {
+        font-size: 12px;
+    }
+    .left-paragraph {
+        font-size: 12px;
+    }
+    .right-paragraph {
+        font-size: 12px;
+    }
+    .picture {
+        width: 250px;
+    }
+    .image-text {
+        top: 30%;
+        font-size: 24px;
+    }
+    .image-container {
+        height: 40vh;
+    }
+    .inner-container-2 {
+        max-width: 100%;
+        margin: 1rem;
+    }
+    .notice {
+        font-size: 10px;
+    }
 }

@@ -27,6 +27,16 @@
     max-width: 75%;
 }
 
+.inner-container-2 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 3rem;
+    max-width: 75%;
+}
+
+
 .image {
     max-width: 50%;
     max-height: 400px;
@@ -36,10 +46,19 @@
     border-radius: 15px;
 }
 
+.paragraph {
+    text-align: center;
+    font-size: 18px;
+    width: 100%;
+    margin: 1rem;
+    font-family: "Red Hat Display", "sans-serif";
+}
+
 .left-paragraph {
     text-align: end;
     font-size: 30px;
-    width: 50%;
+    min-width: 50%;
+    max-width: 65%;
     margin: 1rem;
     align-self: flex-start;
     font-family: "Red Hat Display", "sans-serif";
@@ -48,7 +67,8 @@
 .right-paragraph {
     text-align: start;
     font-size: 30px;
-    width: 50%;
+    min-width: 50%;
+    max-width: 65%;
     margin: 1rem;
     align-self: flex-start;
     font-family: "Red Hat Display", "sans-serif";
@@ -60,3 +80,56 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+@media screen and (max-width: 1500px) {
+    .name {
+        font-size: 60px;
+    }
+    .left-paragraph {
+        font-size: 24px;
+    }
+    .right-paragraph {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .name {
+        font-size: 48px;
+    }
+    .left-paragraph {
+        font-size: 20px;
+    }
+    .right-paragraph {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .name {
+        font-size: 40px;
+    }
+    .left-paragraph {
+        font-size: 16px;
+    }
+    .right-paragraph {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .image {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .paragraph {
+        font-size: 12px;
+    }
+    .name {
+        font-size: 24px;
+        margin-top: 8rem;
+    }
+}
+

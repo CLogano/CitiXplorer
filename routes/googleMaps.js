@@ -21,7 +21,10 @@ router.get("/search", async (req, res) => {
       timeout: 5000
     });
 
-    const promises = response.data.results.map(async (result) => {
+    const sortedResults = response.data.results.sort((a, b) => b.user_ratings_total - a.user_ratings_total);
+    const top10Results = sortedResults.slice(0, 10);
+
+    const promises = top10Results.map(async (result) => {
       const details = await mapsClient.placeDetails({
         params: {
           place_id: result.place_id,

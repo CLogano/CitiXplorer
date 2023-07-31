@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classes from "./Marker.module.css"
-import { OverlayView } from '@react-google-maps/api';
+import { OverlayViewF } from "@react-google-maps/api";
+import { OverlayView } from "@react-google-maps/api";
 
 const Marker = (props) => {
 
@@ -34,14 +35,14 @@ const Marker = (props) => {
     }, [selected]);
 
     return (
-            <OverlayView
+            <OverlayViewF
                 position={props.position}
                 mapPaneName={OverlayView.FLOAT_PANE}
                 getPixelPositionOffset={getPixelPositionOffset}
             >
                 <span
                     onClick={handleClick}
-                    class={`material-icons
+                    className={`material-icons
                         ${classes.marker}
                         ${isSelected ? classes.selected :
                             classes["selected-reverse"]}`
@@ -50,7 +51,7 @@ const Marker = (props) => {
                 <div className={classes.tooltip}>{props.name}</div>
                 </span>
 
-            </OverlayView>
+            </OverlayViewF>
     )
 };
 

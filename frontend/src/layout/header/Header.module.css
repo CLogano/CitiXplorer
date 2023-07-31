@@ -17,19 +17,24 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
+.header.mobile {
+  height: 8rem;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mobile-section {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .logo {
-  width: 200px;
+  width: 150px;
   height: auto;
   cursor: pointer;
-}
-
-.account {
-    font-size: 36px;
-    cursor: pointer;
-}
-
-.account:hover {
-  animation: pop-out 0.2s ease-out forwards;
 }
 
 @keyframes pop-out {
@@ -57,13 +62,39 @@ h1 {
 
 h3 {
   margin: 1rem;
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
   cursor: pointer;
 }
 
 h3:hover {
   animation: pop-out 0.2s ease-out forwards;
+}
+
+
+@media screen and (max-width: 1200px) {
+    h3 {
+      font-size: 16px;
+      margin: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+    width: 100px;
+  }
+  .header {
+    padding: 0 2.5%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo {
+    width: 100px;
+  }
+  .header {
+    padding: 0 2.5%;
+  }
 }
 
 .divide {

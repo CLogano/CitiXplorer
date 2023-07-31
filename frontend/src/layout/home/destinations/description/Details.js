@@ -45,7 +45,7 @@ const TypingAnimation = (props) => {
     }, [text, currentParagraph]);
 
     return (
-      <div>
+      <div className={classes["text-container"]}>
         {text.slice(0, currentParagraph).map((paragraph, index) => (
           <p key={index}>{paragraph}</p> // Display typed paragraphs
         ))}

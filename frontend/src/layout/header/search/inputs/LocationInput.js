@@ -125,15 +125,15 @@ const LocationInput = (props) => {
         setIsFocused(true);
     }, [touchedOnce]);
 
-    useEffect(() => {
-        console.log("touched once: " + touchedOnce);
-        console.log("is focused : " + isFocused);
-        console.log("is valid: " + isValid);
-        console.log("show dropdown: " + showDropDown);
-        console.log("show tooltip: " + tooltipVisible);
-        console.log("");
+    // useEffect(() => {
+    //     console.log("touched once: " + touchedOnce);
+    //     console.log("is focused : " + isFocused);
+    //     console.log("is valid: " + isValid);
+    //     console.log("show dropdown: " + showDropDown);
+    //     console.log("show tooltip: " + tooltipVisible);
+    //     console.log("");
         
-    }, [isFocused, isValid, showDropDown, touchedOnce, tooltipVisible]);
+    // }, [isFocused, isValid, showDropDown, touchedOnce, tooltipVisible]);
 
     useEffect(() => {
 
@@ -150,7 +150,7 @@ const LocationInput = (props) => {
     const selectTermDropdown = (item) => (event) => {
 
         event.preventDefault();
-        location({name: item.name, population: item.population});
+        location(item);
 
         if (pathLocation.pathname !== "/") {
             navigate("/");
@@ -188,7 +188,7 @@ const LocationInput = (props) => {
         <div className={`${classes["search-container"]} ${pop && classes.pop}`}>
             <div className={`${classes["search-inner"]}
                 ${isInvalid && classes.invalid}`}>
-                <span class={`material-icons ${classes["location-icon"]}`}>location_on</span>
+                <span className={`material-icons ${classes["location-icon"]}`}>location_on</span>
                 <input
                     type={props.type}
                     id={props.id}
@@ -201,7 +201,7 @@ const LocationInput = (props) => {
                     autoComplete="off"
                     ref={locationRef}
                 />
-                <span class={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deleteInput}>close</span>
+                <span className={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deleteInput}>close</span>
                 {isInvalid && !showDropDown && (
                     <div className={`${classes.tooltip} ${tooltipVisible ? classes.visible : ""}`}>{message}</div>
                 )}

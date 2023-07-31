@@ -58,7 +58,7 @@ const Search = (props) => {
             <LocationInput
                 id="Location"
                 type="text"
-                placeholder="New York City, NY, United States"
+                placeholder="Paris, France"
                 location={locationHandler}
                 locationValidity={locationValidityHandler}
                 city={city}
@@ -70,7 +70,7 @@ const Search = (props) => {
                 prompt={promptHandler}
             /> */}
             <button type="submit" className={classes["search-button"]}>
-                <span class={`material-symbols-rounded ${classes["search"]} ${classes["search-icon"]}`}>search</span>
+                <span className={`material-symbols-rounded ${classes["search"]} ${classes["search-icon"]}`}>search</span>
             </button>
         </form>
     );

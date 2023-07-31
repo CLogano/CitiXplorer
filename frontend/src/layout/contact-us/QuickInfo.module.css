@@ -40,8 +40,9 @@
 }
 
 .logo {
-    min-width: 150px;
+    min-width: 125px;
     width: 60%;
+    max-width: 200px;
     height: auto;
     margin: 1rem;
 }
@@ -70,4 +71,16 @@
 .email:hover {
     color: blue;
     text-decoration: underline;
+}
+
+@media screen and (max-width: 480px) {
+    .email {
+        font-size: 14px;
+    }
+    .type {
+        font-size: 16px;
+    }
+    .icon {
+        font-size: 36px;
+    }
 }

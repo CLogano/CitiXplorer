@@ -1,7 +1,6 @@
 .search-container {
     margin: 0.5rem;
     width: 50%;
-    min-width: 200px;
     max-width: 750px;
     display: flex;
     flex-direction: column;
@@ -112,7 +111,7 @@
     color: black;
     border-radius: 5px;
     font-weight: bold;
-    font-size: 0.75vw;
+    font-size: 20px;
     z-index: 99999999;
     border: none;
     pointer-events: none;
@@ -187,3 +186,24 @@
       transform: scale(1);
     }
 }
+
+@media screen and (max-width: 1200px) {
+    .tooltip {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .search-container {
+        flex-grow: 1;
+    }
+    .search-inner input {
+        font-size: 14px;
+    }
+    .tooltip {
+        font-size: 12px;
+    }
+    .dropdown-row {
+        font-size: 12px;
+    }
+  }

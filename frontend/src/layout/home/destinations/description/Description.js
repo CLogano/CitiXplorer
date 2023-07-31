@@ -198,7 +198,7 @@ const Description = (props) => {
                                                     className={classes.link}
                                                 >{`${destination.website}`}
                                                 </a> :
-                                                destination.website
+                                                <div className={classes.link}>{destination.website}</div>
                                             }
                                         </span>
                                     </Card>
@@ -215,7 +215,7 @@ const Description = (props) => {
                                                     className={classes.link}
                                                 >{destination.phoneNumber}
                                                 </a> :
-                                                destination.phoneNumber
+                                                <div className={classes.link}>{destination.phoneNumber}</div>
                                             }
                                         </span>
                                     </Card>

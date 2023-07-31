@@ -28,7 +28,7 @@
     margin: 0.5rem 0.25rem;
     margin-bottom: 0;
     overflow-y: auto;
-    font-size: calc(.35vw + 0.5vh);
+    font-size: 16px;
     font-weight: bold;
     scrollbar-width: none; /* For Firefox */
     -ms-overflow-style: none;  /* For Internet Explorer and Edge */

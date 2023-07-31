@@ -1,0 +1,26 @@
+.name {
+    color: white;
+    background-color: rgb(50, 19, 122);
+    border: 1px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 0.15rem;
+    text-align: center;
+    font-family: "Red Hat Display", "sans-serif";
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.name:hover {
+    color: lightblue;
+    border-color: lightblue;
+}
+
+.selected {
+    background-color: darkorange;
+}
+
+.selected:hover {
+    color: white;
+    border: 1px solid white;
+}

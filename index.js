@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const googleMapsRouter = require("./routes/googleMaps");
+const googleSheetsRouter = require("./routes/googleSheets");
 const geonamesRouter = require("./routes/geonames");
 const chatGPTRouter = require("./routes/chatgpt");
-const googleSheetsRouter = require("./routes/googleSheets");
 const path = require("path");
 
 const app = express();

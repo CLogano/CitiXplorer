@@ -39,7 +39,7 @@ const Home = (props) => {
 
         const searchAttractions = async () => {
 
-            console.log("SEARCHING!!")
+            console.log(`SEARCHING in ${city.name}!!`)
             //setChatList(null);
             setAttractions(null);
             setCityData(null);
@@ -245,7 +245,7 @@ const Home = (props) => {
                                 </div>
                             )}
                     </Fragment> :
-                    cityData && <CityInfo cityData={cityData} />   
+                    cityData && <CityInfo cityData={cityData} />
                 }
 
             </div>

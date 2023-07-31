@@ -1,30 +1,44 @@
 const express = require("express");
 const { google } = require("googleapis");
-const { SecretManagerServiceClient } = require("@google-cloud/secret-manager");
+const fetch = require("node-fetch");
+require("dotenv").config();
 const router = express.Router();
+const path = require("path");
+const secretKey = process.env.GOOGLE_CAPTCHA_SECRET_KEY;
+const credentialsPath = path.resolve(__dirname, "..", "..", "CitiXplorer Credentials", "credentials.json");
 
-async function accessSecret() {
-  const client = new SecretManagerServiceClient();
-  const name = "projects/272546954098/secrets/Credentials/versions/latest";
+let credentials;
 
-  const [version] = await client.accessSecretVersion({name});
-
-  const payload = version.payload.data.toString('utf8');
-
-  const serviceAccountCredentials = JSON.parse(payload);
-
-  return serviceAccountCredentials;
+if (process.env.NODE_ENV === "production") {
+  // Load credentials from Heroku Secret Manager
+  credentials = JSON.parse(Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS, "base64").toString("ascii"));
+} else {
+  // Load credentials from local .env file during development
+  credentials = require(credentialsPath);
 }
-
 
 router.post("/contact", async (req, res) => {
 
     try {
 
-        const { name, emailAddress, phoneNumber, zipcode, message } = req.body;
+        const { name, emailAddress, phoneNumber, zipcode, message, captchaValue } = req.body;
         console.log(name);
 
-        const credentials = await accessSecret();
+        if (process.env.NODE_ENV === "production") {
+          // Validate the captcha first
+          const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `secret=${secretKey}&response=${captchaValue}`,
+          });
+
+          const data = await response.json();
+          if (!data.success) {
+            return res.status(400).json({ message: "Invalid captcha" });
+          }
+        }
 
         const auth = new google.auth.JWT(
             credentials.client_email,
