@@ -111,6 +111,8 @@ const Description = (props) => {
     //     props.deselect();
     // };
 
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
     return (
         <div className={`${classes.container} ${((lockedInPlace || initialExpand) && hasRendered) ? classes.locked : ""}`} onMouseLeave={() => setInitialExpand(false)}>
             {/* <button className={classes["save-button"]} onClick={saveDestinationHandler}>Save</button> */}
@@ -208,13 +210,15 @@ const Description = (props) => {
                                         <span className={classes.section}>
                                             <span className="material-symbols-rounded" style={iconStyle}>call</span>
                                             {destination.phoneNumber !== "N/A" ?
-                                                <a
-                                                    href={`tel:${destination.phoneNumber}`}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className={classes.link}
-                                                >{destination.phoneNumber}
-                                                </a> :
+                                                isMobile ?
+                                                    <a
+                                                        href={`tel:${destination.phoneNumber}`}
+                                                        className={classes.link}
+                                                    >
+                                                        {destination.phoneNumber}
+                                                    </a> :
+                                                    <div className={classes.link}>{destination.phoneNumber}</div>
+                                                :
                                                 <div className={classes.link}>{destination.phoneNumber}</div>
                                             }
                                         </span>

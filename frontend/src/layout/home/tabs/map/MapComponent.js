@@ -11,63 +11,84 @@ const containerStyle = {
 
 const MapComponent = React.forwardRef((props, ref) => {
 
+  const { data, destination, onSelectedDestination, showMarkers, showCityNames, isLoading } = props;
+
   const [map, setMap] = useState(null);
+  const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 })
   const [forceUpdate, setForceUpdate] = useState(false);
   const [citiesInView, setCitiesInView] = useState([]);
-  // const [clickedMarker, setClickedMarker] = useState(false);
-  // const [clickedCity, setClickedCity] = useState(false);
   const cityCache = useRef({});
-  const mapRef = useRef(null);
-  const prevDataRef = useRef();
+  // const mapRef = useRef(null);
+  const prevDataRef = useRef(null);
+  const mapIdleTimerRef = useRef(null);
 
   
-  const fetchCitiesInView = async () => {
 
-    const bounds = mapRef.current.getBounds();
-    const center = bounds.getCenter();
-
-    const response = await fetch(CONSTANTS.apiURL + `/geonames/cities-in-view?lat=${center.lat()}&lng=${center.lng()}`);
-    const cities = await response.json();
-
-    const citiesWithCache = cities.map(city => {
-      const cachedCity = cityCache.current[city.name];
-      if (cachedCity && cachedCity.lat === city.lat && cachedCity.lng === city.lng) {
-        return cachedCity;
-      }
-      cityCache.current[city.name] = city;
-      return city;
-    });
-
-    if (JSON.stringify(citiesWithCache) !== JSON.stringify(citiesInView)) {
-      setCitiesInView(citiesWithCache);
-    }
-  };
-
-  const onMapIdle = useCallback(() => {
-    
-    if (!mapRef.current) {
-      return;
-    }
-
-    if (mapRef.current.getZoom() >= 12) {
-      fetchCitiesInView();
-    } else {
-      // const city = citiesInView ? citiesInView.find(city => {
-      //   return city.geonameId === address.geonameId;
-      // }) : null;
-      if (citiesInView && citiesInView.length > 0) {
-        setCitiesInView([]);
-      }
-    }
-  }, [citiesInView]);
+  // useEffect(() => {
+  //   console.log(destination)
+  // }, [destination]);
 
   useEffect(() => {
     console.log(citiesInView)
   }, [citiesInView])
 
-  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+  const fetchCitiesInView = useCallback(async () => {
 
-  const { data, destination, onSelectedDestination } = props;
+    try {
+      const bounds = map.getBounds();
+      const center = bounds.getCenter();
+
+      const response = await fetch(CONSTANTS.apiURL + `/geonames/cities-in-view?lat=${center.lat()}&lng=${center.lng()}`);
+      const cities = await response.json();
+
+      const citiesWithCache = cities.map(city => {
+        const cachedCity = cityCache.current[city.name];
+        if (cachedCity && cachedCity.lat === city.lat && cachedCity.lng === city.lng) {
+          return cachedCity;
+        }
+        cityCache.current[city.name] = city;
+        return city;
+      });
+
+      if (JSON.stringify(citiesWithCache) !== JSON.stringify(citiesInView)) {
+        setCitiesInView(citiesWithCache);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+  }, [citiesInView]);
+
+  const onMapIdle = useCallback(() => {
+    
+    if (!map || !showCityNames) {
+      return;
+    }
+
+    if (mapIdleTimerRef.current) {
+      clearTimeout(mapIdleTimerRef.current);
+    }
+    mapIdleTimerRef.current = setTimeout(() => {
+      if (map.getZoom() >= 12) {
+        fetchCitiesInView();
+      } else {
+        if (citiesInView && citiesInView.length > 0) {
+          setCitiesInView([]);
+        }
+      }
+    }, 500);
+    
+  }, [fetchCitiesInView, citiesInView, showCityNames]);
+
+  useEffect(() => {
+    return () => {
+      if (mapIdleTimerRef.current) {
+        clearTimeout(mapIdleTimerRef.current);
+      }
+    }
+  }, []);
+
+  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   const onSelectedMarkerHandler = useCallback((id) => {
     const destination = data.find(destination => {
@@ -76,20 +97,18 @@ const MapComponent = React.forwardRef((props, ref) => {
 
     onSelectedDestination(destination);
 
-    if (destination && mapRef.current) {
-      mapRef.current.panTo(destination.geometry);
+    if (destination && map) {
+      map.panTo(destination.geometry);
 
-      if (mapRef.current.getZoom() < 15) {
-        mapRef.current.setZoom(15);
+      if (map.getZoom() < 15) {
+        map.setZoom(15);
       }
     }
 
   }, [data, onSelectedDestination]);
 
   const markerClickHandler = useCallback((id) => {
-
     onSelectedMarkerHandler(id);
-
   }, [onSelectedMarkerHandler]);
 
   const onSelectedCityHandler = useCallback((id) => {
@@ -99,22 +118,18 @@ const MapComponent = React.forwardRef((props, ref) => {
 
     props.clickedCity(city);
 
-    // if (destination && mapRef.current) {
-    //   mapRef.current.panTo(destination.geometry);
+    if (city && map) {
+      map.panTo(city.geometry);
 
-    //   if (mapRef.current.getZoom() < 14) {
-    //     mapRef.current.setZoom(14);
-    //   }
-    // }
+      if (map.getZoom() < 14) {
+        map.setZoom(14);
+      }
+    }
 
   }, [citiesInView]);
 
   const cityClickHandler = useCallback((id) => {
-
     onSelectedCityHandler(id);
-
-    // onSelectedHandler(id);
-
   }, [onSelectedCityHandler]);
 
   // const fetchCityName = async (lat, lng) => {
@@ -159,17 +174,17 @@ const MapComponent = React.forwardRef((props, ref) => {
   //Center on selected destination
   useEffect(() => {
 
-    if (destination && mapRef.current) {
-        mapRef.current.panTo(destination.geometry);
-        if (mapRef.current.getZoom() < 15) {
-            mapRef.current.setZoom(15);
-        }
-    }
+    if (destination && map && !isLoading) {
+      console.log("HERE")
+      map.panTo(destination.geometry);
+      if (map.getZoom() < 15) {
+        map.setZoom(15);
+      }
 
-}, [destination]);
+    }
+}, [destination, map, isLoading]);
 
   const { address } = props;
-  useEffect(() => {
     // const fetchLocation = async () => {
     //   try {
         
@@ -189,31 +204,38 @@ const MapComponent = React.forwardRef((props, ref) => {
     //   }
     // };
 
-    if (address && map) {
-      // fetchLocation();
-
-      map.setCenter({ lat: address.lat, lng: address.lng })
-      if (mapRef.current.getZoom() < 14) {
-        mapRef.current.setZoom(14);
+    useEffect(() => {
+      if (address && map) {
+        //Recenter map
+        setMapCenter({ lat: address.lat, lng: address.lng});
+        if (map.getZoom() < 14) {
+          map.setZoom(14);
+        }
       }
-    }
-  }, [address, map, forceUpdate]);
+    }, [address, map, forceUpdate]);
 
 
   //Pan & zoom to first destination when data is fetched
-  useEffect(() => {
+  // useEffect(() => {
 
-    prevDataRef.current = data;
-    if (data && data.length > 0 && mapRef.current && JSON.stringify(data) !== JSON.stringify(prevDataRef.current)) {
-        
-        mapRef.current.panTo(data[0].geometry);
-        mapRef.current.setZoom(14);
-    }
-  }, [data]);
+  //   console.log(isLoading)
+  //   console.log("HERE")
+  //   //prevDataRef.current = data;
+  //   // if (data && data.length > 0 && mapRef.current && JSON.stringify(data) !== JSON.stringify(prevDataRef.current)) {
+  //   if (data && data.length > 0 && map && !isLoading) {
+  //     console.log("HERE")
+  //     map.panTo(data[0].geometry);
+  //     map.setZoom(14);
+  //   }
+  // }, [data, isLoading]);
 
   const onLoad = (mapInstance) => {
-    mapRef.current = mapInstance;
+    //mapRef.current = mapInstance;
     setMap(mapInstance);
+
+    if (address) {
+      setMapCenter({ lat: address.lat, lng: address.lng });
+    }
   };
 
   const options = {
@@ -269,6 +291,7 @@ const MapComponent = React.forwardRef((props, ref) => {
         selected={destination && d.name === destination.name ? true : false}
         onSelected={markerClickHandler}
         position={d.geometry}
+        show={showMarkers}
       />
     ));
   }
@@ -283,6 +306,7 @@ const MapComponent = React.forwardRef((props, ref) => {
         onSelected={cityClickHandler}
         lat={city.lat}
         lng={city.lng}
+        show={showCityNames}
       />
     ));
   }
@@ -305,12 +329,12 @@ const MapComponent = React.forwardRef((props, ref) => {
       <LoadScript googleMapsApiKey={apiKey}>
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={props.address || citiesInView.length !== 0 ? null : (map && map.getCenter().lat !== 0 && map.getCenter().lng !== 0) ? map.getCenter() : { lat: 0, lng: 0 }}
+          // center={address || citiesInView.length !== 0 ? null : (map && map.getCenter().lat !== 0 && map.getCenter().lng !== 0) ? map.getCenter() : { lat: 0, lng: 0 }}
+          center={mapCenter}
           zoom={4}
           onLoad={onLoad}
           onIdle={onMapIdle}
           options={options}
-          // onClick={clickCityHandler}
         >
           {markers}
           {cityNames}

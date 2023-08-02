@@ -6,6 +6,7 @@ const Menu = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [visiblePages, setVisiblePages] = useState(false);
+    const buttonRef = useRef();
     const dropdownRef = useRef();
     const navigate = useNavigate();
 
@@ -30,9 +31,17 @@ const Menu = () => {
         }
     }, [isOpen]);
 
+    const onClickHandler = () => {
+        if (isOpen) {
+            setIsOpen(false);
+        } else {
+            setIsOpen(true);
+        }
+    };
+
     // Handler to close the menu if clicked outside
     const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !buttonRef.current.contains(event.target)) {
             setIsOpen(false);
         }
     };
@@ -43,11 +52,11 @@ const Menu = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, []); // Empty dependency array ensures this effect runs once on mount and cleanup on unmount
+    }, []);
 
     return (
         <Fragment>
-            <span className={`material-symbols-rounded ${classes["menu-icon"]}`} onClick={() => setIsOpen(!isOpen)}>menu</span>
+            <span ref={buttonRef} className={`material-symbols-rounded ${classes["menu-icon"]}`} onClick={onClickHandler}>menu</span>
             <div ref={dropdownRef} className={`${classes.dropdown} ${isOpen ? classes.open : ""}`}>
                 <div className={`${classes.page} ${visiblePages ? classes.show : ""}`} onClick={homeHandler}>Home</div>
                 <div className={`${classes.page} ${visiblePages ? classes.show : ""}`} onClick={aboutHandler}>About</div>

@@ -5,7 +5,7 @@ import { OverlayViewF } from "@react-google-maps/api";
 
 const CityName = React.memo((props) => {
 
-    const { name, id, lat, lng, selected, onSelected } = props;
+    const { name, id, lat, lng, selected, onSelected, show } = props;
     const [isSelected, setIsSelected] = useState(selected);
 
     const getPixelPositionOffset = (width, height) => ({
@@ -22,9 +22,6 @@ const CityName = React.memo((props) => {
         if (!isSelected) {
             setIsSelected(true);
             onSelected(id);
-        } else {
-            // setIsSelected(false);
-            // props.onSelected(null);
         }
     };
 
@@ -40,7 +37,13 @@ const CityName = React.memo((props) => {
             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             getPixelPositionOffset={getPixelPositionOffset}
         >
-            <div className={`${classes.name} ${selected ? classes.selected : ""}`} onClick={handleClick}>
+            <div
+                className={`
+                    ${classes.name}
+                    ${show && classes.show}
+                    ${selected ? classes.selected : ""}
+                    `}
+                onClick={handleClick}>
                 {name}
             </div>
         </OverlayViewF>

@@ -11,12 +11,16 @@ router.get("/location", async (req, res) => {
         const text = req.query.text;
         const response = await fetch(`http://api.geonames.org/searchJSON?name_startsWith=${text}&cities=cities1000&username=${geoUsername}&maxRows=10`);
         const data = await response.json();
+        if (data.message && data.message.includes("exceeded")) {
+            return res.status(429).json({ error: "Rate limit exceeded" });
+        }
         const modifiedData = data.geonames.map(formatCityData);
 
         res.json(modifiedData);
 
     } catch (error) {
         console.error(error);
+        res.status(500).json({ error: "An error occurred" });
     }
 
 });
@@ -48,6 +52,9 @@ router.get("/cities-in-view", async (req, res) => {
         const { lat, lng } = req.query;
         const response = await fetch(`http://api.geonames.org/findNearbyPlaceNameJSON?lat=${lat}&lng=${lng}&cities=cities1000&radius=5&username=${geoUsername}&maxRows=50`);
         const data = await response.json();
+        if (data.message && data.message.includes("exceeded")) {
+            return res.status(429).json({ error: "Rate limit exceeded" });
+        }
         res.json(data.geonames.map(formatCityData));
     } catch (error) {
         console.error(error);

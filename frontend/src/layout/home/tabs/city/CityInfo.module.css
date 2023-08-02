@@ -17,6 +17,7 @@
     font-size: 70px;
     font-weight: bold;
     font-family: "Special Elite", cursive;
+    text-align: center;
 }
 
 .inner-container {
@@ -128,7 +129,7 @@
         font-size: 12px;
     }
     .name {
-        font-size: 24px;
+        font-size: 16px;
         margin-top: 8rem;
     }
 }

@@ -33,7 +33,7 @@ const Destination = forwardRef((props, ref) => {
                 <div className={classes.name}>{props.name}</div>
                 <div className={classes["rating-container"]}>
                     <div className={classes.rating}>{props.rating}</div>
-                    <span class={`material-icons ${isSelected ? classes["star-selected"] : classes.star}`}>star</span>
+                    <span className={`material-icons ${isSelected ? classes["star-selected"] : classes.star}`}>star</span>
                 </div>
             </Card>
         </li>

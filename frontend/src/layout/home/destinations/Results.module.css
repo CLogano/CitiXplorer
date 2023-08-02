@@ -11,7 +11,6 @@
 .inner-container {
     display: flex;
     justify-content: flex-start;
-    
 }
 
 .destinations {
@@ -38,19 +37,42 @@
     width: 0px;  /* For Chrome, Safari and Opera */
 }
 
+.destinations::-webkit-scrollbar-thumb {
+    background: transparent; /* For Chrome, Safari and Opera */
+    border-radius: 20px;
+}
+
+.destinations:hover {
+    scrollbar-color: #888 #f1f1f1; /* For Firefox */
+}
+
+.destinations:hover::-webkit-scrollbar {
+    width: 5px;  /* For Chrome, Safari and Opera */
+}
+
+.destinations:hover::-webkit-scrollbar-thumb {
+    background: rgb(50, 19, 122);
+    height: 50px;
+    width: 5px;
+}
+
+.destinations::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 2.25rem 0;
+}
+
 .description {
     pointer-events: auto;
-    height: calc(100vh - 13rem); /* change to desired proportional height */
+    height: calc(100vh - 13rem);
     font-family: "Red Hat Display", "sans-serif";
     position: absolute;
-    top: calc((50vh - 50% + 9rem)); /* keep it vertically centered */
-    right: 0; /* keep it horizontally centered */
+    top: calc((50vh - 50% + 9rem));
+    right: 0;
     min-width: 400px;
-    max-width: 850px;
     z-index: 10;
     overflow: hidden;
     pointer-events: none;
-    transition: all 0.2s ease-out; /* optional - smooth transitions */
+    transition: all 0.2s ease-out;
 }
 
 /* @media screen and (max-width: 1400px) {
@@ -61,13 +83,18 @@
 } */
 
 .filters {
-    pointer-events: auto;
     height: calc(10% - 5rem);
     margin-top: 5rem;
     width: 100%;
     font-family: "Red Hat Display", "sans-serif";
     z-index: 10;
     pointer-events: none;
+}
+
+.toggle {
+    position: absolute;
+    bottom: 2.5vh;
+    left: 22.5vw;
 }
 
 @media screen and (max-width: 1200px) {

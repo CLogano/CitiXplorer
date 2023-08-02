@@ -29,47 +29,49 @@ const About = () => {
  
     return (
         <div className={classes.container}>
-            <div className={classes["image-container"]}>
-                <div className={classes["image-text"]}>About Us</div>
-            </div>
-            <div className={classes["inner-container"]}>
-                <div className={classes["inner-container-2"]}>
-                    <h1 className={classes.heading} style={{marginTop: "4rem"}}>Transforming Your Travel Experience</h1>
-                    <p className={classes.paragraph}>{p1}</p>
+            <div className={classes["inner-container-0"]}>
+                <div className={classes["image-container"]}>
+                    <div className={classes["image-text"]}>About Us</div>
                 </div>
-                <div className={classes["inner-container-2"]}>
-                    <h1 className={classes.heading}>Unveiling Historical Highlights</h1>
-                    <div className={classes["inner-container-3"]}>
-                        <img className={classes.picture} src={parisPicture} alt="paris"></img>
-                        <p className={classes["right-paragraph"]}>{p2}</p>
+                <div className={classes["inner-container-1"]}>
+                    <div className={classes["inner-container-2"]}>
+                        <h1 className={classes.heading} style={{ marginTop: "4rem" }}>Transforming Your Travel Experience</h1>
+                        <p className={classes.paragraph}>{p1}</p>
                     </div>
-                </div>
-                <div className={classes["inner-container-2"]}>
-                    <h1 className={classes.heading}>Providing Insightful Narratives</h1>
-                    <div className={classes["inner-container-3"]}>
-                        {isSmallScreen ? 
-                            <Fragment>
-                                <img className={classes.picture} src={laSagradaFamiliaPicture} alt="laSagradaFamilia"></img>
-                                <p className={classes["left-paragraph"]}>{p3}</p>
-                            </Fragment> : 
-                            <Fragment>
-                                <p className={classes["left-paragraph"]}>{p3}</p>
-                                <img className={classes.picture} src={laSagradaFamiliaPicture} alt="laSagradaFamilia"></img>
-                            </Fragment>
-                        }
+                    <div className={classes["inner-container-2"]}>
+                        <h1 className={classes.heading}>Unveiling Historical Highlights</h1>
+                        <div className={classes["inner-container-3"]}>
+                            <img className={classes.picture} src={parisPicture} alt="paris"></img>
+                            <p className={classes["right-paragraph"]}>{p2}</p>
+                        </div>
                     </div>
-                </div>
-                <div className={classes["inner-container-2"]}>
-                    <h1 className={classes.heading}>Embracing the City's Essence</h1>
-                    <div className={classes["inner-container-3"]}>
-                        <img className={classes.picture} src={atlantaPicture} alt="Atlanta"></img>
-                        <p className={classes["right-paragraph"]}>{p4}</p>
+                    <div className={classes["inner-container-2"]}>
+                        <h1 className={classes.heading}>Providing Insightful Narratives</h1>
+                        <div className={classes["inner-container-3"]}>
+                            {isSmallScreen ?
+                                <Fragment>
+                                    <img className={classes.picture} src={laSagradaFamiliaPicture} alt="laSagradaFamilia"></img>
+                                    <p className={classes["left-paragraph"]}>{p3}</p>
+                                </Fragment> :
+                                <Fragment>
+                                    <p className={classes["left-paragraph"]}>{p3}</p>
+                                    <img className={classes.picture} src={laSagradaFamiliaPicture} alt="laSagradaFamilia"></img>
+                                </Fragment>
+                            }
+                        </div>
                     </div>
+                    <div className={classes["inner-container-2"]}>
+                        <h1 className={classes.heading}>Embracing the City's Essence</h1>
+                        <div className={classes["inner-container-3"]}>
+                            <img className={classes.picture} src={atlantaPicture} alt="Atlanta"></img>
+                            <p className={classes["right-paragraph"]}>{p4}</p>
+                        </div>
+                    </div>
+                    <div className={classes["inner-container-2"]}>
+                        <p className={classes.paragraph}>{p5}</p>
+                    </div>
+                    <p className={classes.notice}>Note: Some results may be inaccurate due to limitations imposed by ChatGPT.</p>
                 </div>
-                <div className={classes["inner-container-2"]}>
-                    <p className={classes.paragraph}>{p5}</p>
-                </div>
-                <p className={classes.notice}>Note: Some results may be inaccurate due to limitations imposed by ChatGPT.</p>
             </div>
         </div>
 

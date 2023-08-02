@@ -1,6 +1,6 @@
 .container {
     width: 100vw;
-    height: calc(100% - 5rem);
+    height: calc(100vh - 5rem);
     margin-top: 5rem;
     position: relative;
     background-image: url("../../pictures/eiffel-tower.jpg");
@@ -14,11 +14,16 @@
     justify-content: flex-start;
     background-color: white;
     z-index: 1;
+    overflow: hidden;
+}
+
+.inner-container-0 {
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.inner-container {
+.inner-container-1 {
     font-family: "Red Hat Display", "sans-serif";
     display: flex;
     flex-direction: column;
@@ -167,7 +172,7 @@
 
 @media screen and (max-width: 480px) {
     .container {
-        height: calc(100% - 8rem);
+        height: calc(100vh - 8rem);
         margin-top: 8rem;
     }
     .heading {
@@ -186,7 +191,6 @@
         width: 250px;
     }
     .image-text {
-        top: 30%;
         font-size: 24px;
     }
     .image-container {

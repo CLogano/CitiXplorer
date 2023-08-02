@@ -27,10 +27,13 @@
     font-family: "Red Hat Display", "sans-serif";
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1500px) {
   .container {
       transform: scale(.8) translateX(-10%); 
   }
+}
+
+@media screen and (max-width: 1024px) {
   .reset {
     margin-left: 0.15rem;
   }

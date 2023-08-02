@@ -26,6 +26,21 @@
     font-size: 48px;
 }
 
+.mobile {
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-family: "Red Hat Display", "sans-serif";
+}
+
+.mobile-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (max-width: 1200px) {
     .welcome-header {
         font-size: 36px;

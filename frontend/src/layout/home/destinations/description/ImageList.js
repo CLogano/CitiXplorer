@@ -139,13 +139,13 @@ const ImageList = (props) => {
                 //     />
                 // </Modal>
             )}
-            <span class={`material-symbols-rounded ${classes.arrow} ${index > 0 ? classes.nonempty : classes.empty}`} onClick={leftClickHandler}>
+            <span className={`material-symbols-rounded ${classes.arrow} ${index > 0 ? classes.nonempty : classes.empty}`} onClick={leftClickHandler}>
                 arrow_back_ios
             </span>
             <ul className={classes.ul} onClick={imageClickHandler}>
                 {!imagesLoaded[index] || !content ? <LoadingRing /> : content[index]}
             </ul>
-            <span class={`material-symbols-rounded ${classes.arrow} ${classes.right} ${index < images.length - 1 ? classes.nonempty : classes.empty}`} onClick={rightClickHandler}>
+            <span className={`material-symbols-rounded ${classes.arrow} ${classes.right} ${index < images.length - 1 ? classes.nonempty : classes.empty}`} onClick={rightClickHandler}>
                 arrow_back_ios
             </span>
         </div>

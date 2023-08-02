@@ -10,24 +10,21 @@ const Marker = (props) => {
         y: -(height / 2),
     });
 
-    const [isSelected, setIsSelected] = useState(props.selected);
+    const { selected, onSelected, id, name, position, show } = props;
+
+    const [isSelected, setIsSelected] = useState(selected);
 
     useEffect(() => {
-        setIsSelected(props.selected);
-    }, [props.selected]);
+        setIsSelected(selected);
+    }, [selected]);
 
-    
     const handleClick = () => {
         if (!isSelected) {
             setIsSelected(true);
-            props.onSelected(props.id);
-        } else {
-            // setIsSelected(false);
-            // props.onSelected(null);
+            onSelected(id);
         }
     };
-
-    const { selected } = props;
+    
     useEffect(() => {
         if (!selected) {
             setIsSelected(false);
@@ -36,7 +33,7 @@ const Marker = (props) => {
 
     return (
             <OverlayViewF
-                position={props.position}
+                position={position}
                 mapPaneName={OverlayView.FLOAT_PANE}
                 getPixelPositionOffset={getPixelPositionOffset}
             >
@@ -44,13 +41,13 @@ const Marker = (props) => {
                     onClick={handleClick}
                     className={`material-icons
                         ${classes.marker}
+                        ${show && classes.show}
                         ${isSelected ? classes.selected :
                             classes["selected-reverse"]}`
                     }
                 >location_on
-                <div className={classes.tooltip}>{props.name}</div>
+                <div className={classes.tooltip}>{name}</div>
                 </span>
-
             </OverlayViewF>
     )
 };
