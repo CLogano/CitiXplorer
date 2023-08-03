@@ -1,5 +1,6 @@
 .container {
-    margin: 1.25rem;
+    margin: 3.5rem 2.25rem;
+    margin-right: 1.75rem;
     text-align: center;
     justify-content: center;
     cursor: pointer;
@@ -7,11 +8,11 @@
     flex-direction: column;
     font-weight: bold;
     color: white;
-    padding: 1rem;
 }
 
 .card {
     min-height: 100px;
+    max-height: 150px;
     min-width: 100px;
     display: flex;
     flex-direction: column;
@@ -91,16 +92,41 @@
   font-size: 36px;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1500px) {
   .star {
     font-size: 24px;
+  }
+  .star-selected {
+    color: yellow;
+    font-size: 24px;
+  }
+  .rating {
+    font-size: 16px;
+  }
+  /* .name {
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+  } */
+  .card {
+    padding: 0.75rem;
+    max-height: 125px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .star {
+    font-size: 20px;
+  }
+  .star-selected {
+    color: yellow;
+    font-size: 20px;
   }
   .rating {
     font-size: 20px;
   }
-  .name {
+  /* .name {
     font-size: 16px;
-  }
+  } */
   .card {
     padding: 0.75rem;
     max-height: 125px;

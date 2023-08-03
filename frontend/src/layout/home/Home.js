@@ -159,7 +159,7 @@ const Home = (props) => {
                 <div className={classes["error-outer-container"]}>
                     <div className={classes["error-inner-container"]}>
                         <span className={`material-symbols-rounded ${classes["error-icon"]}`}>sentiment_dissatisfied</span>
-                        <h1>Oops!</h1>
+                        <h1 className={classes.oops}>Oops!</h1>
                     </div>
                     <p className={classes["error-message"]}>{`No results found for ${city.name}. Please try again or enter another city.`}</p>
                 </div>

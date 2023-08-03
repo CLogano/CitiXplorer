@@ -5,9 +5,7 @@
     margin: 3px;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-    min-width: 110px;
-    width: 30%;
-    max-width: 125px;
+    width: 125px;
     height: 40px;
     border-radius: 25px;
     border: 3px solid white;
@@ -46,7 +44,7 @@
       transform: translateY(-50%);
       left: 4%;
       color: white;
-      font-size: 22px;
+      font-size: 24px;
     }
   
     .option {
@@ -74,25 +72,30 @@
       }
   } */
 
-  @media screen and (max-width: 1024px) {
+  
+  @media screen and (max-width: 1200px) {
     .option {
         font-size: 12px; 
     }
     .star {
-      font-size: 20px;
+      font-size: 16px;
     }
     .container {
       margin-left: 0.15rem;
       margin-right: 0.15rem;
+      width: 100px;
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     .container {
       margin: 0.5rem 0;
       border: none;
       box-shadow: none;
     }
+  }
+
+  @media screen and (max-width: 768px) {
     .star {
       font-size: 18px;
     }

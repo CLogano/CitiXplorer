@@ -8,13 +8,13 @@ import ToggleGroup from "./toggles/ToggleGroup";
 
 const Results = (props) => {
 
-    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth > 480 && window.innerWidth <= 768);
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1024);
     // const [isMobileScreen, setIsMobileScreen] = useState(window.innerWidth <= 480);
 
     useEffect(() => {
 
         const checkScreenSize = () => {
-            setIsSmallScreen(window.innerWidth <= 768);
+            setIsSmallScreen(window.innerWidth <= 1024);
             // setIsMobileScreen(window.innerWidth <= 480);
         };
         window.addEventListener("resize", checkScreenSize);
@@ -37,29 +37,31 @@ const Results = (props) => {
                         selected={props.destination}
                     />
                 </div>
-                <div className={classes.filters}>
-                    {isSmallScreen ?
-                        <FilterBox
-                            sortFilter={props.sortFilter}
-                            ratingFilter={props.ratingFilter}
-                            hoursFilter={props.hoursFilter}
-                            resetFilter={props.resetFilter}
-                        />
-                        :
-                        <FilterList
-                            sortFilter={props.sortFilter}
-                            ratingFilter={props.ratingFilter}
-                            hoursFilter={props.hoursFilter}
-                            resetFilter={props.resetFilter}
-                        />
-                    }
-                </div>
-            </div>
-            <div className={classes.toggle}>
-                <ToggleGroup
-                    toggleMarkers={props.toggleMarkers}
-                    toggleCityNames={props.toggleCityNames} 
+                <div className={classes["inner-container-2"]}>
+                    <div className={classes.filters}>
+                        {isSmallScreen ?
+                            <FilterBox
+                                sortFilter={props.sortFilter}
+                                ratingFilter={props.ratingFilter}
+                                hoursFilter={props.hoursFilter}
+                                resetFilter={props.resetFilter}
+                            />
+                            :
+                            <FilterList
+                                sortFilter={props.sortFilter}
+                                ratingFilter={props.ratingFilter}
+                                hoursFilter={props.hoursFilter}
+                                resetFilter={props.resetFilter}
+                            />
+                        }
+                    </div>
+                <div className={classes.toggle}>
+                    <ToggleGroup
+                        toggleMarkers={props.toggleMarkers}
+                        toggleCityNames={props.toggleCityNames}
                     />
+                </div>
+                </div>
             </div>
             <div className={classes.description}>
                 <Description

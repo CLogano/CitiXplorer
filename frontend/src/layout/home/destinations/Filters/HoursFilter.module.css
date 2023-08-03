@@ -7,9 +7,9 @@
     align-items: center;
     text-align: center;
     min-width: 350px;
-    width:70%;
+    width:45%;
     max-width: 650px;
-    height: 42.5px;
+    height: 40px;
     border-radius: 25px;
     border: 3px solid white;
     background-color: rgb(50, 19, 122);
@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 100px;
+  max-width: 100px;
 }
 
 .select {
@@ -52,6 +52,7 @@
 .option {
   border: 3px solid white;
   cursor: pointer;
+
 }
 
 .option:hover {
@@ -138,27 +139,35 @@
     }
 } */
 
+/* @media screen and (max-width: 1500px) {
+  .container {
+    max-width: 500px;
+  }
+} */
 
 @media screen and (max-width: 1200px) {
   .time {
     font-size: 14px;
   }
-}
-
-@media screen and (max-width: 1024px) {
+  .label {
+    font-size: 12px;
+  }
+  .select {
+    font-size: 12px;
+  }
   .option {
-      font-size: 12px; 
+    font-size: 12px; 
   }
   .container {
     margin-left: 0.15rem;
     margin-right: 0.15rem;
   }
+}
+
+@media screen and (max-width: 1024px) {
   .time {
     font-size: 13px;
   }
-}
-
-@media screen and (max-width: 768px) {
   .container {
     margin: 0.5rem 0;
     border: none;

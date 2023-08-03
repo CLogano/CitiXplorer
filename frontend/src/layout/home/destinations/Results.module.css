@@ -11,6 +11,15 @@
 .inner-container {
     display: flex;
     justify-content: flex-start;
+    width: 100%;
+}
+
+.inner-container-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .destinations {
@@ -20,11 +29,12 @@
     font-family: "Red Hat Display", "sans-serif";
     min-width: 200px;
     width: 15%;
-    max-width: 285px;
+    max-width: 275px;
     z-index: 10;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-width: none; /* For Firefox */
+    scrollbar-color: transparent transparent; /* For Firefox */
+    scrollbar-width: thin;
     -ms-overflow-style: none;  /* For Internet Explorer and Edge */
     display: flex;
     align-items: center;
@@ -34,7 +44,7 @@
 }
 
 .destinations::-webkit-scrollbar {
-    width: 0px;  /* For Chrome, Safari and Opera */
+    width: 5px;  /* For Chrome, Safari and Opera */
 }
 
 .destinations::-webkit-scrollbar-thumb {
@@ -46,29 +56,25 @@
     scrollbar-color: #888 #f1f1f1; /* For Firefox */
 }
 
-.destinations:hover::-webkit-scrollbar {
-    width: 5px;  /* For Chrome, Safari and Opera */
-}
-
 .destinations:hover::-webkit-scrollbar-thumb {
-    background: rgb(50, 19, 122);
-    height: 50px;
-    width: 5px;
+    background-color: rgb(50, 19, 122);
 }
 
 .destinations::-webkit-scrollbar-track {
     background: transparent;
-    margin: 2.25rem 0;
+    margin: 1.5rem 0;
 }
 
 .description {
     pointer-events: auto;
-    height: calc(100vh - 13rem);
+    height: calc(100vh - 10rem);
     font-family: "Red Hat Display", "sans-serif";
     position: absolute;
     top: calc((50vh - 50% + 9rem));
     right: 0;
-    min-width: 400px;
+    width: 45vw;
+    min-width: 450px;
+    max-width: 800px;
     z-index: 10;
     overflow: hidden;
     pointer-events: none;
@@ -83,8 +89,8 @@
 } */
 
 .filters {
-    height: calc(10% - 5rem);
-    margin-top: 5rem;
+    height: 50px;
+    margin-top: 5.75rem;
     width: 100%;
     font-family: "Red Hat Display", "sans-serif";
     z-index: 10;
@@ -92,9 +98,20 @@
 }
 
 .toggle {
-    position: absolute;
-    bottom: 2.5vh;
-    left: 22.5vw;
+    margin-left: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+@media screen and (max-width: 1700px) {
+    /* .description {
+        width: 700px;
+    } */
+}
+
+@media screen and (max-width: 1500px) {
+    /* .description {
+        width: 550px;
+    } */
 }
 
 @media screen and (max-width: 1200px) {
@@ -102,6 +119,9 @@
         width: 200px; 
         margin-left: 3rem;
     }
+    /* .description {
+        width: 500px;
+    } */
 }
 
 @media screen and (max-width: 1024px) {
@@ -109,6 +129,9 @@
         width: 175px; 
         margin-left: 3rem;
     }
+    /* .description {
+        width: 450px;
+    } */
 }
 
 @media screen and (max-width: 768px) {

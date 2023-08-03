@@ -5,6 +5,7 @@
     align-items: center;
     font-family: "Red Hat Display", "sans-serif";
     min-height: 150px;
+    height: 20vh;
 }
 
 .welcome-container-inner {

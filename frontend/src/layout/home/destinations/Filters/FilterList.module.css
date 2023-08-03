@@ -1,5 +1,4 @@
 .container {
-    margin-top: 0.75rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -11,8 +10,8 @@
 .reset {
     margin: 3px;
     margin-left: .5rem;
-    min-width: 50px;
-    width: 15%;
+    min-width: 40px;
+    width: 10%;
     max-width: 75px;
     height: 40px;
     border-radius: 25px;
@@ -27,14 +26,9 @@
     font-family: "Red Hat Display", "sans-serif";
 }
 
-@media screen and (max-width: 1500px) {
-  .container {
-      transform: scale(.8) translateX(-10%); 
-  }
-}
-
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
   .reset {
+    font-size: 12px;
     margin-left: 0.15rem;
   }
 }

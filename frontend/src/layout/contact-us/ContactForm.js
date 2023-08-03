@@ -95,8 +95,8 @@ const ContactForm = () => {
                 <Modal onClose={closeModalHandler}>
                     <div className={classes["modal-container"]}>
                         <div className={classes["modal-container-inner"]}>
-                            <h1 className={classes["text-thanks"]}>THANK YOU !</h1>
-                        <span class={`material-symbols-rounded ${classes["smile-icon"]}`}>sentiment_satisfied</span>
+                            <h1 className={classes.text}>THANK YOU !</h1>
+                        <span class={`material-symbols-rounded ${classes.icon}`}>sentiment_satisfied</span>
                         </div>
                         <p className={classes["text-rest"]}>Your response has been received. We will try to answer you as quickly as possible!</p>
                     </div>
@@ -106,8 +106,8 @@ const ContactForm = () => {
                 <Modal onClose={closeModalHandler}>
                     <div className={classes["modal-container"]}>
                         <div className={classes["modal-container-inner"]}>
-                            <h1 className={classes["text-thanks"]}>An Error Occurred</h1>
-                            <span class={`material-symbols-rounded ${classes["smile-icon"]}`}>sentiment_dissatisfied</span>
+                            <h1 className={classes.text}>An Error Occurred</h1>
+                            <span class={`material-symbols-rounded ${classes.icon}`}>sentiment_dissatisfied</span>
                         </div>
                         <p className={classes["text-rest"]}>Invalid Captcha. Please try again.</p>
                     </div>

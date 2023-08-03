@@ -117,3 +117,22 @@
         scale: 100%;
     }
 }
+
+@media screen and (max-width: 1500px) {
+    .date {
+        font-size: 14px;
+    }
+    .container {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .date {
+        font-size: 12px;
+    }
+    .review {
+        font-size: 14px;
+    }
+}
+

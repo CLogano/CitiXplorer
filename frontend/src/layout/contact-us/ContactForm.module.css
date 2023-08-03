@@ -75,6 +75,8 @@
     font-family: "Red Hat Display", "sans-serif";
     font-weight: bold;
     text-align: center;
+    min-height: 150px;
+    height: 20vh;
 }
 
 .modal-container-inner {
@@ -84,14 +86,55 @@
     font-family: "Red Hat Display", "sans-serif";
     font-weight: bold;
     text-align: center;
+    margin-top: 1rem;
 }
 
 .text-rest {
     font-size: 20px;
 }
 
-.text-thanks, .smile-icon {
+.text, .icon {
     font-size: 48px;
+}
+
+.text {
+    margin: 0 0.5rem;
+}
+
+@media screen and (max-width: 1200px) {
+    .text {
+        font-size: 36px;
+    }
+    .icon {
+        font-size: 36px;
+    }
+    .text-rest {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .text {
+        font-size: 30px;
+    }
+    .icon {
+        font-size: 30px;
+    }
+    .text-rest {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .text {
+        font-size: 24px;
+    }
+    .icon {
+        font-size: 24px;
+    }
+    .text-rest {
+        font-size: 12px;
+    }
 }
 
 @media screen and (max-width: 480px) {

@@ -18,8 +18,8 @@ const MapComponent = React.forwardRef((props, ref) => {
   const [forceUpdate, setForceUpdate] = useState(false);
   const [citiesInView, setCitiesInView] = useState([]);
   const cityCache = useRef({});
-  // const mapRef = useRef(null);
-  const prevDataRef = useRef(null);
+  const mapRef = useRef(null);
+  //const prevDataRef = useRef(null);
   const mapIdleTimerRef = useRef(null);
 
   
@@ -32,10 +32,11 @@ const MapComponent = React.forwardRef((props, ref) => {
     console.log(citiesInView)
   }, [citiesInView])
 
+
   const fetchCitiesInView = useCallback(async () => {
 
     try {
-      const bounds = map.getBounds();
+      const bounds = mapRef.current.getBounds();
       const center = bounds.getCenter();
 
       const response = await fetch(CONSTANTS.apiURL + `/geonames/cities-in-view?lat=${center.lat()}&lng=${center.lng()}`);
@@ -61,7 +62,7 @@ const MapComponent = React.forwardRef((props, ref) => {
 
   const onMapIdle = useCallback(() => {
     
-    if (!map || !showCityNames) {
+    if (!mapRef.current || !showCityNames) {
       return;
     }
 
@@ -69,7 +70,7 @@ const MapComponent = React.forwardRef((props, ref) => {
       clearTimeout(mapIdleTimerRef.current);
     }
     mapIdleTimerRef.current = setTimeout(() => {
-      if (map.getZoom() >= 12) {
+      if (mapRef.current.getZoom() >= 12) {
         fetchCitiesInView();
       } else {
         if (citiesInView && citiesInView.length > 0) {
@@ -100,8 +101,8 @@ const MapComponent = React.forwardRef((props, ref) => {
     if (destination && map) {
       map.panTo(destination.geometry);
 
-      if (map.getZoom() < 15) {
-        map.setZoom(15);
+      if (map.getZoom() < 13) {
+        map.setZoom(13);
       }
     }
 
@@ -119,10 +120,11 @@ const MapComponent = React.forwardRef((props, ref) => {
     props.clickedCity(city);
 
     if (city && map) {
-      map.panTo(city.geometry);
 
-      if (map.getZoom() < 14) {
-        map.setZoom(14);
+      map.panTo({ lat: city.lat, lng: city.lng });
+
+      if (map.getZoom() < 12) {
+        map.setZoom(12);
       }
     }
 
@@ -175,10 +177,9 @@ const MapComponent = React.forwardRef((props, ref) => {
   useEffect(() => {
 
     if (destination && map && !isLoading) {
-      console.log("HERE")
       map.panTo(destination.geometry);
-      if (map.getZoom() < 15) {
-        map.setZoom(15);
+      if (map.getZoom() < 13) {
+        map.setZoom(13);
       }
 
     }
@@ -208,8 +209,8 @@ const MapComponent = React.forwardRef((props, ref) => {
       if (address && map) {
         //Recenter map
         setMapCenter({ lat: address.lat, lng: address.lng});
-        if (map.getZoom() < 14) {
-          map.setZoom(14);
+        if (map.getZoom() < 12) {
+          map.setZoom(12);
         }
       }
     }, [address, map, forceUpdate]);
@@ -230,7 +231,7 @@ const MapComponent = React.forwardRef((props, ref) => {
   // }, [data, isLoading]);
 
   const onLoad = (mapInstance) => {
-    //mapRef.current = mapInstance;
+    mapRef.current = mapInstance;
     setMap(mapInstance);
 
     if (address) {
@@ -291,7 +292,7 @@ const MapComponent = React.forwardRef((props, ref) => {
         selected={destination && d.name === destination.name ? true : false}
         onSelected={markerClickHandler}
         position={d.geometry}
-        show={showMarkers}
+        show={showMarkers && !isLoading}
       />
     ));
   }
@@ -306,7 +307,7 @@ const MapComponent = React.forwardRef((props, ref) => {
         onSelected={cityClickHandler}
         lat={city.lat}
         lng={city.lng}
-        show={showCityNames}
+        show={showCityNames && !isLoading}
       />
     ));
   }

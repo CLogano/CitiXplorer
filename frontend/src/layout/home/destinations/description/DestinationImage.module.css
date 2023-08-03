@@ -4,8 +4,8 @@
     width: 100%;
     max-height: 450px;
     max-width: 450px;
-    box-sizing: border-box;
     border-radius: 25px;
+    margin-top: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     cursor: zoom-in;
     transition: all 0.5s ease; 
@@ -16,4 +16,35 @@
     max-height: 900px;
     cursor: zoom-out;
     aspect-ratio: auto;
+}
+
+@media screen and (max-width: 1500px) {
+    .image {
+        max-height: 350px;
+        max-width: 350px;
+    }
+    .modal-open {
+        max-width: 750px;
+        max-height: 750px;
+        cursor: zoom-out;
+        aspect-ratio: auto;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .modal-open {
+        max-width: 600px;
+        max-height: 600px;
+        cursor: zoom-out;
+        aspect-ratio: auto;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .modal-open {
+        max-width: 500px;
+        max-height: 500px;
+        cursor: zoom-out;
+        aspect-ratio: auto;
+    }
 }

@@ -1,4 +1,4 @@
-import React,  { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React,  { useState, useEffect, useLayoutEffect, useRef, Fragment } from "react";
 import classes from "./Description.module.css";
 import ImageList from "./ImageList";
 import Details from "./Details";
@@ -13,10 +13,18 @@ const Description = (props) => {
     const [lockedInPlace, setLockedInPlace] = useState(false);
     const [initialExpand, setInitialExpand] = useState(true);
     const [hasRendered, setHasRendered] = useState(false);
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1024);
+    
+    useEffect(() => {
 
-    // const saveDestinationHandler = () => {
+        const checkScreenSize = () => {
+            setIsSmallScreen(window.innerWidth > 480 && window.innerWidth <= 1024);
+        };
+        window.addEventListener("resize", checkScreenSize);
 
-    // };
+        return () => window.removeEventListener("resize", checkScreenSize);
+
+    }, []);
 
     const moreButtonHandler = () => {
         setShowModal(true);
@@ -50,8 +58,8 @@ const Description = (props) => {
         //Adjust font size depending on name
         const nameElement = nameRef.current;
         const nameLength = destination.name.length;
-        const maxFontSize = 42;
-        const minFontSize = 20;
+        const maxFontSize = 40;
+        const minFontSize = 16;
         const maxNameLength = 100;
 
         let fontSize;
@@ -107,122 +115,133 @@ const Description = (props) => {
             })
     }
 
-    // const deselectDestinationHandler = () => {
-    //     props.deselect();
-    // };
-
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     return (
         <div className={`${classes.container} ${((lockedInPlace || initialExpand) && hasRendered) ? classes.locked : ""}`} onMouseLeave={() => setInitialExpand(false)}>
-            {/* <button className={classes["save-button"]} onClick={saveDestinationHandler}>Save</button> */}
             {showModal && <Modal onClose={closeModalHandler}>
-                <Details ref={nameRef} destination={destination} />
+                <Details destination={destination} />
             </Modal>}
             <span className={`material-symbols-rounded ${classes["lock-icon"]} ${lockedInPlace ? classes["lock-icon-locked"] : classes["locked-icon-unlocked"]}`} onClick={lockHandler}>{`${lockedInPlace ? "lock" : "lock_open"}`}</span>
             <div className={classes["inner-container-1"]}>
                 <span className={`material-symbols-rounded ${classes.arrow}`}>
                     arrow_drop_up
                 </span>
-                {/* <span class={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deselectDestinationHandler}>close</span> */}
                 <div className={classes.content}>
-                    <Card className={classes["name-container"]}>
-                        <div ref={nameRef} className={classes.name}>{destination.name}</div>
-                    </Card>
-                    <Card className={classes.card}>
-                        <ImageList destination={destination} />
-                    </Card>
-                    <div className={classes["inner-container-3"]}>
+                    <div className={classes.padding}>
                         <Card className={classes.card}>
-                            <span className={classes["section-2"]}>
-                                <div className={classes.description}>{destination.description}</div>
-                                <div className={classes["more-button"]} onClick={moreButtonHandler}>CLICK HERE TO LEARN MORE !</div>
-                            </span>
+                            <div ref={nameRef} className={classes.name}>{destination.name}</div>
+                        </Card>
+                        <Card className={classes.card}>
+                            <ImageList destination={destination} />
                         </Card>
                         <div className={classes["inner-container-3"]}>
-                            <div className={classes["inner-container-1"]}>
-                                <div className={classes["inner-container-2"]}>
-                                    <Card className={classes.card}>
-                                        <span className={classes.section}>
-                                            <div className={classes.rating}>{destination.rating}</div>
-                                            {stars}
-                                            <div className={classes["total-ratings"]}>{`(${destination.totalRatings})`}</div>
-                                        </span>
-                                    </Card>
-                                </div>
-                                <div className={classes["inner-container-2"]}>
-                                    <Card className={classes.card}>
-                                        <span className={classes.section}>
-                                            <span className="material-icons" style={iconStyle}>location_on</span>
-                                            <div className={classes.address}>{destination.address}</div>
-                                        </span>
-                                    </Card>
-                                </div>
-                            </div>
-                            <div className={classes["inner-container-1"]}>
-                                <div className={classes["inner-container-2"]}>
-                                    {/* <Card className={classes.card}>
-                                <span className={classes.section}>
-                                    <div className={classes.rating}>{destination.rating}</div>
-                                    {stars}
-                                    <div className={classes["total-ratings"]}>{`(${destination.totalRatings})`}</div>
+                            <Card className={classes.card}>
+                                <span className={classes["section-2"]}>
+                                    <div className={classes.description}>{destination.description}</div>
+                                    <div className={classes["more-button"]} onClick={moreButtonHandler}>CLICK HERE TO LEARN MORE !</div>
                                 </span>
                             </Card>
-                            <Card className={classes.card}>
-                                <span className={classes.section}>
-                                    <span class="material-icons" style={iconStyle}>location_on</span>
-                                    <div className={classes.address}>{destination.address}</div>
-                                </span>
-                            </Card> */}
-                                    <Card className={classes.card}>
-                                        <ReviewList destination={destination} />
-                                    </Card>
+                            <div className={classes["inner-container-3"]}>
+                                <div className={classes["inner-container-4"]}>
+                                    <div className={classes["inner-container-2"]}>
+                                        <Card className={classes.card}>
+                                            <span className={classes.section}>
+                                                <div className={classes.rating}>{destination.rating}</div>
+                                                {stars}
+                                                <div className={classes["total-ratings"]}>{`(${destination.totalRatings})`}</div>
+                                            </span>
+                                        </Card>
+                                    </div>
+                                    {isSmallScreen ? 
+                                        <div className={classes["inner-container-2"]}>
+                                            <Card className={classes.card}>
+                                                <ReviewList destination={destination} />
+                                            </Card>
+                                        </div> :
+                                    <div className={classes["inner-container-2"]}>
+                                        <Card className={classes.card}>
+                                            <span className={classes.section}>
+                                                <span className="material-icons" style={iconStyle}>location_on</span>
+                                                <div className={classes.address}>{destination.address}</div>
+                                            </span>
+                                        </Card>
+                                    </div>    
+                                    }     
                                 </div>
-                                <div className={classes["inner-container-2"]}>
-                                    <Card className={classes.card}>
-                                        <span className={classes.section}>
-                                            <span className="material-symbols-rounded" style={iconStyle}>schedule</span>
-                                            <div className={classes.hours}>{hours}</div>
-                                        </span>
-                                    </Card>
+                                <div className={classes["inner-container-4"]}>
+                                    {isSmallScreen ?
+                                        <Fragment>
+                                            <div className={classes["inner-container-2"]}>
+                                                <Card className={classes.card}>
+                                                    <span className={classes.section}>
+                                                        <span className="material-symbols-rounded" style={iconStyle}>schedule</span>
+                                                        <div className={classes.hours}>{hours}</div>
+                                                    </span>
+                                                </Card>
+                                            </div>
+                                            <Card className={classes.card}>
+                                                <span className={classes.section}>
+                                                    <span className="material-icons" style={iconStyle}>location_on</span>
+                                                    <div className={classes.address}>{destination.address}</div>
+                                                </span>
+                                            </Card>
+                                        </Fragment>
+                                        :
+                                        <Fragment>
+                                            <div className={classes["inner-container-2"]}>
+                                                <Card className={classes.card}>
+                                                    <ReviewList destination={destination} />
+                                                </Card>
+                                            </div>
+                                            <div className={classes["inner-container-2"]}>
+                                                <Card className={classes.card}>
+                                                    <span className={classes.section}>
+                                                        <span className="material-symbols-rounded" style={iconStyle}>schedule</span>
+                                                        <div className={classes.hours}>{hours}</div>
+                                                    </span>
+                                                </Card>
+                                            </div>
+                                        </Fragment>
+                                    }
                                 </div>
-                            </div>
-                            <div className={classes["inner-container-1"]}>
-                                <div className={classes["inner-container-2"]}>
-                                    <Card className={classes.card}>
-                                        <span className={classes.section}>
-                                            <span className="material-symbols-rounded" style={iconStyle}>link</span>
-                                            {destination.website !== "N/A" ?
-                                                <a
-                                                    href={`${destination.website}`}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className={classes.link}
-                                                >{`${destination.website}`}
-                                                </a> :
-                                                <div className={classes.link}>{destination.website}</div>
-                                            }
-                                        </span>
-                                    </Card>
-                                </div>
-                                <div className={classes["inner-container-2"]}>
-                                    <Card className={`${classes.card} ${classes["phone-number"]}`}>
-                                        <span className={classes.section}>
-                                            <span className="material-symbols-rounded" style={iconStyle}>call</span>
-                                            {destination.phoneNumber !== "N/A" ?
-                                                isMobile ?
+                                <div className={classes["inner-container-4"]}>
+                                    <div className={classes["inner-container-2"]}>
+                                        <Card className={classes.card}>
+                                            <span className={classes.section}>
+                                                <span className="material-symbols-rounded" style={iconStyle}>link</span>
+                                                {destination.website !== "N/A" ?
                                                     <a
-                                                        href={`tel:${destination.phoneNumber}`}
+                                                        href={`${destination.website}`}
+                                                        target="_blank"
+                                                        rel="noreferrer"
                                                         className={classes.link}
-                                                    >
-                                                        {destination.phoneNumber}
+                                                    >{`${destination.website}`}
                                                     </a> :
+                                                    <div className={classes.link}>{destination.website}</div>
+                                                }
+                                            </span>
+                                        </Card>
+                                    </div>
+                                    <div className={classes["inner-container-2"]}>
+                                        <Card className={`${classes.card} ${classes["phone-number"]}`}>
+                                            <span className={classes.section}>
+                                                <span className="material-symbols-rounded" style={iconStyle}>call</span>
+                                                {destination.phoneNumber !== "N/A" ?
+                                                    isMobile ?
+                                                        <a
+                                                            href={`tel:${destination.phoneNumber}`}
+                                                            className={classes.link}
+                                                        >
+                                                            {destination.phoneNumber}
+                                                        </a> :
+                                                        <div className={classes.link}>{destination.phoneNumber}</div>
+                                                    :
                                                     <div className={classes.link}>{destination.phoneNumber}</div>
-                                                :
-                                                <div className={classes.link}>{destination.phoneNumber}</div>
-                                            }
-                                        </span>
-                                    </Card>
+                                                }
+                                            </span>
+                                        </Card>
+                                    </div>
                                 </div>
                             </div>
                         </div>
