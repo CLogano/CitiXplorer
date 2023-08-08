@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Modal from "../../../../UI/Modal";
 import classes from "./LocationInput.module.css";
 import CONSTANTS from "../../../../constants";
 
@@ -10,6 +11,7 @@ const LocationInput = (props) => {
     const [isFocused, setIsFocused] = useState(false);
     const [isValid, setIsValid] = useState(null);
     const [showDropDown, setShowDropDown] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const [citySuggestions, setCitySuggestions] = useState([]);
     const [tooltipVisible, setTooltipVisible] = useState(false);
     const [pop, setPop] = useState(false);
@@ -135,6 +137,10 @@ const LocationInput = (props) => {
 
         try {
             const response = await fetch(CONSTANTS.apiURL + `/geonames/location?text=${textInput}`);
+
+            if (!response.ok) {
+                setShowErrorModal(true);
+            }
             const data = await response.json();
             
             if(data && data.length > 0) {
@@ -158,44 +164,61 @@ const LocationInput = (props) => {
         locationRef.current.focus();
     };
 
+    const closeModalHandler = () => {
+        setShowErrorModal(false);
+    }
+
     return (
-        <div className={`${classes["search-container"]} ${pop && classes.pop}`}>
-            <div className={`${classes["search-inner"]}
+        <Fragment>
+            {showErrorModal &&
+                <Modal onClose={closeModalHandler}>
+                    <div className={classes["error-outer-container"]}>
+                        <div className={classes["error-inner-container"]}>
+                            <span className={`material-symbols-rounded ${classes["error-icon"]}`}>sentiment_dissatisfied</span>
+                            <h1 className={classes.oops}>Oops!</h1>
+                        </div>
+                        <p className={classes["error-message"]}>An unexpected error occurred. Please try again later.</p>
+                    </div>
+                </Modal>
+            }
+            <div className={`${classes["search-container"]} ${pop && classes.pop}`}>
+                <div className={`${classes["search-inner"]}
                 ${isInvalid && classes.invalid}`}>
-                <span className={`material-icons ${classes["location-icon"]}`}>location_on</span>
-                <input
-                    type={props.type}
-                    id={props.id}
-                    value={text}
-                    onClick={onClickHandler}
-                    onChange={onChangeHandler}
-                    onBlur={onBlurHandler}
-                    onFocus={onFocusHandler}
-                    placeholder={props.placeholder}
-                    autoComplete="off"
-                    ref={locationRef}
-                />
-                <span className={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deleteInput}>close</span>
-                {isInvalid && !showDropDown && (
-                    <div className={`${classes.tooltip} ${tooltipVisible ? classes.visible : ""}`}>{message}</div>
+                    <span className={`material-icons ${classes["location-icon"]}`}>location_on</span>
+                    <input
+                        type={props.type}
+                        id={props.id}
+                        value={text}
+                        onClick={onClickHandler}
+                        onChange={onChangeHandler}
+                        onBlur={onBlurHandler}
+                        onFocus={onFocusHandler}
+                        placeholder={props.placeholder}
+                        autoComplete="off"
+                        ref={locationRef}
+                    />
+                    <span className={`material-symbols-rounded ${classes["close-icon"]}`} onClick={deleteInput}>close</span>
+                    {isInvalid && !showDropDown && (
+                        <div className={`${classes.tooltip} ${tooltipVisible ? classes.visible : ""}`}>{message}</div>
+                    )}
+                </div>
+                {!isInvalid && showDropDown && (
+                    <div className={classes.dropdown}>
+                        {citySuggestions
+                            .slice(0, 10)
+                            .map(item => (
+                                <div
+                                    className={classes["dropdown-row"]}
+                                    key={item.geonameId}
+                                    onMouseDown={selectTermDropdown(item)}
+                                >{item.name}
+                                </div>
+                            ))}
+                    </div>
                 )}
             </div>
-            {!isInvalid && showDropDown && (
-                <div className={classes.dropdown}>
-                    {citySuggestions
-                        .slice(0, 10)
-                        .map(item => (
-                            <div
-                                className={classes["dropdown-row"]}
-                                key={item.geonameId}
-                                onMouseDown={selectTermDropdown(item)}
-                            >{item.name}
-                            </div>
-                        ))}
-                </div>
-            )}
-            
-        </div>
+        </Fragment>
+
     );
 };
 

@@ -149,4 +149,7 @@
         font-size: 13px;
         margin-bottom: 0;
     }
+    .captcha-notice {
+        font-size: 13px;
+    }
 }

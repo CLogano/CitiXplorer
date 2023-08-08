@@ -127,6 +127,36 @@
     
 }
 
+.error-message {
+    color: white;
+    font-size: 24px;
+    font-family: "Red Hat Display", "sans-serif";
+    text-align: center;
+}
+
+.error-icon {
+    font-size: 60px;
+    color: white;
+}
+
+.error-outer-container {
+    font-family: "Red Hat Display", "sans-serif";
+    color: white;
+    min-height: 150px;
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.error-inner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+}
+
 @keyframes fade-in {
     0% {
         opacity: 0;
@@ -191,6 +221,48 @@
     .tooltip {
         font-size: 14px;
     }
+    .error-message {
+        font-size: 18px;
+    }
+    .error-icon {
+        font-size: 48px;
+    }
+    .error-outer-container {
+        font-size: 24px;
+    }
+    .oops {
+        font-size: 48px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .error-message {
+        font-size: 16px;
+    }
+    .error-icon {
+        font-size: 36px;
+    }
+    .error-outer-container {
+        font-size: 20px;
+    }
+    .oops {
+        font-size: 36px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .error-message {
+        font-size: 14px;
+    }
+    .error-icon {
+        font-size: 24px;
+    }
+    .error-outer-container {
+        font-size: 16px;
+    }
+    .oops {
+        font-size: 24px;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -205,5 +277,17 @@
     }
     .dropdown-row {
         font-size: 12px;
+    }
+    .error-message {
+        font-size: 12px;
+    }
+    .error-icon {
+        font-size: 20px;
+    }
+    .error-outer-container {
+        font-size: 14px;
+    }
+    .oops {
+        font-size: 20px;
     }
   }
