@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import DestinationImage from "./DestinationImage";
-// import CONSTANTS from "../../../../constants";
 import classes from "./ImageList.module.css";
 import LoadingRing from "../../../../UI/LoadingRing";
 
@@ -12,26 +11,15 @@ const ImageList = (props) => {
     const [imagesLoaded, setImagesLoaded] = useState([]);
     const [index, setIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
-    // const [isLoading, setIsLoading] = useState(false);
-
-    // const imageSearch = async (destination) => {
-
-    //     try {
-    //         const response = await fetch(CONSTANTS.apiURL + `/googleMaps/images?destination=${destination}&city=${destination.location}`);
-    //         const result = await response.json();
-    //         setImages(result.imageUrls || []);
-    //         setIsLoading(false);
-    //     } catch (error) {
-    //         console.log("Error occurred while calling API:", error);
-    //     }
-    // };
 
     const { destination } = props;
     useEffect(() => {
+
         setIndex(0);
         setImages(destination.imageUrls)
         setImagesLoaded(Array(destination.imageUrls.length).fill(false));
         setContent(null);
+
     }, [destination]);
 
     useEffect(() => {
@@ -56,11 +44,11 @@ const ImageList = (props) => {
             
             const newContent = images.map((image) => {
                 return (
-                    <li key={props.destination}>
+                    <li key={destination}>
                         <DestinationImage
-                            id={props.destination}
+                            id={destination}
                             src={image}
-                            alt={props.destination}
+                            alt={destination}
                         />
                     </li>
                 );
@@ -74,22 +62,8 @@ const ImageList = (props) => {
             });
         }
 
+    // eslint-disable-next-line
     }, [images]);
-
-
-    // const data = images ?
-    //     images.map((image) => {
-    //         return (
-    //             <li key={props.destination}>
-    //                 <DestinationImage
-    //                     id={props.destination}
-    //                     src={image}
-    //                     alt={props.destination}
-    //                 />
-    //             </li>
-    //         );
-    //     }) :
-    //     null;
 
     const leftClickHandler = () => {
 
@@ -122,22 +96,14 @@ const ImageList = (props) => {
                 (
                     <div className={classes.backdrop} onClick={closeModalHandler}>
                         <DestinationImage
-                            id={props.destination}
+                            id={destination}
                             src={images[index]}
-                            alt={props.destination}
+                            alt={destination}
                             modalOpen={showModal}
                         />
                     </div>
                 ),
                 document.getElementById("modal-root")
-                // <Modal className={classes.modal} onClose={closeModalHandler}>
-                //     <DestinationImage
-                //         id={props.destination}
-                //         src={images[index]}
-                //         alt={props.destination}
-                //         modalOpen={showModal}
-                //     />
-                // </Modal>
             )}
             <span className={`material-symbols-rounded ${classes["arrow-left"]} ${index > 0 ? classes.nonempty : classes.empty}`} onClick={leftClickHandler}>
                 arrow_back_ios

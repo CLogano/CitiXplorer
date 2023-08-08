@@ -70,8 +70,8 @@ const Details = (props) => {
         //Adjust font size depending on name
         const nameElement = nameRef.current;
         const nameLength = destination.name.length;
-        const maxFontSize = 42;
-        const minFontSize = 20;
+        const maxFontSize = 36;
+        const minFontSize = 10;
         const maxNameLength = 100;
 
         let fontSize;
@@ -116,7 +116,9 @@ const Details = (props) => {
           }
 
         } catch (error) {
-          console.log("Error occurred while calling API:", error);
+          if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+          }
         }
 
     }
@@ -130,7 +132,9 @@ const Details = (props) => {
               <div ref={nameRef} className={classes.name}>{destination.name}</div>
           </Card>
           <Card className={classes.card}>
-            <TypingAnimation text={text} />
+            <div className={classes.content}>
+              <TypingAnimation text={text} />
+            </div>
           </Card>
         </div>
     );

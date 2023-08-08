@@ -67,10 +67,10 @@
 
 .description {
     pointer-events: auto;
-    height: calc(100vh - 10rem);
+    height: calc(100vh - 11rem);
     font-family: "Red Hat Display", "sans-serif";
     position: absolute;
-    top: calc((50vh - 50% + 9rem));
+    top: calc((50vh - 50% + 9.5rem));
     right: 0;
     width: 45vw;
     min-width: 450px;
@@ -80,13 +80,6 @@
     pointer-events: none;
     transition: all 0.2s ease-out;
 }
-
-/* @media screen and (max-width: 1400px) {
-    .description {
-        height: calc(100% - 25rem);
-        top: 15rem;
-    }
-} */
 
 .filters {
     height: 50px;
@@ -102,26 +95,11 @@
     margin-bottom: 0.75rem;
 }
 
-@media screen and (max-width: 1700px) {
-    /* .description {
-        width: 700px;
-    } */
-}
-
-@media screen and (max-width: 1500px) {
-    /* .description {
-        width: 550px;
-    } */
-}
-
 @media screen and (max-width: 1200px) {
     .destinations {
         width: 200px; 
         margin-left: 3rem;
     }
-    /* .description {
-        width: 500px;
-    } */
 }
 
 @media screen and (max-width: 1024px) {
@@ -129,9 +107,6 @@
         width: 175px; 
         margin-left: 3rem;
     }
-    /* .description {
-        width: 450px;
-    } */
 }
 
 @media screen and (max-width: 768px) {
@@ -147,7 +122,7 @@
     } 
     .filters {
         height: calc(100vh - 8rem);
-        margin-top: 8rem;
+        margin-top: 8.75rem;
         overflow: hidden;
     }
 }

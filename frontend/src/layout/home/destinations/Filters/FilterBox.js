@@ -7,47 +7,29 @@ import classes from "./FilterBox.module.css";
 const FilterBox = (props) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [sortFilter, setSortFilter] = useState("");
-    const [ratingFilter, setRatingFilter] = useState("");
-    const [hoursFilter, setHoursFilter] = useState([0, 24]);
-    const [dayFilter, setDayFilter] = useState("Any");
+    const { sortFilterValue, ratingFilterValue, hoursFilterValue, dayFilterValue } = props;
 
     const resetHandler = () => {
         props.resetFilter();
-        setSortFilter("");
-        setRatingFilter("");
-        setHoursFilter([0, 24]);
-        setDayFilter("Any");
     };
-
     const onSortChangeHandler = (value) => {
-
-        setSortFilter(value);
         props.sortFilter(value);
     };
     const onRatingChangeHandler = (value) => {
-
-        setRatingFilter(value);
         props.ratingFilter(value);
     };
     const onDayChangeHandler = (value) => {
-
-        setDayFilter(value);
-        props.hoursFilter({hours: hoursFilter, day: value});
+        props.dayFilter(value);
     };
     const onHoursChangeHandler = (values) => {
-
-        setHoursFilter(values);
-        props.hoursFilter({hours: values, day: dayFilter});
+        props.hoursFilter(values);
     };
-
     const onOpenHandler = () => {
         setIsOpen(true);
-    }
-
+    };
     const onCloseHandler = () => {
         setIsOpen(false);
-    }
+    };
 
     return (
         <div className={classes.container}>
@@ -57,10 +39,10 @@ const FilterBox = (props) => {
         </div>
         <div className={`${classes.dropdown} ${isOpen ? classes.open : ""}`}>
                 <div className={["content-inner"]}>
-                    <SortFilter selected={onSortChangeHandler} value={sortFilter} />
-                    <RatingFilter selected={onRatingChangeHandler} value={ratingFilter} />
+                    <SortFilter selected={onSortChangeHandler} value={sortFilterValue} />
+                    <RatingFilter selected={onRatingChangeHandler} value={ratingFilterValue} />
                 </div>
-                <HoursFilter selectedDay={onDayChangeHandler} selectedHours={onHoursChangeHandler} day={dayFilter} hours={hoursFilter} />
+                <HoursFilter selectedDay={onDayChangeHandler} selectedHours={onHoursChangeHandler} day={dayFilterValue} hours={hoursFilterValue} />
                 <button className={classes.reset} onClick={resetHandler}>Reset</button>
             <span className={`material-symbols-rounded ${classes["close-icon"]}`} onClick={onCloseHandler}>close</span>
         </div>

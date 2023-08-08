@@ -49,17 +49,6 @@
     border-radius: 15px;
 }
 
-/* .content::-webkit-scrollbar {
-    width: 10px;
-    background-color: white;
-    border-radius: 15px;
-}
-
-.content::-webkit-scrollbar-thumb {
-    background-color: royalblue;
-    border-radius: 15px;
-} */
-
 .locked {
     transform: translateX(0);
 }
@@ -76,40 +65,12 @@
     transform: rotate(90deg) translateX(-50%);
 }
 
-/* .close-container {
-    align-self: flex-end;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 30px;
-    border-radius: 30px;
-    margin: 0.5rem;
-    border: none;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-} */
-
 .arrow {
     color: white;
     font-size: 48px;
     user-select: none;
     transform: rotate(-90deg) translateX(50%);
 }
-
-/* .close-icon {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-}
-
-.close-icon:hover {
-    color: lightblue;
-} */
 
 .lock-icon {
     position: absolute;
@@ -244,13 +205,13 @@
 .rating {
     font-size: 24px;
     text-align: center;
-    margin-right: 0.25rem;
+    margin-right: 0.2rem;
 }
 
 .total-ratings {
     font-size: 20px;
     text-align: center;
-    margin-left: 0.25rem;
+    margin-left: 0.2rem;
 }
 
 .location-icon {
@@ -281,28 +242,6 @@
     text-decoration: underline;
     color: royalblue;
 }
-
-/* .save-button {
-    position: absolute;
-    top: 3%;
-    right: 6%;
-    cursor: pointer;
-    min-width: 30px;
-    width: 10%;
-    max-width: 60px;
-    height: 30px;
-    background-color: darkorange;
-    border: 2px solid white;
-    border-radius: 20px;
-    font-family: "Red Hat Display", "sans-serif";
-    color: white;
-}
-
-.save-button:hover {
-    background-color: orangered;
-    border-color: lightblue;
-    animation: pop-out 0.2s ease-out forwards;
-} */
 
 .more-button {
     font-size: 22px;
@@ -432,16 +371,4 @@
         width: 100%;
     }
 }
-
-/* @media screen and (max-width: 1024px) {
-    .container {
-        transform: scale(.6) translateX(126.5%); 
-    }
-    .container:hover {
-        transform: scale(.6) translateX(33.5%);
-    }
-    .locked {
-        transform: scale(.6) translateX(33.5%);
-    }
-} */
 

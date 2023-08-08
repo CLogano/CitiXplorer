@@ -29,7 +29,11 @@ const Home = (props) => {
 
         const searchAttractions = async () => {
 
-            console.log(`SEARCHING in ${city.name}!!`)
+            if (process.env.NODE_ENV !== "production") {
+                console.log("\n")
+                console.log(`SEARCHING in ${city.name}!!`)
+            }
+            
             setAttractions(null);
             setCityData(null);
             setFilterCriteria({sort: null, rating: null, hours: null});
@@ -42,6 +46,7 @@ const Home = (props) => {
             searchHandler(false);
             searchAttractions();
         }
+        // eslint-disable-next-line
     }, [search, searchHandler]);
 
     useEffect(() => {
@@ -71,6 +76,7 @@ const Home = (props) => {
         };
         getData();
         
+        // eslint-disable-next-line
     }, [dataFetched, originalAttractions, cityData]);
 
     const onSelectedDestination = (destination) => {

@@ -64,7 +64,9 @@ router.post("/contact", async (req, res) => {
 
     } catch (error) {
         res.status(500).send({ message: "There was a problem submitting the form!" });
-        console.error(error);
+        if (process.env.NODE_ENV !== "production") {
+          console.error(error);
+        }
     }
 });
 

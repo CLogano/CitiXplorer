@@ -5,8 +5,8 @@ import CONSTANTS from '../../../../constants';
 import CityName from './CityName';
 
 const containerStyle = {
-  width: '100%',
-  height: '100%'
+  width: "100%",
+  height: "100%"
 };
 
 const MapComponent = React.forwardRef((props, ref) => {
@@ -19,17 +19,13 @@ const MapComponent = React.forwardRef((props, ref) => {
   const [citiesInView, setCitiesInView] = useState([]);
   const cityCache = useRef({});
   const mapRef = useRef(null);
-  //const prevDataRef = useRef(null);
   const mapIdleTimerRef = useRef(null);
 
-  
-
-  // useEffect(() => {
-  //   console.log(destination)
-  // }, [destination]);
-
   useEffect(() => {
-    console.log(citiesInView)
+    if (process.env.NODE_ENV !== "production") {
+      console.log("CITIES IN VIEW: ", citiesInView);
+    }
+    
   }, [citiesInView])
 
 
@@ -55,7 +51,10 @@ const MapComponent = React.forwardRef((props, ref) => {
         setCitiesInView(citiesWithCache);
       }
     } catch (error) {
-      console.error(error);
+
+      if (process.env.NODE_ENV !== "production") {
+        console.error(error);
+      }
     }
 
   }, [citiesInView]);
@@ -106,18 +105,19 @@ const MapComponent = React.forwardRef((props, ref) => {
       }
     }
 
-  }, [data, onSelectedDestination]);
+  }, [data, onSelectedDestination, map]);
 
   const markerClickHandler = useCallback((id) => {
     onSelectedMarkerHandler(id);
   }, [onSelectedMarkerHandler]);
 
+  const { clickedCity } = props;
   const onSelectedCityHandler = useCallback((id) => {
     const city = citiesInView.find(city => {
       return city.geonameId === id;
     });
 
-    props.clickedCity(city);
+    clickedCity(city);
 
     if (city && map) {
 
@@ -128,42 +128,11 @@ const MapComponent = React.forwardRef((props, ref) => {
       }
     }
 
-  }, [citiesInView]);
+  }, [citiesInView, map, clickedCity]);
 
   const cityClickHandler = useCallback((id) => {
     onSelectedCityHandler(id);
   }, [onSelectedCityHandler]);
-
-  // const fetchCityName = async (lat, lng) => {
-
-  //   try {
-  //     const response = await fetch(CONSTANTS.apiURL + `/geonames/nearest-city?lat=${lat}&lng=${lng}`);
-  //     const cityName = await response.json();
-
-  //     return cityName;
-
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const clickCityHandler = async (event) => {
-
-  //   if (clickedMarker) {
-  //     setClickedMarker(false);
-  //     return;
-  //   }
-
-  //   const clickedCity = await fetchCityName(event.latLng.lat(), event.latLng.lng());
-
-  //   if (!Array.isArray(clickedCity)) {
-  //     props.clickedCity(clickedCity);
-  //   } else {
-  //     console.log("No city corresponding to these coordinates");
-  //   }
-    
-  //   setClickedMarker(false);
-  // };
 
   const forceMapUpdate = () => {
     setForceUpdate(!forceUpdate);
@@ -186,25 +155,6 @@ const MapComponent = React.forwardRef((props, ref) => {
 }, [destination, map, isLoading]);
 
   const { address } = props;
-    // const fetchLocation = async () => {
-    //   try {
-        
-    //     const response = await fetch(
-    //       CONSTANTS.apiURL + `/googleMaps/location-by-address?address=${address.name}`
-    //     );
-    //     const data = await response.json();
-    //     console.log(data);
-    //     if (map) {
-    //       map.setCenter(data);
-    //       if (mapRef.current.getZoom() < 12) {
-    //         mapRef.current.setZoom(12);
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-
     useEffect(() => {
       if (address && map) {
         //Recenter map
@@ -214,21 +164,6 @@ const MapComponent = React.forwardRef((props, ref) => {
         }
       }
     }, [address, map, forceUpdate]);
-
-
-  //Pan & zoom to first destination when data is fetched
-  // useEffect(() => {
-
-  //   console.log(isLoading)
-  //   console.log("HERE")
-  //   //prevDataRef.current = data;
-  //   // if (data && data.length > 0 && mapRef.current && JSON.stringify(data) !== JSON.stringify(prevDataRef.current)) {
-  //   if (data && data.length > 0 && map && !isLoading) {
-  //     console.log("HERE")
-  //     map.panTo(data[0].geometry);
-  //     map.setZoom(14);
-  //   }
-  // }, [data, isLoading]);
 
   const onLoad = (mapInstance) => {
     mapRef.current = mapInstance;
@@ -281,7 +216,6 @@ const MapComponent = React.forwardRef((props, ref) => {
     ]
   };
 
-  //console.log(JSON.stringify(data) === JSON.stringify(prevDataRef.current))
   let markers = <div></div>;
   if (data) {
     markers = data && data.map((d) => (
@@ -321,6 +255,7 @@ const MapComponent = React.forwardRef((props, ref) => {
         onSelected={cityClickHandler}
         lat={address.lat}
         lng={address.lng}
+        show={true}
       />
     );
   }
@@ -330,7 +265,6 @@ const MapComponent = React.forwardRef((props, ref) => {
       <LoadScript googleMapsApiKey={apiKey}>
         <GoogleMap
           mapContainerStyle={containerStyle}
-          // center={address || citiesInView.length !== 0 ? null : (map && map.getCenter().lat !== 0 && map.getCenter().lng !== 0) ? map.getCenter() : { lat: 0, lng: 0 }}
           center={mapCenter}
           zoom={4}
           onLoad={onLoad}

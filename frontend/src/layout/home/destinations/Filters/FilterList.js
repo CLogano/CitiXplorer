@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import classes from "./FilterList.module.css";
 import SortFilter from "./SortFilter";
 import RatingFilter from "./RatingFilter";
@@ -6,45 +6,29 @@ import HoursFilter from "./HoursFilter";
 
 const FilterList = (props) => {
 
-    const [sortFilter, setSortFilter] = useState("");
-    const [ratingFilter, setRatingFilter] = useState("");
-    const [hoursFilter, setHoursFilter] = useState([0, 24]);
-    const [dayFilter, setDayFilter] = useState("Any");
+    const { sortFilterValue, ratingFilterValue, hoursFilterValue, dayFilterValue } = props;
 
     const resetHandler = () => {
         props.resetFilter();
-        setSortFilter("");
-        setRatingFilter("");
-        setHoursFilter([0, 24]);
-        setDayFilter("Any");
     };
-
     const onSortChangeHandler = (value) => {
-
-        setSortFilter(value);
         props.sortFilter(value);
     };
     const onRatingChangeHandler = (value) => {
-
-        setRatingFilter(value);
         props.ratingFilter(value);
     };
     const onDayChangeHandler = (value) => {
-
-        setDayFilter(value);
-        props.hoursFilter({hours: hoursFilter, day: value});
+        props.dayFilter(value);
     };
     const onHoursChangeHandler = (values) => {
-
-        setHoursFilter(values);
-        props.hoursFilter({hours: values, day: dayFilter});
+        props.hoursFilter(values);
     };
 
     return (
         <div className={classes.container}>
-            <SortFilter selected={onSortChangeHandler} value={sortFilter} />
-            <RatingFilter selected={onRatingChangeHandler} value={ratingFilter} />
-            <HoursFilter selectedDay={onDayChangeHandler} selectedHours={onHoursChangeHandler} day={dayFilter} hours={hoursFilter} />
+            <SortFilter selected={onSortChangeHandler} value={sortFilterValue} />
+            <RatingFilter selected={onRatingChangeHandler} value={ratingFilterValue} />
+            <HoursFilter selectedDay={onDayChangeHandler} selectedHours={onHoursChangeHandler} day={dayFilterValue} hours={hoursFilterValue} />
             <button className={classes.reset} onClick={resetHandler}>Reset</button>
         </div>
     )

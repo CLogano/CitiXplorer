@@ -27,15 +27,21 @@
     height: 100%;
     margin: 0.5rem 0.25rem;
     margin-bottom: 0;
+    padding-right: 1rem;
     overflow-y: auto;
     font-size: 16px;
     font-weight: bold;
-    scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
 }
 
 .review::-webkit-scrollbar {
-    width: 0px;  /* For Chrome, Safari and Opera */
+    width: 5px;
+    background-color: lightgray;
+    border-radius: 15px;
+}
+
+.review::-webkit-scrollbar-thumb {
+    background-color: royalblue;
+    border-radius: 15px;
 }
 
 .date {
@@ -56,7 +62,7 @@
 }
 
 .empty {
-    color: royalblue;
+    color: slateblue;
     animation: pop-in 0.1s ease-out forwards;
     cursor: default;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import classes from "./HoursFilter.module.css";
 import Slider from "react-slider";
 

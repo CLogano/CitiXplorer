@@ -17,14 +17,13 @@ const ReviewList = (props) => {
         //Dynamic rating
         const filledStars = review.rating;
         const stars = (<div className={classes.stars}>
-
             {[...Array(5)].map((_, index) => {
 
                 if (index < filledStars) {
-                    return <span key={index} class={`material-icons ${classes["outer-star"]}`}>star</span>
+                    return <span key={index} className={`material-icons ${classes["outer-star"]}`}>star</span>
                 } else if (index >= filledStars) {
-                    return (<span key={index} class={`material-icons ${classes["outer-star"]}`}>star
-                        <span class={`material-icons ${classes["inner-star"]}`}>star</span>
+                    return (<span key={index} className={`material-icons ${classes["outer-star"]}`}>star
+                        <span className={`material-icons ${classes["inner-star"]}`}>star</span>
                     </span>);
                 }
                 return null;
@@ -63,11 +62,11 @@ const ReviewList = (props) => {
 
     return (
         <div className={classes.container}>
-            <span class={`material-symbols-rounded ${classes.arrow} ${index > 0 ? classes.nonempty : classes.empty}`} onClick={leftClickHandler}>
+            <span className={`material-symbols-rounded ${classes.arrow} ${index > 0 ? classes.nonempty : classes.empty}`} onClick={leftClickHandler}>
                 arrow_back_ios
             </span>
             {data[index]}
-            <span class={`material-symbols-rounded ${classes.arrow} ${classes.right} ${index < data.length - 1 ? classes.nonempty : classes.empty}`} onClick={rightClickHandler}>
+            <span className={`material-symbols-rounded ${classes.arrow} ${classes.right} ${index < data.length - 1 ? classes.nonempty : classes.empty}`} onClick={rightClickHandler}>
                 arrow_back_ios
             </span>
         </div>

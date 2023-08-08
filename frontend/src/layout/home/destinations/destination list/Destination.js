@@ -36,9 +36,6 @@ const Destination = forwardRef((props, ref) => {
         if (!isSelected) {
             setIsSelected(true);
             props.onSelected(props.id);
-        } else {
-            // setIsSelected(false);
-            // props.onSelected(null);
         }
     };
 

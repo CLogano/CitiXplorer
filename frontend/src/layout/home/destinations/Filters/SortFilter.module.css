@@ -25,22 +25,6 @@
 .option:hover {
     background-color: lightblue;
 }
-/* 
-.container:hover {
-    animation: pop-out 0.2s ease-out forwards;
-}
-
-@keyframes pop-out {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    100% {
-      transform: scale(1.1);
-    }
-} */
 
  
 @media screen and (max-width: 1200px) {
@@ -51,7 +35,6 @@
     font-size: 16px;
   }
   .container {
-    margin-left: 0.15rem;
     margin-right: 0.15rem;
     width: 100px;
   }

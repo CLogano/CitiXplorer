@@ -31,7 +31,7 @@ export const getFilteredHours = (hourData, data) => {
                     const times = [];
                     for (let interval of intervals) {
                         let intervalTimes = interval.match(timePattern);
-                        if (intervalTimes.length === 2 && !(intervalTimes[0].includes('AM') || intervalTimes[0].includes('PM'))) {
+                        if (intervalTimes.length === 2 && !(intervalTimes[0].includes("AM") || intervalTimes[0].includes("PM"))) {
                             let amOrPm = intervalTimes[1].match(/(?:AM|PM)/gi)[0];
                             intervalTimes[0] = intervalTimes[0] + " " + amOrPm;
                         }

@@ -41,7 +41,7 @@ const Description = (props) => {
     useEffect(() => {
         const timer = setTimeout(() => {
           setHasRendered(true);
-        }, 100); // Adjust delay as needed
+        }, 100);
       
         // Cleanup function to clear the timeout if the component unmounts
         return () => clearTimeout(timer);

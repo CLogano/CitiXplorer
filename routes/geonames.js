@@ -19,32 +19,12 @@ router.get("/location", async (req, res) => {
         res.json(modifiedData);
 
     } catch (error) {
-        console.error(error);
+        if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+        }
         res.status(500).json({ error: "An error occurred" });
     }
 
-});
-
-router.get("/nearest-city", async (req, res) => {
-
-    try {
-        
-        const { lat, lng } = req.query;
-        const response = await fetch(`http://api.geonames.org/findNearbyPlaceNameJSON?lat=${lat}&lng=${lng}&cities=cities1000&username=${geoUsername}&maxRows=10`);
-        const data = await response.json();
-
-        const modifiedData = data.geonames.map(formatCityData);
-
-        if (modifiedData.length > 0) {
-            res.json(modifiedData[0]);
-        } else {
-            res.json([]);
-        }
-        
-
-    } catch (error) {
-        console.error(error);
-    }
 });
 
 router.get("/cities-in-view", async (req, res) => {
@@ -56,8 +36,11 @@ router.get("/cities-in-view", async (req, res) => {
             return res.status(429).json({ error: "Rate limit exceeded" });
         }
         res.json(data.geonames.map(formatCityData));
+
     } catch (error) {
-        console.error(error);
+        if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+        }
         res.status(500).json({ error: "An error occurred" });
     }
 });

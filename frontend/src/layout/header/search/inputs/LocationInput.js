@@ -46,7 +46,7 @@ const LocationInput = (props) => {
             setTooltipVisible(true);
         }, 500);
         
-    }, []);
+    }, [touchedOnce]);
 
     const onFocusHandler = useCallback(() => {
         setIsFocused(true);
@@ -78,30 +78,12 @@ const LocationInput = (props) => {
 
 
     const { location } = props;
-    // const selectTermMap = useCallback((item) => {
-
-    //     location({name: item.name, population: item.population});
-    //     setText(item.name)
-    //     setIsValid(true); 
-    //     setPop(true);
-
-    //     const timer = setTimeout(() => {
-    //         setPop(false);
-    //     }, 200); 
-    //     return () => {
-    //         clearTimeout(timer);
-    //     };
-
-        
-       
-    // }, [location]);
 
     const { city } = props;
     useEffect(() => {
 
         if (city) {
             
-            // selectTermMap(city);
             setText(city.name);
             setIsValid(true);
             setPop(true);
@@ -124,16 +106,6 @@ const LocationInput = (props) => {
         }
         setIsFocused(true);
     }, [touchedOnce]);
-
-    // useEffect(() => {
-    //     console.log("touched once: " + touchedOnce);
-    //     console.log("is focused : " + isFocused);
-    //     console.log("is valid: " + isValid);
-    //     console.log("show dropdown: " + showDropDown);
-    //     console.log("show tooltip: " + tooltipVisible);
-    //     console.log("");
-        
-    // }, [isFocused, isValid, showDropDown, touchedOnce, tooltipVisible]);
 
     useEffect(() => {
 
@@ -173,7 +145,9 @@ const LocationInput = (props) => {
             }
 
         } catch (error) {
-            console.error(error);
+            if (process.env.NODE_ENV !== "production") {
+                console.error(error);
+            }
         }
     };
 

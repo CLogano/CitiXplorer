@@ -31,33 +31,39 @@ const ContactForm = () => {
     const onSubmitHandler = async (event) => {
         
         event.preventDefault();
-        if (formIsValid) {
-            
-            const data = {
-                name: name,
-                emailAddress: emailAddress,
-                phoneNumber: phoneNumber,
-                zipcode: zipcode,
-                message: message,
-                captchaValue: captchaValue
-            };
 
-            const response = await fetch(CONSTANTS.apiURL + "/googleSheets/contact", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+        try {
 
-            const result = await response.json();
-            
-            if (result.message === "Data submitted successfully") {
-                setShowSuccessModal(true);
+            if (formIsValid) {
+
+                const data = {
+                    name: name,
+                    emailAddress: emailAddress,
+                    phoneNumber: phoneNumber,
+                    zipcode: zipcode,
+                    message: message,
+                    captchaValue: captchaValue
+                };
+
+                const response = await fetch(CONSTANTS.apiURL + "/googleSheets/contact", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (result.message === "Data submitted successfully") {
+                    setShowSuccessModal(true);
+                }
             }
-            else if (response.status === 400 && result.message === "Invalid captcha") {
-                setShowErrorModal(true);
+        } catch (error) {
+            if (process.env.NODE_ENV !== "production") {
+                console.error(error);
             }
+            setShowErrorModal(true);
         }
     };
     

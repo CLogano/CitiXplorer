@@ -1,6 +1,6 @@
 .container {
     height: 80vh;
-    padding: 3rem;
+    padding: 2rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -8,7 +8,8 @@
     align-items: center;
     font-family: "Red Hat Display", "sans-serif";
     font-size: 20px;
-    }
+}
+
 .name-container {
   margin: 0.5rem;
   padding: 1rem;
@@ -24,7 +25,6 @@
 }
 
 .name {
-  /* font-size: calc(1.5vw + 1vh); */
   font-weight: bold;
   font-family: "Special Elite", cursive;
   text-align: center;
@@ -41,12 +41,30 @@
   border-radius: 20px;
   padding: 1rem;
   flex-grow: 1;
-  display: flex;
   align-content: center;
-  justify-content: center;
   border: 3px solid slateblue;
   display: flex;
   justify-content: flex-start;
+  overflow: hidden;
+  position: relative;
+
+}
+
+.content {
+  padding-right: 20px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.content::-webkit-scrollbar {
+  width: 7.5px;
+  background-color: lightgray;
+  border-radius: 15px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: royalblue;
+  border-radius: 15px;
 }
 
 .cursor {
@@ -55,17 +73,6 @@
   height: 20px;
   background-color: white;
   animation: blink 1s infinite;
-}
-
-.text-container {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none;  /* For Internet Explorer and Edge */
-}
-
-.text-container::-webkit-scrollbar {
-  width: 0px;
 }
 
 
@@ -83,4 +90,13 @@ p {
   0% { background-color: white; }
   50% { background-color: transparent; }
   100% { background-color: white; }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    font-size: 16px;
+  }
+  .text {
+    font-size: 16px;
+  }
 }
