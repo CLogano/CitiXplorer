@@ -9,7 +9,10 @@ const mapsClient = new Client({});
 router.get("/search", async (req, res) => {
 
   const city = req.query.city;
-  console.log("Searching in " + city)
+
+  if (process.env.NODE_ENV !== "production") {
+    console.log("Searching in " + city);
+  }
   
   try {
     const response = await mapsClient.textSearch({

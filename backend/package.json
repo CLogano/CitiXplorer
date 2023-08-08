@@ -1,13 +1,15 @@
 {
-  "name": "citixplorer",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Application that allows users to browse historical attractions of various cities, along with learning the history of the city itself.",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd backend && node index.js",
-    "heroku-postbuild": "cd frontend && npm install && npm run build && cd ../backend && npm install"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.3.28",
     "axios": "^1.3.6",
@@ -23,8 +25,5 @@
     "nodemon": "^2.0.22",
     "openai": "^3.2.1",
     "request": "^2.88.2"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

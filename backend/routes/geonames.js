@@ -10,13 +10,23 @@ router.get("/location", async (req, res) => {
         
         const text = req.query.text;
         const response = await fetch(`http://api.geonames.org/searchJSON?name_startsWith=${text}&cities=cities1000&username=${geoUsername}&maxRows=10`);
-        const data = await response.json();
-        if (data.message && data.message.includes("exceeded")) {
-            return res.status(429).json({ error: "Rate limit exceeded" });
-        }
-        const modifiedData = data.geonames.map(formatCityData);
+        
+        if (response.status === 200) {
 
-        res.json(modifiedData);
+            const data = await response.json();
+            const modifiedData = data.geonames.map(formatCityData);
+
+            res.json(modifiedData);
+
+        } else {
+            if (response.status === 429) {
+                return res.status(429).json({ error: "Rate limit exceeded" });
+            } else if (response.status === 503) {
+                return res.status(503).json({ error: "Service is temporarily unavailable" });
+            } else {
+                return res.status(response.status).json({ error: "Unexpected error occurred" });
+            }
+        }       
 
     } catch (error) {
         if (process.env.NODE_ENV !== "production") {

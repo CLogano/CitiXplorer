@@ -5,7 +5,7 @@ require("dotenv").config();
 const router = express.Router();
 const path = require("path");
 const secretKey = process.env.GOOGLE_CAPTCHA_SECRET_KEY;
-const credentialsPath = path.resolve(__dirname, "..", "..", "CitiXplorer Credentials", "credentials.json");
+const credentialsPath = path.resolve(__dirname, "..", "..", "..", "CitiXplorer Credentials", "credentials.json");
 
 let credentials;
 
