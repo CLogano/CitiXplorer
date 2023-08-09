@@ -10,7 +10,7 @@ const credentialsPath = path.resolve(__dirname, "..", "..", "..", "CitiXplorer C
 let credentials;
 
 if (process.env.NODE_ENV === "production") {
-  // Load credentials from Heroku Secret Manager
+  // Load credentials from production environment
   credentials = JSON.parse(Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS, "base64").toString("ascii"));
 } else {
   // Load credentials from local .env file during development
@@ -22,7 +22,6 @@ router.post("/contact", async (req, res) => {
     try {
 
         const { name, emailAddress, phoneNumber, zipcode, message, captchaValue } = req.body;
-        console.log(name);
 
         if (process.env.NODE_ENV === "production") {
           // Validate the captcha first
@@ -48,7 +47,7 @@ router.post("/contact", async (req, res) => {
         );
 
           const sheets = google.sheets({ version: "v4", auth });
-          const spreadsheetId = "15rb0K8ppERPJSi-O4m30RAqcsrQdqRpNwLz3H-CSfUA";
+          const spreadsheetId = process.env.GOOGLE_SHEETS_ID;
 
           await sheets.spreadsheets.values.append({
             spreadsheetId,
