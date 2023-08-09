@@ -102,3 +102,16 @@ Used to obtain access to registered city names throughout the world.
 1. Navigate to [GeoNames](http://www.geonames.org/). Create an account if you have not done so.
 2. Login to your account to access the webservices.
 3. Replace `GEONAMES_USERNAME` in the `.env` file in `/backend` with your **geonames username**.
+
+
+
+## Learn more
+
+### React
+
+To learn more about **React**, check out the [React documentation](https://react.dev/).
+To learn more about **Create React App**, check out the [Create React App documentation](https://github.com/facebook/create-react-app).
+
+
+### Deployment
+To learn how to **deploy your app**, check out this [link](https://create-react-app.dev/docs/deployment/).
