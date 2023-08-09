@@ -49,7 +49,7 @@ You should be good to go!
 Used to generate attractions and obtain the relevant data about them.
 
 1. Create a new project on [Google Cloud Platform](https://console.cloud.google.com/).
-2. Enable billing on your account if needed (Free credit is offered as well).
+2. Enable billing on your account if needed (free credit is offered as well).
 3. Go to the main dashboard.
 4. Navigate to **APIs & Services** &rarr; **Enabled APIs & services**.
 5. Click on **ENABLE APIS AND SERVICES** at the top of the screen.
@@ -91,7 +91,7 @@ Used to generate attractions and obtain the relevant data about them.
 Used to create unique descriptions about each attraction and the city.
 
 1. Navigate to the [OpenAI Platform](https://platform.openai.com/overview). Create an account if you have not done so.
-2. Enable billing on your account if needed (Free credit is offered as well).
+2. Enable billing on your account if needed (free credit is offered as well).
 3. In the top right corner, click on **Personal** &rarr; **View API keys**.
 4. Generate a new API key and replace `OPEN_AI_API_KEY` with it in the `.env` file on `/backend`.
 
@@ -101,7 +101,7 @@ Used to obtain access to registered city names throughout the world.
 
 1. Navigate to [GeoNames](http://www.geonames.org/). Create an account if you have not done so.
 2. Login to your account to access the webservices.
-3. Replace `GEONAMES_USERNAME` in the `.env` file in `/backend` with your **geonames username**.
+3. Replace `GEONAMES_USERNAME` in the `.env` file in `/backend` with your **GeoNames username**.
 
 
 
