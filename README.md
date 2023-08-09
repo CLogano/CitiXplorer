@@ -110,6 +110,7 @@ Used to obtain access to registered city names throughout the world.
 ### React
 
 To learn more about **React**, check out the [React documentation](https://react.dev/).
+
 To learn more about **Create React App**, check out the [Create React App documentation](https://github.com/facebook/create-react-app).
 
 
