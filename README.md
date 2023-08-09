@@ -1,6 +1,8 @@
 # CitiXplorer
 Application that recommends historical attractions to visit in any city around the world.
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
+
 
 
 ## Information about the project
@@ -18,15 +20,59 @@ I enjoy learning about the history and culture of different cities, so I thought
 
 ## Steps to run the application
 
-1. Install [node.js](https://nodejs.org/en/download). This application utilizes version `18.15.0`.
-2. Make sure git is properly installed and run `git clone` in the target directory.
-3. Install `node_modules` in `/backend` and `/frontend` by running `npm install` in each respective folder.
+**Note: This project contains many APIs, of which some are not free. Proceed at your own caution!**
+
+1. Install [node.js](https://nodejs.org/en/download). This application utilizes version `18.15.0`
+
+2. Make sure git is properly installed and clone the project in the target directory.
+   
+3. Install `node_modules` in `/backend` and `/frontend` by running the command `npm install` in each respective folder.
+   
 4. Create a `.env` file in `/backend` and `/frontend` to store API keys and other sensitive information.
+   
 5. Obtain the necessary API keys, etc. by following the steps at the bottom of the page and paste them into the `.env` files (see each `.env_sample` as a reference). Replace the placeholder text on the right hand side with the key wrapped in `""`. For example, `GOOGLE_API_KEY="aDFsIMnP3dtJuN0w"`
+   
 6. In two seperate terminals, navigate to `/frontend` in one and `/backend` in the other.
+    
 7. In `/backend`, run the command `npm run dev`
+   
 8. In `/frontend`, run the command `npm start`
+
+You should be good to go!
 
 
 
 ##  API keys and other secure info
+
+### Google
+
+1. Create a new project on [Google Cloud Platform](https://console.cloud.google.com/).
+2. Enable billing on your account if needed.
+3. Go to the main dashboard.
+4. Navigate to **APIs & Services** &rarr; **Enabled APIs & services**
+5. Click on **ENABLE APIS AND SERVICES** at the top of the screen.
+6. Enable the **following APIs**:
+   - **Places API**
+   - **Maps Javascript API**
+   - **Geocoding API**
+   - **Google Sheets API**
+   - **reCAPTCHA Enterprise API**
+7. Navigate to **Credentials**
+8. Click on **CREATE CREDENTIALS** at the top of the screen and choose **API key**.
+9. Copy the key and paste into your `.env` file in `/backend` for `GOOGLE_API_KEY`. Optionally, name the key "backend key" or something along those lines in the Cloud Console.
+10. Repeat steps 8-9, but instead of pasting the key in `/backend`, replace `REACT_APP_GOOGLE_API_KEY` in the `.env` file in `/frontend`. Name this one "frontend key" or similar in the Cloud Console.
+    **Note:** If you end up deploying the app, it is heavily recommended to restrict the frontend key to your website domain or IP address to prevent it from being stolen.
+11. Click on **CREATE CREDENTIALS** once more, and this time select **Service account**.
+12. Give this account a name and an ID and hit **Create and Continue** &rarr; **Done**.
+13. Click on your new service account, hit **Keys** &rarr; **ADD KEY** &rarr; **Create new key** &rarr; **JSON** &rarr; **CREATE**.This will download a JSON file with credentials associated with your service account.
+14. Rename the JSON file to `credentials`.
+15. Create a new folder in the same directory of the project's root folder (**NOT WITHIN**) called `CitiXplorer Credentials` and place `credentials` inside of it. This name must be **EXACT**.
+16. s
+
+### OpenAI
+
+1. s
+
+### Geonames
+
+1. s
