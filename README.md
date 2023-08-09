@@ -107,12 +107,23 @@ Used to obtain access to registered city names throughout the world.
 
 ## Learn more
 
-### React
+### React.js
 
-To learn more about **React**, check out the [React documentation](https://react.dev/).
+To learn more about **React.js**, check out the [React documentation](https://react.dev/).
 
 To learn more about **Create React App**, check out the [Create React App documentation](https://github.com/facebook/create-react-app).
 
+### Node.js
+
+To learn more about **Node.js**, check out the [Node.js documentation](https://nodejs.org/en/docs).
+
+### Express.js
+
+To learn more about **Express.js**, check out the [Express.js documentation](https://expressjs.com/).
+
 
 ### Deployment
-To learn how to **deploy your app**, check out this [link](https://create-react-app.dev/docs/deployment/).
+
+This app was deployed using [Heroku](https://www.heroku.com).
+
+If you deploy your app on your own, check out this [link](https://create-react-app.dev/docs/deployment/).
