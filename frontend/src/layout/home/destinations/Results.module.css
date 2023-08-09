@@ -33,9 +33,9 @@
     z-index: 10;
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-color: transparent transparent; /* For Firefox */
+    scrollbar-color: transparent transparent;
     scrollbar-width: thin;
-    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+    -ms-overflow-style: none;
     display: flex;
     align-items: center;
     padding: 0;
@@ -44,16 +44,16 @@
 }
 
 .destinations::-webkit-scrollbar {
-    width: 5px;  /* For Chrome, Safari and Opera */
+    width: 5px;
 }
 
 .destinations::-webkit-scrollbar-thumb {
-    background: transparent; /* For Chrome, Safari and Opera */
+    background: transparent;
     border-radius: 20px;
 }
 
 .destinations:hover {
-    scrollbar-color: #888 #f1f1f1; /* For Firefox */
+    scrollbar-color: #888 #f1f1f1;
 }
 
 .destinations:hover::-webkit-scrollbar-thumb {

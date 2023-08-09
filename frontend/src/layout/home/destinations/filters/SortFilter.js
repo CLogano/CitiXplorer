@@ -9,12 +9,16 @@ const SortFilter = (props) => {
     }
 
     return (
-        <select className={classes.container} onChange={onChangeHandler} value={props.value}>
-            <option className={classes.option} value="">Sort by</option>
-            <option className={classes.option} value="Alphabetical Order">A - Z</option>
-            <option className={classes.option} value="Popularity">Popularity</option>
-            <option className={classes.option} value="Rating">Rating</option>
-        </select>
+        <div className={classes.container}>
+            <select className={classes.select} onChange={onChangeHandler} value={props.value}>
+                <option className={classes.option} value="">Sort by</option>
+                <option className={classes.option} value="Alphabetical Order">A - Z</option>
+                <option className={classes.option} value="Popularity">Popularity</option>
+                <option className={classes.option} value="Rating">Rating</option>
+            </select>
+            <span className={`material-symbols-rounded ${classes.arrow}`}>expand_more</span>
+        </div>
+        
     )
 };
 

@@ -11,7 +11,7 @@ const RatingFilter = (props) => {
     return ( 
         <div className={classes.container}>
             <span className={`material-icons ${classes.star}`}>star</span>
-            <div className={classes.selectContainer}>
+            <div className={classes["select-container"]}>
                 <select className={classes.select} onChange={onChangeHandler} value={props.value}>
                     <option className={classes.option} value="">
                         Rating
@@ -29,6 +29,7 @@ const RatingFilter = (props) => {
                         3.0 +
                     </option>
                 </select>
+                <span className={`material-symbols-rounded ${classes.arrow}`}>expand_more</span>
             </div>
         </div>
     );

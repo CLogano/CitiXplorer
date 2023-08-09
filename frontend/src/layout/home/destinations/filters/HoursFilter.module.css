@@ -33,9 +33,13 @@
   align-items: center;
   justify-content: center;
   max-width: 100px;
+  position: relative;
 }
 
 .select {
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
   width: 100%;
   font-weight: bold;
   font-family: "Red Hat Display", "sans-serif";
@@ -47,6 +51,15 @@
   cursor: pointer;
   background-color: rgb(50, 19, 122);
   border-radius: 25px;
+}
+
+.arrow {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  pointer-events: none;
 }
 
 .option {
@@ -122,28 +135,6 @@
   transition: opacity 0.5s ease-in-out;
   opacity: 0;
 }
-
-/* .container:hover {
-  animation: pop-out 0.2s ease-out forwards;
-}
-
-@keyframes pop-out {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.025);
-    }
-    100% {
-      transform: scale(1.05);
-    }
-} */
-
-/* @media screen and (max-width: 1500px) {
-  .container {
-    max-width: 500px;
-  }
-} */
 
 @media screen and (max-width: 1200px) {
   .time {

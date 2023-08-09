@@ -53,6 +53,7 @@ const HoursFilter = (props) => {
                         Sunday
                     </option>
                 </select>
+                <span className={`material-symbols-rounded ${classes.arrow}`}>expand_more</span>
             </div>
             <div className={classes["slider-container"]}>
                 <span className={classes.time}>12 AM</span>

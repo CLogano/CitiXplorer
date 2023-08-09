@@ -92,7 +92,6 @@ const Details = (props) => {
     async function fetchDetails(destinationName, city) {
 
         const textInput = generateDestinationDetailPrompt(destinationName, city);
-        console.log(textInput)
         const textInputJSON = {
           content: textInput
         };
@@ -108,7 +107,10 @@ const Details = (props) => {
           });
 
           const result = await response.json();
-          console.log(result.data);
+
+          if (process.env.NODE_ENV !== "production") {
+            console.log(result.data);
+          }
 
           if (result.data) {
             const paragraphs = result.data.split('\n');
