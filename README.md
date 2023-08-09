@@ -73,7 +73,7 @@ Used to generate attractions and obtain the relevant data about them.
 ### **Optional:** Setting up the Contact Form
 
 **Note:** If you are planning on running this project only in development mode, you may skip steps 1-3.
-1. Navigate to [Google reCAPTGCHA Enteprise](https://www.google.com/recaptcha/about/). Create a new project and register the site.
+1. Navigate to [Google reCAPTCHA Enteprise](https://www.google.com/recaptcha/about/). Create a new project and register the site.
 2. Obtain both a secret key and site key for a v2 reCAPTCHA "I am not a robot" challenge type.
 3. Replace `GOOGLE_CAPTCHA_SECRET_KEY` with the secret key in the `.env` file in `/backend`, and `REACT_APP_GOOGLE_CAPTCHA_SITE_KEY` with the site key in the `.env` file on `/frontend`.
 4. Navigate to [Google Sheets](https://www.google.com/sheets/about/) and create a new sheet. This is where the data from the contact form will be stored.
