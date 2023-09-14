@@ -1,0 +1,30 @@
+.search-button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: darkorange;
+    border: 2px solid white;
+    border-radius: 50%;
+    font-family: "Red Hat Display", "sans-serif";
+    margin: 0.5rem;
+    position: relative;
+}
+
+.search-button:hover {
+    animation: pop-out 0.2s ease-out forwards;
+    background-color: orangered;
+    border-color: lightblue;
+}
+
+.search-icon {
+  cursor: pointer;
+  font-size: 30px;
+  color: white;
+}
+
+.search-icon:hover {
+  color:lightblue;
+}

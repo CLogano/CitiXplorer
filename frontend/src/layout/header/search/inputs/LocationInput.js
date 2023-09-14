@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef, Fragment } from "react";
+import React, { useState, useEffect, useCallback, useRef, Fragment, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { RectContext } from "../../../../contexts/RectContext";
 import Modal from "../../../../UI/Modal";
 import classes from "./LocationInput.module.css";
 import CONSTANTS from "../../../../constants";
@@ -17,10 +18,19 @@ const LocationInput = (props) => {
     const [pop, setPop] = useState(false);
     const tooltipTimerRef = useRef(null);
     const locationRef = useRef(null);
+    const componentRef = useRef(null);
     const message = "Please select a valid city.";
     const navigate = useNavigate();
     const pathLocation = useLocation();
 
+    const { refs } = useContext(RectContext);
+    const locationInputRef = refs.locationInput;
+
+    useEffect(() => {
+        if (locationInputRef.current === null) {
+            locationInputRef.current = componentRef.current;
+        }
+    }, [componentRef]);
 
     const onChangeHandler = useCallback((event) => {
 
@@ -80,6 +90,16 @@ const LocationInput = (props) => {
 
 
     const { location } = props;
+
+    const parisInfoTutorial = {name: "Paris, France", population: 2138551, geonameId: 2988507, lat: 48.85341, lng: 2.3488}
+    const { tutorialPage } = props;
+    useEffect(() => {
+        if (tutorialPage >= 1) {
+            location(parisInfoTutorial);
+        } else {
+            location("");
+        }
+    }, [tutorialPage])
 
     const { city } = props;
     useEffect(() => {
@@ -142,6 +162,8 @@ const LocationInput = (props) => {
                 setShowErrorModal(true);
             }
             const data = await response.json();
+
+            console.log(data);
             
             if(data && data.length > 0) {
                 setCitySuggestions(data);
@@ -181,7 +203,7 @@ const LocationInput = (props) => {
                     </div>
                 </Modal>
             }
-            <div className={`${classes["search-container"]} ${pop && classes.pop}`}>
+            <div className={`${classes["search-container"]} ${pop && classes.pop}`} ref={componentRef} style={props.style ? props.style : null}>
                 <div className={`${classes["search-inner"]}
                 ${isInvalid && classes.invalid}`}>
                     <span className={`material-icons ${classes["location-icon"]}`}>location_on</span>
@@ -216,6 +238,7 @@ const LocationInput = (props) => {
                             ))}
                     </div>
                 )}
+                {props.children ? props.children : null}
             </div>
         </Fragment>
 

@@ -26,8 +26,7 @@ const MapComponent = React.forwardRef((props, ref) => {
       console.log("CITIES IN VIEW: ", citiesInView);
     }
     
-  }, [citiesInView])
-
+  }, [citiesInView]);
 
   const fetchCitiesInView = useCallback(async () => {
 

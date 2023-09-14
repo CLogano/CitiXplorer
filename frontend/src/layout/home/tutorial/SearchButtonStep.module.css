@@ -1,0 +1,40 @@
+.message-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(50, 19, 122);
+    border: 3px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+    min-height: 150px;
+    z-index: 10001;
+}
+
+.message {
+    margin: 0.5rem;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    font-family: "Red Hat Display", "sans-serif";
+}
+
+.highlight-text {
+    color: darkorange;
+    margin: 0;
+}
+
+@media screen and (max-width: 1024px) {
+    .message {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .message {
+        font-size: 14px;
+    }
+}

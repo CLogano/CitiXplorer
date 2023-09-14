@@ -8,6 +8,7 @@ import { getFilteredHours, getFilteredRatings, getSortedData } from "./helpers/g
 import Results from "./destinations/Results";
 import TabGroup from "./tabs/TabGroup";
 import CityInfo from "./tabs/city/CityInfo";
+import Tutorial from "./tutorial/Tutorial";
 
 const Home = (props) => {
 
@@ -24,7 +25,7 @@ const Home = (props) => {
     const [tab, setTab] = useState("Map");
     const mapUpdateRef = useRef();
 
-    const { search, searchHandler } = props;
+    const { search, searchHandler, showTutorial, closeTutorial, tutorialPage, setTutorialPage } = props;
     useEffect(() => {
 
         const searchAttractions = async () => {
@@ -161,6 +162,7 @@ const Home = (props) => {
 
     return (
         <Fragment>
+            {showTutorial && <Tutorial closeTutorial={closeTutorial} page={tutorialPage} setPage={setTutorialPage} />}
             {showErrorModal && <Modal onClose={closeModalHandler}>
                 <div className={classes["error-outer-container"]}>
                     <div className={classes["error-inner-container"]}>

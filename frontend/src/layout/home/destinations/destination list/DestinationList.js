@@ -6,20 +6,20 @@ const DestinationList = (props) => {
 
     const { destinations, destinationsRef, selected, onSelected } = props;
 
-    const refs = destinations.reduce((arr, destination) => {
+    const refList = destinations.reduce((arr, destination) => {
         arr[destination.name] = React.createRef();
         return arr;
     }, {});
 
 
     useEffect(() => {
-        if (selected && refs[selected.name]) {
+        if (selected && refList[selected.name]) {
             const destinationMargin = 3.5 * 16; // 3.5rem to pixels. Each destination object has 3.5rem vertical margins
 
             const destinationsElement = destinationsRef.current;
 
             // Get current position of the destination relative to the container
-            const rect = refs[selected.name].current.getBoundingClientRect();
+            const rect = refList[selected.name].current.getBoundingClientRect();
             const containerRect = destinationsElement.getBoundingClientRect();
 
             // Calculate the relative offset from the container's current scrollTop
@@ -33,13 +33,13 @@ const DestinationList = (props) => {
                 behavior: "smooth"
             });
         }
-    }, [selected, refs, destinationsRef]);
+    }, [selected, refList, destinationsRef]);
 
     const destinationList = destinations.map((destination) => {
 
         return (
             <Destination
-                ref={refs[destination.name]}
+                ref={refList[destination.name]}
                 key={`${destination.name}-${destination.address}`}
                 id={destination.name}
                 name={destination.name}
