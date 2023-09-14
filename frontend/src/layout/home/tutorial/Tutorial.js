@@ -1,10 +1,7 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext } from "react";
 import classes from "./Tutorial.module.css";
 import SearchBarStep from "./SearchBarStep";
 import SearchButtonStep from "./SearchButtonStep";
-import DestinationListStep from "./DestinationListStep";
-import DescriptionStep from "./DescriptionStep";
-import CityInfoStep from "./CityInfoStep";
 import { RectContext } from "../../../contexts/RectContext";
 
 const Tutorial = (props) => {
@@ -12,7 +9,7 @@ const Tutorial = (props) => {
     const { closeTutorial, page, setPage } = props;
 
     const { rects } = useContext(RectContext);
-    const { locationInput, searchButton, destinationList, description, cityInfo } = rects;
+    const { locationInput, searchButton } = rects;
 
     return (
         <Fragment>
@@ -34,9 +31,6 @@ const Tutorial = (props) => {
             </div>
             {page === 0 && <SearchBarStep rect={locationInput} />}
             {page === 1 && <SearchButtonStep rect={searchButton} />}
-            {/* {page === 2 && <DestinationListStep rect={destinationList} />}
-            {page === 3 && <DescriptionStep rect={description} />}
-            {page === 4 && <CityInfoStep rect={cityInfo} />} */}
         </Fragment>
     );
 };
