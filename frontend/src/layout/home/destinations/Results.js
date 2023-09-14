@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import classes from "./Results.module.css";
 import DestinationList from "./destination list/DestinationList";
 import Description from "./description/Description";

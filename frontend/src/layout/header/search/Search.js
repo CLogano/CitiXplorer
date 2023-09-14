@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LocationInput from "./inputs/LocationInput";
+import SearchButton from "./SearchButton";
 import classes from "./Search.module.css";
 
 const Search = (props) => {
@@ -50,10 +51,9 @@ const Search = (props) => {
                 location={locationHandler}
                 locationValidity={locationValidityHandler}
                 city={city}
+                tutorialPage={props.tutorialPage}
             />
-            <button type="submit" className={classes["search-button"]}>
-                <span className={`material-symbols-rounded ${classes["search"]} ${classes["search-icon"]}`}>search</span>
-            </button>
+            <SearchButton />
         </form>
     );
 };
