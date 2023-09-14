@@ -25,10 +25,10 @@ export const RectProvider = ({ children }) => {
       setRects(newRects);
     };
 
-    window.requestAnimationFrame(() => {
+    setTimeout(() => {
       updateRects();
-    });
-    
+    }, 100);
+
     window.addEventListener("resize", updateRects);
     return () => {
       window.removeEventListener("resize", updateRects);
