@@ -187,6 +187,7 @@ const Home = (props) => {
                             onSelectedDestination={onSelectedDestination}
                             showMarkers={showMarkers}
                             showCityNames={showCityNames}
+                            tutorialPage={tutorialPage}
                         />
                         {isLoading ?
                             <SkeletonLoader /> :

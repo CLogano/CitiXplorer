@@ -94,7 +94,7 @@ const LocationInput = (props) => {
     const parisInfoTutorial = {name: "Paris, France", population: 2138551, geonameId: 2988507, lat: 48.85341, lng: 2.3488}
     const { tutorialPage } = props;
     useEffect(() => {
-        if (tutorialPage >= 1) {
+        if (tutorialPage >= 2) {
             location(parisInfoTutorial);
         } else {
             location("");

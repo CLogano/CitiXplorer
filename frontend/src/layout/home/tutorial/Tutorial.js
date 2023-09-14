@@ -2,6 +2,7 @@ import React, { Fragment, useContext } from "react";
 import classes from "./Tutorial.module.css";
 import SearchBarStep from "./SearchBarStep";
 import SearchButtonStep from "./SearchButtonStep";
+import ExplanationStep from "./ExplanationStep";
 import { RectContext } from "../../../contexts/RectContext";
 
 const Tutorial = (props) => {
@@ -18,7 +19,7 @@ const Tutorial = (props) => {
                     <button className={`${classes["page-button"]} ${page === 0 && classes.invisible}`} onClick={() => setPage(page - 1)}>
                         <span className={`material-symbols-rounded ${classes.arrow}`}>arrow_back</span>
                     </button>
-                    {page < 1 ?
+                    {page < 2 ?
                         <button className={classes["page-button"]} onClick={() => setPage(page + 1)}>
                             <span className={`material-symbols-rounded ${classes.arrow} ${classes.right}`}>arrow_back</span>
                         </button>
@@ -29,8 +30,9 @@ const Tutorial = (props) => {
                     }
                 </div>
             </div>
-            {page === 0 && <SearchBarStep rect={locationInput} />}
-            {page === 1 && <SearchButtonStep rect={searchButton} />}
+            {page === 0 && <ExplanationStep />}
+            {page === 1 && <SearchBarStep rect={locationInput} />}
+            {page === 2 && <SearchButtonStep rect={searchButton} />}
         </Fragment>
     );
 };

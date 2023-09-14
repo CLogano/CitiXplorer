@@ -1,0 +1,80 @@
+.message-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(50, 19, 122);
+    border: 3px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 200px;
+    min-height: 150px;
+    z-index: 10001;
+}
+
+.inner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message, .message-2 {
+    margin: 1rem 0.5rem;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-family: "Red Hat Display", "sans-serif";
+}
+
+.message-2 {
+    text-align: start;
+}
+
+.highlight-text {
+    color: darkorange;
+    margin: 0;
+}
+
+.logo {
+    width: 200px;
+    height: auto;
+    margin: 0.5rem;
+}
+
+@media screen and (max-width: 1500px) {
+    .message, .message-2 {
+        font-size: 20px;
+    }
+    .logo {
+        width: 175px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .message, .message-2 {
+        font-size: 18px;
+    }
+    .logo {
+        width: 150px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .message, .message-2 {
+        font-size: 16px;
+    }
+    .logo {
+        width: 125px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .message, .message-2 {
+        font-size: 12px;
+    }
+    .logo {
+        width: 100px;
+    }
+}

@@ -11,7 +11,7 @@ const containerStyle = {
 
 const MapComponent = React.forwardRef((props, ref) => {
 
-  const { data, destination, onSelectedDestination, showMarkers, showCityNames, isLoading } = props;
+  const { data, destination, onSelectedDestination, showMarkers, showCityNames, isLoading, tutorialPage } = props;
 
   const [map, setMap] = useState(null);
   const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 })
@@ -25,8 +25,16 @@ const MapComponent = React.forwardRef((props, ref) => {
     if (process.env.NODE_ENV !== "production") {
       console.log("CITIES IN VIEW: ", citiesInView);
     }
-    
   }, [citiesInView]);
+
+  useEffect(() => {
+    if (tutorialPage < 2) {
+      setMapCenter({ lat: 0, lng: 0 });
+      if (map) {
+        map.setZoom(4);
+      }
+    }
+  }, [tutorialPage, map]);
 
   const fetchCitiesInView = useCallback(async () => {
 
