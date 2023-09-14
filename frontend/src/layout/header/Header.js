@@ -32,20 +32,11 @@ const Header = (props) => {
                     <img className={classes.logo} src={logo} alt="Logo" onClick={() => navigate("/")} />
                     <Menu />
                 </div>
-                <Search
-                    searchHandler={props.searchHandler}
-                    city={props.city}
-                    cityHandler={props.cityHandler} 
-                />
+                <Search searchHandler={props.searchHandler} city={props.city} cityHandler={props.cityHandler} />
             </Fragment> :
                 <Fragment>
                     <img className={classes.logo} src={logo} alt="Logo" onClick={() => navigate("/")} />
-                    <Search
-                        searchHandler={props.searchHandler}
-                        city={props.city}
-                        cityHandler={props.cityHandler} 
-                        tutorialPage={props.tutorialPage}
-                    />
+                    <Search searchHandler={props.searchHandler} city={props.city} cityHandler={props.cityHandler} />
                     {isSmallScreen || isMobileScreen ? <Menu /> :
                         (
                             <div className={classes["right-section"]}>

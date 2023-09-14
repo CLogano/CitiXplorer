@@ -26,10 +26,10 @@ const FilterList = (props) => {
 
     return (
         <div className={classes.container}>
-            <SortFilter selected={onSortChangeHandler} value={sortFilterValue} style={props.style}/>
-            <RatingFilter selected={onRatingChangeHandler} value={ratingFilterValue} style={props.style}/>
+            <SortFilter selected={onSortChangeHandler} value={sortFilterValue} />
+            <RatingFilter selected={onRatingChangeHandler} value={ratingFilterValue} />
             <HoursFilter selectedDay={onDayChangeHandler} selectedHours={onHoursChangeHandler} day={dayFilterValue} hours={hoursFilterValue} />
-            <button className={classes.reset} onClick={resetHandler} style={props.style}>Reset</button>
+            <button className={classes.reset} onClick={resetHandler}>Reset</button>
         </div>
     )
 };

@@ -18,22 +18,9 @@
     font-size: 48px;
 }
 
-.welcome-description, .welcome-tutorial {
+.welcome-description {
     text-align: center;
     font-size: 22px;
-    margin: 0.5rem;
-}
-
-.tutorial-button {
-    border: none;
-    font-weight: bold;
-    font-family: "Red Hat Display", "sans-serif";
-    text-align: center;
-    background-color: rgb(50, 19, 122);
-    cursor: pointer;
-    color: darkorange;
-    font-size: 22px;
-    padding: 0;
 }
 
 .city-icon {
@@ -62,7 +49,7 @@
     .city-icon {
         font-size: 36px;
     }
-    .welcome-description, .welcome-tutorial, .tutorial-button {
+    .welcome-description {
         font-size: 18px;
     }
 }
@@ -74,7 +61,7 @@
     .city-icon {
         font-size: 24px;
     }
-    .welcome-description, .welcome-tutorial, .tutorial-button {
+    .welcome-description {
         font-size: 16px;
     }
 }
@@ -86,7 +73,7 @@
     .city-icon {
         font-size: 18px;
     }
-    .welcome-description, .welcome-tutorial, .tutorial-button {
+    .welcome-description {
         font-size: 12px;
     }
 }
@@ -98,7 +85,7 @@
     .city-icon {
         font-size: 16px;
     }
-    .welcome-description, .welcome-tutorial, .tutorial-button {
+    .welcome-description {
         font-size: 12px;
     }
 }
