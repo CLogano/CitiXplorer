@@ -163,7 +163,9 @@ const LocationInput = (props) => {
             }
             const data = await response.json();
 
-            console.log(data);
+            if (process.env.NODE_ENV !== "production") {
+                console.log(data);
+            }
             
             if(data && data.length > 0) {
                 setCitySuggestions(data);

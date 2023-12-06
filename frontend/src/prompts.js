@@ -13,6 +13,6 @@ export function generateDestinationDetailPrompt(destinationName, location) {
 
 export function generateCityHistoryPrompt(location) {
 
-    return "As an expert in history, your job will be to provide a four paragraph response which entails the history of a location I will ask you about. Answer in a neutral perspective and make sure to include relevant dates and events pertaining to the history. Make sure your response is informative, yet easy to read. Each paragraph should be between 4 - 6 sentences. " +
-    "Here is the location of interest: " + location + "."
+    return "As an expert in history, your job will be to provide a THREE paragraph response which entails the history of a location I will ask you about. Answer in a neutral perspective and make sure to include relevant dates and events pertaining to the history. Make sure your response is informative, yet easy to read. Each paragraph should be between 3 - 5 sentences. " +
+    "Here is the location of interest: " + location + ". Remember, do not make your response longer than 3 paragraphs."
 }

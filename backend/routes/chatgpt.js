@@ -12,6 +12,11 @@ router.post("/", jsonParser, async (req, res) => {
     try {
         
         const { content } = req.body;
+
+        // if (process.env.NODE_ENV !== "production") {
+        //     console.log(content);
+        // }
+
         const response = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: content}],
