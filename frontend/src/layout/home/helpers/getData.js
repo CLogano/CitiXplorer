@@ -1,7 +1,7 @@
 import CONSTANTS from "../../../constants";
 import { generateCityHistoryPrompt, generateDestinationShortPrompt } from "../../../prompts";
 
-export const fetchData = async (city, setAttractions, setOriginalAttractions, setCityData, setDataFetched) => {
+export const fetchData = async (city, setAttractions, setOriginalAttractions, setCityDescription, setDataFetched) => {
 
     try {
 
@@ -239,13 +239,46 @@ export const fetchData = async (city, setAttractions, setOriginalAttractions, se
                         images = images.slice(0, minLength);
                     }
     
-                    const cityData = {
+                    const cityDescription = {
                         name: city.name,
                         paragraphs: paragraphs,
                         images: images
                     };
+
+                    // Create entry in database for the city
+                    const cityData = {
+                        name: city.name,
+                        attractions: updatedData.map((data) => ({
+                            name: data.name,
+                            rating: data.rating,
+                            totalRatings: data.totalRatings,
+                            website: data.website,
+                            hours: data.hours,
+                            address: data.address,
+                            phoneNumber: data.phoneNumber,
+                            images: data.imageUrls,
+                            reviews: data.reviews,
+                            geometry: data.geometry
+                        })),
+                        description: {
+                            paragraphs: cityDescription.paragraphs,
+                            images: cityDescription.images
+                        }
+                    };
+                    
+                    const cityDataResponse = await fetch(CONSTANTS.apiURL + "/city", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(cityData)
+                    });
+
+                    if (!cityDataResponse.ok) {
+                        throw new Error("Failed to create entry in database: " + cityDataResponse.status);
+                    }
     
-                    setCityData(cityData);
+                    setCityDescription(cityDescription);
                     setAttractions(updatedData);
                     setOriginalAttractions(updatedData);
                 }
@@ -265,7 +298,7 @@ export const fetchData = async (city, setAttractions, setOriginalAttractions, se
         }
         setAttractions(null);
         setOriginalAttractions(null);
-        setCityData(null);
+        setCityDescription(null);
         setDataFetched(true);
     }
 };

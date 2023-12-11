@@ -9,13 +9,14 @@ import Results from "./destinations/Results";
 import TabGroup from "./tabs/TabGroup";
 import CityInfo from "./tabs/city/CityInfo";
 import Tutorial from "./tutorial/Tutorial";
+import CONSTANTS from "../../constants";
 
 const Home = (props) => {
 
     const [dataFetched, setDataFetched] = useState(null);
     const [attractions, setAttractions] = useState(null);
     const [originalAttractions, setOriginalAttractions] = useState(null);
-    const [cityData, setCityData] = useState(null);
+    const [cityDescription, setCityDescription] = useState(null);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [filterCriteria, setFilterCriteria] = useState({sort: null, rating: null, hours: null});
     const [showMarkers, setShowMarkers] = useState(true);
@@ -36,7 +37,7 @@ const Home = (props) => {
             }
             
             setAttractions(null);
-            setCityData(null);
+            setCityDescription(null);
             setFilterCriteria({sort: null, rating: null, hours: null});
             setIsLoading(true);
             setDataFetched(false);
@@ -63,11 +64,57 @@ const Home = (props) => {
 
             if (city && dataFetched === false) {
                 setDestination(null);
-                await fetchData(city, setAttractions, setOriginalAttractions, setCityData, setDataFetched);
+
+                // Check if city entry exists in database
+                try {
+
+                    const cityDataResponse = await fetch(CONSTANTS.apiURL + `/city/${encodeURIComponent(city.name)}`);
+
+                    if (!cityDataResponse.ok) {
+                        throw new Error(`HTTP error! Status: ${cityDataResponse.status}`);
+                    }
+
+                    const cityData = await cityDataResponse.json();
+
+                    // Add name field to city description
+                    const description = {
+                        name: city.name,
+                        paragraphs: cityData.description.paragraphs,
+                        images: cityData.description.images
+                    };
+                    // Change images to imageUrls, add city field to attractions
+                    const attr = cityData.attractions.map((attraction) => ({
+                        name: attraction.name,
+                        rating: attraction.rating,
+                        totalRatings: attraction.totalRatings,
+                        website: attraction.website,
+                        hours: attraction.hours,
+                        address: attraction.address,
+                        phoneNumber: attraction.phoneNumber,
+                        imageUrls: attraction.images,
+                        reviews: attraction.reviews,
+                        geometry: attraction.geometry,
+                        city: city.name
+                    }));
+
+                    console.log(attr);
+
+                    setCityDescription(description);
+                    setAttractions(attr);
+                    setOriginalAttractions(attr);
+                    setDataFetched(true);
+                    
+                } catch (error) {
+                    if (process.env.NODE_ENV !== "production") {
+                        console.log("Could not find entry in database. Creating one!");
+                    }
+                    // If an error occurred during fetching, call fetchData to get the relevant data and create a new database entry
+                    await fetchData(city, setAttractions, setOriginalAttractions, setCityDescription, setDataFetched);
+                }
             }
             else if (dataFetched) {
                 
-                if (originalAttractions && cityData) {
+                if (originalAttractions && cityDescription) {
                     setDestination(originalAttractions[0]);
                 } else {
                     setShowErrorModal(true);
@@ -78,7 +125,7 @@ const Home = (props) => {
         getData();
         
         // eslint-disable-next-line
-    }, [dataFetched, originalAttractions, cityData]);
+    }, [dataFetched, cityDescription]);
 
     const onSelectedDestination = (destination) => {
         setDestination(destination);
@@ -207,7 +254,7 @@ const Home = (props) => {
                                 </div>
                             )}
                     </Fragment> :
-                    cityData && <CityInfo cityData={cityData} />
+                    cityDescription && <CityInfo cityData={cityDescription} />
                 }
             </div>
         </Fragment>

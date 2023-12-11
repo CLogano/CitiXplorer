@@ -1,10 +1,12 @@
 const express = require("express");
+const path = require("path");
+require("./database");
 const cors = require("cors");
 const googleMapsRouter = require("./routes/googleMaps");
 const googleSheetsRouter = require("./routes/googleSheets");
 const geonamesRouter = require("./routes/geonames");
 const chatGPTRouter = require("./routes/chatgpt");
-const path = require("path");
+const cityRouter = require("./routes/cities");
 
 const app = express();
 app.use(express.json());
@@ -13,6 +15,7 @@ app.use("/gpt", chatGPTRouter);
 app.use("/googleMaps", googleMapsRouter);
 app.use("/geonames", geonamesRouter);
 app.use("/googleSheets", googleSheetsRouter);
+app.use("/city", cityRouter);
 
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === "production") {

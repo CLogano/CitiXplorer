@@ -5,61 +5,7 @@ export const getGPTResponse = async (city, chatList, setChatList, messages, setM
 
     setIsLoading(true);
 
-    //Gather user's current location if selected
-    // if (city === "Your Location") {
-    //     city = await getCurrentLocation();
-    // }
-
     console.log("City: " + city.name);
-    //console.log("Prompt: " + prompt);
-
-
-
-
-
-    // const textInput1 = detectPromptIntents(prompt);
-    // const textInputJSON1 = {
-    //         content: textInput
-    // };
-
-    // const promptJSON = {
-    //     prompt: prompt
-    // };
-
-    // try {
-
-    //     const response = await fetch(CONSTANTS.apiURL + "/googleNL", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(promptJSON),
-    //     });
-
-    //     const result = await response.json();
-    //     console.log(result);
-
-    // } catch (error) {
-    //     console.log("Error occurred while calling API:", error);
-    // }
-
-    // try {
-
-    //     const response = await fetch(CONSTANTS.apiURL + "/gpt/process", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(promptJSON),
-    //     });
-
-    //     const result = await response.json();
-    //     console.log(result);
-
-    // } catch (error) {
-    //     console.log("Error occurred while calling API:", error);
-    // }
-
 
     //Generate prompt for ChatGPT API
     const textInput = generateChatPrompt(city.name);
