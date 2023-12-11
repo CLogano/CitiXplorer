@@ -4,51 +4,67 @@ const cityRepo = require("../repositories/cityRepository");
 
 // POST request to add a new city
 router.post("/", async (req, res) => {
-    console.log(req.body);
+
     const cityData = req.body;
-    const newCity = await cityRepo.createCity(cityData);
-    res.status(201).json(newCity);
+
+    try {
+        const newCity = await cityRepo.createCity(cityData);
+        res.json(newCity);
+    } catch (error) {
+        if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+        }
+        res.status(500).json({ error: "An error occurred" });
+    }
+    
 });
 
 // GET request to find a city by name
 router.get("/:name", async (req, res) => {
+
     const cityName = req.params.name;
-    const city = await cityRepo.findCity(cityName);
-    if (city) {
+
+    try {
+        const city = await cityRepo.findCity(cityName);
         res.json(city);
-    } else {
-        res.status(404).send("City not found");
+    } catch (error) {
+        if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+        }
+        res.status(500).json({ error: "An error occurred" });
     }
 });
 
 // PUT request to update a city
 router.put("/:name", async (req, res) => {
+
     const cityName = req.params.name;
     const cityData = req.body;
+
     try {
-        const updatedCity = await cityRepo.updateCity(cityName, cityData);
-        if (updatedCity) {
-            res.json(updatedCity);
-        } else {
-            res.status(404).send("City not found");
-        }
+        const city = await cityRepo.updateCity(cityName, cityData);
+        res.json(city);
     } catch (error) {
-        res.status(500).send(error.message);
+        if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+        }
+        res.status(500).json({ error: "An error occurred" });
     }
 });
 
 // DELETE request to delete a city
 router.delete("/:name", async (req, res) => {
+
     const cityName = req.params.name;
+
     try {
-        const deletedCity = await cityRepo.deleteCity(cityName);
-        if (deletedCity) {
-            res.send("City deleted successfully");
-        } else {
-            res.status(404).send("City not found");
-        }
+        const city = await cityRepo.deleteCity(cityName);
+        res.json(city);
     } catch (error) {
-        res.status(500).send(error.message);
+        if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+        }
+        res.status(500).json({ error: "An error occurred" });
     }
 });
 
