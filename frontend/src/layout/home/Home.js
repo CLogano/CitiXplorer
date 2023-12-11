@@ -97,7 +97,9 @@ const Home = (props) => {
                         city: city.name
                     }));
 
-                    console.log(attr);
+                    if (process.env.NODE_ENV !== "production") {
+                        console.log("Found entry for " + city.name + "!!!");
+                    }
 
                     setCityDescription(description);
                     setAttractions(attr);
