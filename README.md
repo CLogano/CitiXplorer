@@ -5,6 +5,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 
+## Update
+As of March 2024, CitiXplorer has been taken offline. We have made this decision due to the increasing operational costs associated with hosting and maintaining the service. The project repository will remain available for educational purposes and for others to learn from and potentially host on their own.
+
 ## Information about the project
 
 This app is designed to generate up to 10 historical attractions for any inputted city by the user.
