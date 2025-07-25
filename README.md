@@ -3,7 +3,18 @@ Application that recommends historical attractions to visit in any city around t
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## 📸 Screenshots
 
+<p float="left">
+  <img src="frontend/src/pictures/paris-search.PNG" width="1200"/>
+  <img src="frontend/src/pictures/la-sagrada-familia-description.PNG" width="1200"/>
+  <img src="frontend/src/pictures/atlanta-history.PNG" width="1200"/>
+</p>
+
+> 🗺️ These screenshots showcase:
+> - **Interactive Map View (Paris)** – Attractions are displayed both as a scrollable list and clickable pins on a Google Map. Users can view images, ratings, hours, and reviews.
+> - **Detailed Attraction View (Barcelona)** – ChatGPT-generated historical descriptions help users understand the significance of each location.
+> - **City Overview Page (Atlanta)** – A high-level summary of the city’s history with visuals and descriptions to help users orient themselves before exploring.
 
 ## Update
 As of March 2024, CitiXplorer has been taken offline. We have made this decision due to the increasing operational costs associated with hosting and maintaining the service. The project repository will remain available for educational purposes and for others to learn from and potentially host on their own.
